@@ -7,8 +7,8 @@ services:
     volumes:
       - ./nginx/conf:/etc/nginx/conf.d
       - ./nginx/html:/var/www/gwq5210.com/html
-      - ./nginx/logs:/var/log/nginx
-      - ./ssl:/etc/ssl
+      - /var/log/nginx:/var/log/nginx
+      - /etc/ssl:/etc/ssl
     network_mode: "host"
     ports:
       - "80:80"
@@ -25,8 +25,8 @@ services:
     container_name: gwq5210_mysql  # 容器名
     volumes:
       - ./mysql/conf/my.cnf:/etc/mysql/my.cnf
-      - ./mysql/logs:/var/log/mysql
-      - ./mysql/data:/var/lib/mysql  # 挂载目录，持久化存储
+      - /var/log/mysql:/var/log/mysql
+      - /var/lib/mysql:/var/lib/mysql  # 挂载目录，持久化存储
     ports:
       - '3306:3306'
     environment:
@@ -41,13 +41,15 @@ services:
     restart: always
     container_name: gwq5210_tank
     volumes:
-      - ./tank/data:/data/build/matter
+      - /usr/share/tank/matter:/data/build/matter
       - ./tank/conf:/data/build/conf
-      - ./tank/logs:/data/build/log
+      - /var/log/tank:/data/build/log
     ports:
       - '6010:6010'
     links:
       - 'gwq5210_mysql:gwq5210.com'
+    depends_on:
+      - gwq5210_mysql
 
   gwq5210_filebrowser:
     image: filebrowser/filebrowser:latest
