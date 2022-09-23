@@ -20,6 +20,8 @@ services:
         hard: 65535
     environment:
       TZ: Asia/Shanghai
+    depends_on:
+      - gwq5210_tank
 
   gwq5210_mysql:
     image: mysql
@@ -30,12 +32,12 @@ services:
       - /var/log/mysql:/var/log/mysql
       - /var/lib/mysql:/var/lib/mysql  # 挂载目录，持久化存储
     ports:
-      - '3306:3306'
+      - "3306:3306"
     environment:
       TZ: Asia/Shanghai
-      MYSQL_DATABASE: 'tank'
-      MYSQL_USER: 'tank'
-      MYSQL_PASS: '123456789'
+      MYSQL_DATABASE: "tank"
+      MYSQL_USER: "tank"
+      MYSQL_PASS: "123456789"
       MYSQL_ROOT_PASSWORD: "123456789"   # 设置root用户的密码
 
   gwq5210_tank:
@@ -47,9 +49,9 @@ services:
       - ./tank/conf:/data/build/conf
       - /var/log/tank:/data/build/log
     ports:
-      - '127.0.0.1:6010:6010'
+      - "127.0.0.1:7010:7010"
     links:
-      - 'gwq5210_mysql:gwq5210.com'
+      - "gwq5210_mysql:gwq5210.com"
     depends_on:
       - gwq5210_mysql
     environment:
@@ -66,7 +68,7 @@ services:
   #     - ./filebrowser/conf:/config
   #     - ./ssl:/etc/ssl
   #   ports:
-  #     - '9090:9090'
+  #     - "9090:9090"
   #   environment:
   #     TZ: Asia/Shanghai
   #     MYSQL_ROOT_PASSWORD: "123456789"   # 设置root用户的密码
