@@ -5,7 +5,7 @@ services:
     container_name: gwq5210_nginx
     restart: always
     volumes:
-      - ./nginx/config:/etc/nginx/conf.d
+      - ./nginx/conf:/etc/nginx/conf.d
       - ./nginx/html:/var/www/gwq5210.com/html
       - ./nginx/logs:/var/log/nginx
       - ./ssl:/etc/ssl
@@ -18,3 +18,49 @@ services:
       nofile:
         soft: 65535
         hard: 65535
+
+  gwq5210_mysql:
+    image: mysql
+    restart: always
+    container_name: gwq5210_mysql  # 容器名
+    volumes:
+      - ./mysql/conf/my.cnf:/etc/mysql/my.cnf
+      - ./mysql/logs:/var/log/mysql
+      - ./mysql/data:/var/lib/mysql  # 挂载目录，持久化存储
+    ports:
+      - '3306:3306'
+    environment:
+      TZ: Asia/Shanghai
+      MYSQL_DATABASE: 'tank'
+      MYSQL_USER: 'tank'
+      MYSQL_PASS: '123456789'
+      MYSQL_ROOT_PASSWORD: "123456789"   # 设置root用户的密码
+
+  gwq5210_tank:
+    build: ./tank
+    restart: always
+    container_name: gwq5210_tank
+    volumes:
+      - ./tank/data:/data/build/matter
+      - ./tank/conf:/data/build/conf
+      - ./tank/logs:/data/build/log
+    ports:
+      - '6010:6010'
+    links:
+      - 'gwq5210_mysql:gwq5210.com'
+
+  gwq5210_filebrowser:
+    image: filebrowser/filebrowser:latest
+    restart: always
+    container_name: gwq5210_filebrowser  # 容器名
+    volumes:
+      - ./filebrowser/conf:/etc/filebrowser
+      - ./filebrowser/logs:/var/log/filebrowser
+      - ./filebrowser/data:/usr/share/filebrowser/data
+      - ./filebrowser/conf:/config
+      - ./ssl:/etc/ssl
+    ports:
+      - '9090:9090'
+    environment:
+      TZ: Asia/Shanghai
+      MYSQL_ROOT_PASSWORD: "123456789"   # 设置root用户的密码

@@ -31,3 +31,34 @@ services:
 ```
 
 mac和windows在18.03版本后，可以使用host.docker.internal访问宿主机
+
+## docker启动mysql
+
+```sh
+docker run --restart=always --privileged=true  \
+-v ./mysql/data:/var/lib/mysql \
+-v ./mysql/logs:/var/log/mysql \
+-v ./mysql/my.cnf:/etc/mysql/my.cnf  \
+-p 3306:3306 --name my-mysql \
+-e MYSQL_ROOT_PASSWORD=123456789 -d mysql
+```
+
+-v：主机和容器的目录映射关系，":"前为主机目录，之后为容器目录
+--restart=always： 当Docker 重启时，容器会自动启动。
+--privileged=true：容器内的root拥有真正root权限，否则容器内root只是外部普通用户权限
+
+注意：启动mysql报如下错误，那是因为MYSQL新特性secure_file_priv对读写文件的影响。
+
+```sh
+ERROR: mysqld failed while attempting to check config
+command was: "mysqld --verbose --help"
+
+mysqld: Error on realpath() on '/var/lib/mysql-files' (Error 2 - No such file or directory)
+2019-09-14T09:52:51.015937Z 0 [ERROR] [MY-010095] [Server] Failed to access directory for --secure-file-priv. Please make sure that directory exists and is accessible by MySQL Server. Supplied value : /var/lib/mysql-files
+2019-09-14T09:52:51.018328Z 0 [ERROR] [MY-010119] [Server] Aborting
+```
+
+解决问题
+
+- windows下：修改my.ini 在[mysqld]内加入secure_file_priv=/var/lib/mysql
+- linux下：修改my.cnf 在[mysqld]内加入secure_file_priv=/var/lib/mysql

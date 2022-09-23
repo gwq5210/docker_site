@@ -5,6 +5,6 @@
   "cert": "/etc/ssl/gwq5210.com.crt",
   "key": "/etc/ssl/gwq5210.com.key",
   "port": 9090,
-  "root": "/var/www/gwq5210.com/files",
+  "root": "/usr/share/filebrowser/data",
   "username": "gwq5210"
 }
