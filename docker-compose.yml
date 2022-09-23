@@ -1,0 +1,25 @@
+version: "2"
+services:
+  gwq5210_nginx:
+    build: ./nginx
+    container_name: gwq5210_nginx
+    restart: always
+    volumes:
+      - ./nginx/config:/etc/nginx/conf.d
+      - ./nginx/html:/var/www/gwq5210.com/html
+      - ./nginx/logs:/var/log/nginx
+      - ./ssl:/etc/ssl
+    networks:
+      - webnet
+    ports:
+      - "80:80"
+      - "443:443"
+    ulimits:
+      nproc: 65535
+      nofile:
+        soft: 65535
+        hard: 65535
+
+networks:
+  webnet:
+    driver: bridge
