@@ -1,12 +1,3 @@
 {
- "ServerPort": 6010,
- "MatterPath": "",
- "DbType": "mysql",
- "MysqlPort": 3306,
- "MysqlHost": "gwq5210.com",
- "MysqlSchema": "tank",
- "MysqlUsername": "root",
- "MysqlPassword": "123456789",
- "MysqlCharset": "utf8mb4",
- "SqliteFolder": ""
+ "ServerPort": 6010
 }
