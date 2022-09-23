@@ -9,8 +9,7 @@ services:
       - ./nginx/html:/var/www/gwq5210.com/html
       - ./nginx/logs:/var/log/nginx
       - ./ssl:/etc/ssl
-    networks:
-      - webnet
+    network_mode: "host"
     ports:
       - "80:80"
       - "443:443"
@@ -19,7 +18,3 @@ services:
       nofile:
         soft: 65535
         hard: 65535
-
-networks:
-  webnet:
-    driver: bridge
