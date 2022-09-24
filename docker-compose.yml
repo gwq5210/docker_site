@@ -1,14 +1,22 @@
 version: "2"
+secrets:                        # top level secrets block
+  gwq5210.com.key:
+    external: true
+  gwq5210.com.crt:
+    external: true
+
 services:
   gwq5210_nginx:
     build: ./nginx
     container_name: gwq5210_nginx
     restart: always
+    secrets:
+     - gwq5210.com.key
+     - gwq5210.com.crt
     volumes:
       - ./nginx/conf:/etc/nginx/conf.d
       - ./nginx/html:/var/www/gwq5210.com/html
       - /var/log/nginx:/var/log/nginx
-      - /etc/ssl:/etc/ssl
     network_mode: "host"
     ports:
       - "80:80"
@@ -35,10 +43,10 @@ services:
       - "3306:3306"
     environment:
       TZ: Asia/Shanghai
+      MYSQL_ROOT_PASSWORD: "123456789"   # 设置root用户的密码
       MYSQL_DATABASE: "tank"
       MYSQL_USER: "tank"
       MYSQL_PASS: "123456789"
-      MYSQL_ROOT_PASSWORD: "123456789"   # 设置root用户的密码
 
   gwq5210_tank:
     build: ./tank
@@ -46,10 +54,10 @@ services:
     container_name: gwq5210_tank
     volumes:
       - /usr/share/tank/matter:/data/build/matter
-      - ./tank/conf:/data/build/conf
+      - /etc/tank/:/data/build/conf
       - /var/log/tank:/data/build/log
     ports:
-      - "127.0.0.1:7010:7010"
+      - "127.0.0.1:7010:6010"
     links:
       - "gwq5210_mysql:gwq5210.com"
     depends_on:

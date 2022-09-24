@@ -62,3 +62,31 @@ mysqld: Error on realpath() on '/var/lib/mysql-files' (Error 2 - No such file or
 
 - windows下：修改my.ini 在[mysqld]内加入secure_file_priv=/var/lib/mysql
 - linux下：修改my.cnf 在[mysqld]内加入secure_file_priv=/var/lib/mysql
+
+## 使用docker管理机密信息
+
+使用docker secret管理机密信息, 首先需要启动swarm
+
+```sh
+docker swarm init
+```
+
+当前使用到的主要是mysql数据库密码、网站证书和私钥、其他密钥等
+
+```sh
+Usage:  docker secret create [OPTIONS] SECRET [file|-]
+
+Create a secret from a file or STDIN as content
+
+Options:
+  -d, --driver string            Secret driver
+  -l, --label list               Secret labels
+      --template-driver string   Template driver
+```
+
+```sh
+sudo docker secret create gwq5210.com.crt gwq5210.com.crt
+sudo docker secret create gwq5210.com.key gwq5210.com.key
+```
+
+- 参考： [docker secrets](https://docs.docker.com/engine/swarm/secrets/)
