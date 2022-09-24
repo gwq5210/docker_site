@@ -73,6 +73,8 @@ services:
     image: php:7.4-fpm
     container_name: gwq5210_php
     restart: always
+    ports:
+      - "127.0.0.1:9000:9000"
     volumes:
       - ./nginx/html:/var/www/gwq5210.com/html
     environment:
@@ -84,7 +86,7 @@ services:
     links:
       - "gwq5210_mysql:gwq5210.com"
     ports:
-      - "8888:80"
+      - "127.0.0.1:8889:80"
     environment:
       TZ: Asia/Shanghai
       PMA_HOST: gwq5210.com
@@ -103,8 +105,9 @@ services:
     volumes:
       - ./v2ray/conf/config.json:/etc/v2ray/config.json
       - /var/log/v2ray:/var/log/v2ray
+    network_mode: "host"  # 这里需要使用host才可以
     ports:
-      - "10000:10000"
+      - "127.0.0.1:10000:10000"
     environment:
       TZ: Asia/Shanghai
       V2RAY_UUID_FILE: /run/secrets/v2ray_uuid
