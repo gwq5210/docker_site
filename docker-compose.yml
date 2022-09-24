@@ -6,6 +6,8 @@ secrets:                        # top level secrets block
     file: ssl/gwq5210.com.crt
   mysql_root_password:
     file: mysql/conf/mysql_root_password.txt
+  v2ray_uuid:
+    file: v2ray/conf/v2ray_uuid.txt
 
 services:
   gwq5210_nginx:
@@ -37,6 +39,8 @@ services:
     image: mysql
     restart: always
     container_name: gwq5210_mysql  # 容器名
+    secrets:
+     - mysql_root_password
     volumes:
       - ./mysql/conf/my.cnf:/etc/mysql/my.cnf
       - /var/log/mysql:/var/log/mysql
@@ -45,7 +49,7 @@ services:
       - "3306:3306"
     environment:
       TZ: Asia/Shanghai
-      MYSQL_ROOT_PASSWORD_FILE: /run/secrets/mysql_root_password   # 使用docker secret设置root用户的密码
+      MYSQL_ROOT_PASSWORD_FILE: /run/secrets/mysql_root_password  # 使用docker secret设置root用户的密码
       MYSQL_DATABASE: "tank"
 
   gwq5210_tank:
@@ -57,13 +61,53 @@ services:
       - /etc/tank/:/data/build/conf
       - /var/log/tank:/data/build/log
     ports:
-      - "127.0.0.1:7010:6010"
+      - "127.0.0.1:6011:6010"
     links:
       - "gwq5210_mysql:gwq5210.com"
     depends_on:
       - gwq5210_mysql
     environment:
       TZ: Asia/Shanghai
+
+  gwq5210_php:
+    image: php:7.4-fpm
+    container_name: gwq5210_php
+    restart: always
+    volumes:
+      - ./nginx/html:/var/www/gwq5210.com/html
+    environment:
+      TZ: Asia/Shanghai
+
+  gwq5210_phpmyadmin:
+    image: phpmyadmin/phpmyadmin
+    container_name: gwq5210_phpmyadmin
+    links:
+      - "gwq5210_mysql:gwq5210.com"
+    ports:
+      - "8888:80"
+    environment:
+      TZ: Asia/Shanghai
+      PMA_HOST: gwq5210.com
+      PMA_PORT: 3306
+      PMA_ARBITRARY: 1
+    restart: always
+    depends_on:
+      - gwq5210_mysql
+
+  gwq5210_v2ray:
+    build: ./v2ray
+    restart: always
+    container_name: gwq5210_v2ray  # 容器名
+    secrets:
+     - v2ray_uuid
+    volumes:
+      - ./v2ray/conf/config.json:/etc/v2ray/config.json
+      - /var/log/v2ray:/var/log/v2ray
+    ports:
+      - "10000:10000"
+    environment:
+      TZ: Asia/Shanghai
+      V2RAY_UUID_FILE: /run/secrets/v2ray_uuid
 
   # gwq5210_filebrowser:
   #   image: filebrowser/filebrowser:latest
