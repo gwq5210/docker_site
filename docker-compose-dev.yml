@@ -1,11 +1,9 @@
 version: "3.1"
 secrets:                        # top level secrets block
   gwq5210.com.key:
-    file: ssl/gwq5210.com.key
+    file: ssl/site.key
   gwq5210.com.crt:
-    file: ssl/gwq5210.com.crt
-  mysql_root_password:
-    file: mysql/conf/mysql_root_password.txt
+    file: ssl/site.crt
 
 services:
   gwq5210_nginx:
@@ -45,8 +43,10 @@ services:
       - "3306:3306"
     environment:
       TZ: Asia/Shanghai
-      MYSQL_ROOT_PASSWORD_FILE: /run/secrets/mysql_root_password   # 使用docker secret设置root用户的密码
+      MYSQL_ROOT_PASSWORD: "123456789"   # 设置root用户的密码
       MYSQL_DATABASE: "tank"
+      MYSQL_USER: "tank"
+      MYSQL_PASS: "123456789"
 
   gwq5210_tank:
     build: ./tank
