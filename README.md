@@ -90,3 +90,14 @@ sudo docker secret create gwq5210.com.key gwq5210.com.key
 ```
 
 - 参考： [docker secrets](https://docs.docker.com/engine/swarm/secrets/)
+
+## 宿主机访问容器内服务失败
+
+```sh
+# v2ray服务
+curl http://localhost:10000 -v
+
+curl: (56) Recv failure: Connection reset by peer
+```
+
+原因是docker内监听的是127.0.0.1, 需要修改为0.0.0.0才可以

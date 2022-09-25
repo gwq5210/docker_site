@@ -14,7 +14,7 @@ filebrowser -d /etc/filebrowser/filebrowser.db config set --locale zh-cn
 
 其中的root和password分别是用户名和密码，根据自己的需求更改。
 
-有关更多配置的选项，可以参考官方文档：https://docs.filebrowser.xyz/
+有关更多配置的选项，可以参考官方文档：[filebrowser](https://filebrowser.org/cli/filebrowser-config-set)
 
 配置修改好以后，就可以启动 File Browser 了，使用-d参数指定配置数据库路径。示例：
 

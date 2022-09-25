@@ -1,3 +1,4 @@
 #!/bin/bash
 
 docker-compose --compatibility up --build -d
+docker-compose ps

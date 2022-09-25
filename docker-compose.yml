@@ -22,7 +22,7 @@ services:
       - ./nginx/html:/var/www/gwq5210.com/html
       - /var/log/nginx:/var/log/nginx
     network_mode: "host"
-    ports:
+    ports:  # host模式这个配置失效
       - "80:80"
       - "443:443"
     ulimits:
@@ -34,14 +34,18 @@ services:
       TZ: Asia/Shanghai
     depends_on:
       - gwq5210_tank
+      - gwq5210_php
+      - gwq5210_phpmyadmin
+      - gwq5210_v2ray
+      - gwq5210_filebrowser
     deploy:
       resources:
         limits:
-          cpus: 0.2
-          memory: 32M
+          cpus: '0.2'
+          memory: 128M
         reservations:
-          cpus: 0.2
-          memory: 32M
+          cpus: '0.2'
+          memory: 128M
 
   gwq5210_mysql:
     image: mysql
@@ -79,10 +83,10 @@ services:
     deploy:
       resources:
         limits:
-          cpus: 0.2
+          cpus: '0.2'
           memory: 128M
         reservations:
-          cpus: 0.2
+          cpus: '0.2'
           memory: 128M
 
   gwq5210_php:
@@ -98,11 +102,11 @@ services:
     deploy:
       resources:
         limits:
-          cpus: 0.1
-          memory: 32M
+          cpus: '0.1'
+          memory: 128M
         reservations:
-          cpus: 0.1
-          memory: 32M
+          cpus: '0.1'
+          memory: 128M
 
   gwq5210_phpmyadmin:
     image: phpmyadmin/phpmyadmin
@@ -122,11 +126,11 @@ services:
     deploy:
       resources:
         limits:
-          cpus: 0.1
-          memory: 32M
+          cpus: '0.1'
+          memory: 128M
         reservations:
-          cpus: 0.1
-          memory: 32M
+          cpus: '0.1'
+          memory: 128M
 
   gwq5210_v2ray:
     build: ./v2ray
@@ -137,7 +141,6 @@ services:
     volumes:
       - ./v2ray/conf/config.json:/etc/v2ray/config.json
       - /var/log/v2ray:/var/log/v2ray
-    network_mode: "host"  # 这里需要使用host才可以
     ports:
       - "127.0.0.1:10000:10000"
     environment:
@@ -146,24 +149,29 @@ services:
     deploy:
       resources:
         limits:
-          cpus: 0.1
-          memory: 32M
+          cpus: '0.1'
+          memory: 128M
         reservations:
-          cpus: 0.1
-          memory: 32M
+          cpus: '0.1'
+          memory: 128M
 
-  # gwq5210_filebrowser:
-  #   image: filebrowser/filebrowser:latest
-  #   restart: always
-  #   container_name: gwq5210_filebrowser  # 容器名
-  #   volumes:
-  #     - ./filebrowser/conf:/etc/filebrowser
-  #     - ./filebrowser/logs:/var/log/filebrowser
-  #     - ./filebrowser/data:/usr/share/filebrowser/data
-  #     - ./filebrowser/conf:/config
-  #     - ./ssl:/etc/ssl
-  #   ports:
-  #     - "9090:9090"
-  #   environment:
-  #     TZ: Asia/Shanghai
-  #     MYSQL_ROOT_PASSWORD: "123456789"   # 设置root用户的密码
+  gwq5210_filebrowser:
+    image: filebrowser/filebrowser:latest
+    restart: always
+    container_name: gwq5210_filebrowser  # 容器名
+    volumes:
+      - /usr/share/filebrowser/data:/srv
+      - /etc/filebrowser:/etc/filebrowser
+      - ./filebrowser/conf/filebrowser.json:/.filebrowser.json
+    ports:
+      - "127.0.0.1:9091:80"
+    environment:
+      TZ: Asia/Shanghai
+    deploy:
+      resources:
+        limits:
+          cpus: '0.1'
+          memory: 128M
+        reservations:
+          cpus: '0.1'
+          memory: 128M

@@ -2,9 +2,7 @@
   "address": "0.0.0.0",
   "database": "/etc/filebrowser/filebrowser.db",
   "log": "/var/log/filebrowser/filebrowser.log",
-  "cert": "/etc/ssl/gwq5210.com.crt",
-  "key": "/etc/ssl/gwq5210.com.key",
-  "port": 9090,
-  "root": "/usr/share/filebrowser/data",
+  "port": 80,
+  "root": "/srv",
   "username": "gwq5210"
 }
