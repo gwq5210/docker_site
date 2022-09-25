@@ -34,6 +34,14 @@ services:
       TZ: Asia/Shanghai
     depends_on:
       - gwq5210_tank
+    deploy:
+      resources:
+        limits:
+          cpus: 0.2
+          memory: 32M
+        reservations:
+          cpus: 0.2
+          memory: 32M
 
   gwq5210_mysql:
     image: mysql
@@ -68,6 +76,14 @@ services:
       - gwq5210_mysql
     environment:
       TZ: Asia/Shanghai
+    deploy:
+      resources:
+        limits:
+          cpus: 0.2
+          memory: 128M
+        reservations:
+          cpus: 0.2
+          memory: 128M
 
   gwq5210_php:
     image: php:7.4-fpm
@@ -79,6 +95,14 @@ services:
       - ./nginx/html:/var/www/gwq5210.com/html
     environment:
       TZ: Asia/Shanghai
+    deploy:
+      resources:
+        limits:
+          cpus: 0.1
+          memory: 32M
+        reservations:
+          cpus: 0.1
+          memory: 32M
 
   gwq5210_phpmyadmin:
     image: phpmyadmin/phpmyadmin
@@ -95,6 +119,14 @@ services:
     restart: always
     depends_on:
       - gwq5210_mysql
+    deploy:
+      resources:
+        limits:
+          cpus: 0.1
+          memory: 32M
+        reservations:
+          cpus: 0.1
+          memory: 32M
 
   gwq5210_v2ray:
     build: ./v2ray
@@ -111,6 +143,14 @@ services:
     environment:
       TZ: Asia/Shanghai
       V2RAY_UUID_FILE: /run/secrets/v2ray_uuid
+    deploy:
+      resources:
+        limits:
+          cpus: 0.1
+          memory: 32M
+        reservations:
+          cpus: 0.1
+          memory: 32M
 
   # gwq5210_filebrowser:
   #   image: filebrowser/filebrowser:latest

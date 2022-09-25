@@ -1,7 +1,5 @@
 FROM mysql
 
-RUN cat /proc/version
-
 # 安装工具, 安装zsh，zsh-autosuggestions，修改配置
 RUN yum update && yum upgrade -y && yum install -y htop wget dstat sysstat git vim && yum install zsh -y && \
   usermod -s /usr/bin/zsh root && \
