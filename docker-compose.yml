@@ -8,9 +8,14 @@ secrets:                        # top level secrets block
     file: mysql/conf/mysql_root_password.txt
   v2ray_uuid:
     file: v2ray/conf/v2ray_uuid.txt
+  scrapyd_username:
+    file: scrapyd/conf/scrapyd_username.txt
+  scrapyd_password:
+    file: scrapyd/conf/scrapyd_password.txt
 
 services:
   gwq5210_nginx:
+    # image: gwq5210/nginx
     build: ./nginx
     container_name: gwq5210_nginx
     restart: always
@@ -48,7 +53,8 @@ services:
           memory: 128M
 
   gwq5210_mysql:
-    image: mysql
+    # image: gwq5210/mysql
+    build: ./mysql
     restart: always
     container_name: gwq5210_mysql  # 容器名
     secrets:
@@ -65,6 +71,7 @@ services:
       MYSQL_DATABASE: "tank"
 
   gwq5210_tank:
+    # image: gwq5210/tank
     build: ./tank
     restart: always
     container_name: gwq5210_tank
@@ -90,7 +97,8 @@ services:
           memory: 128M
 
   gwq5210_php:
-    image: php:7.4-fpm
+    # image: gwq5210/php
+    build: ./php
     container_name: gwq5210_php
     restart: always
     ports:
@@ -133,6 +141,7 @@ services:
           memory: 128M
 
   gwq5210_v2ray:
+    # image: gwq5210/v2ray
     build: ./v2ray
     restart: always
     container_name: gwq5210_v2ray  # 容器名
@@ -156,7 +165,8 @@ services:
           memory: 128M
 
   gwq5210_filebrowser:
-    image: filebrowser/filebrowser:latest
+    # image: gwq5210/filebrowser
+    build: ./filebrowser
     restart: always
     container_name: gwq5210_filebrowser  # 容器名
     volumes:
@@ -165,6 +175,52 @@ services:
       - ./filebrowser/conf/filebrowser.json:/.filebrowser.json
     ports:
       - "127.0.0.1:9091:80"
+    environment:
+      TZ: Asia/Shanghai
+    deploy:
+      resources:
+        limits:
+          cpus: '0.1'
+          memory: 128M
+        reservations:
+          cpus: '0.1'
+          memory: 128M
+
+  gwq5210_scrapyd:
+    # image: gwq5210/scrapyd
+    build: ./scrapyd
+    container_name: gwq5210_scrapyd  # 容器名
+    ports:
+      - "127.0.0.1:6801:6800"
+    volumes:
+      - ./scrapyd/conf:/etc/scrapyd
+      - /usr/share/scrapyd:/usr/share/scrapyd
+      - /var/log/scrapyd:/var/log/scrapyd
+    restart: always
+    environment:
+      TZ: Asia/Shanghai
+    deploy:
+      resources:
+        limits:
+          cpus: '0.1'
+          memory: 128M
+        reservations:
+          cpus: '0.1'
+          memory: 128M
+
+  gwq5210_mirai:
+    # image: gwq5210/mirai:latest
+    build:
+      context: .
+      dockerfile: ./mirai/Dockerfile
+    restart: always
+    container_name: gwq5210_mirai  # 容器名
+    volumes:
+      - /usr/share/mirai:/root/mirai
+      - ./mirai/conf/Console/AutoLogin.yml:/root/mirai/config/Console/AutoLogin.yml
+      - ./mirai/conf/net.mamoe.mirai-api-http/setting.yml:/root/mirai/config/net.mamoe.mirai-api-http/setting.yml
+    ports: 
+      - "127.0.0.1:8080:8080"
     environment:
       TZ: Asia/Shanghai
     deploy:

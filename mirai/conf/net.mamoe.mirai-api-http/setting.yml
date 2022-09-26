@@ -9,10 +9,10 @@ cacheSize: 4096
 adapterSettings:
   ## 详情看 http adapter 使用说明 配置
   http:
-    host: 127.0.0.1
+    host: 0.0.0.0
     port: 8080
     cors: ["*"]
   ws:
-    host: 127.0.0.1
+    host: 0.0.0.0
     port: 8080
     reservedSyncId: -1
