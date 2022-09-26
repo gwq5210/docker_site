@@ -1,0 +1,1 @@
+../shell/push_image.sh

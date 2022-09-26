@@ -1,0 +1,1 @@
+../shell/deploy_image.sh

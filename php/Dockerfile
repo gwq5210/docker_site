@@ -1,4 +1,4 @@
-FROM filebrowser/filebrowser:latest
+FROM php:7.4-fpm
 
 COPY ../shell shell
 

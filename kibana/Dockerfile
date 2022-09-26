@@ -1,5 +1,9 @@
-FROM gwq5210/ubuntu_dev:latest
+FROM kibana:7.17.6
 
-RUN curl -fsSL https://artifacts.elastic.co/GPG-KEY-elasticsearch | sudo apt-key add - && \
-  echo "deb https://artifacts.elastic.co/packages/7.x/apt stable main" | sudo tee -a /etc/apt/sources.list.d/elastic-7.x.list && \
-  apt update && apt upgrade -y && apt install -y elasticsearch kibana
+USER root
+
+COPY ../shell shell
+
+RUN ./shell/install_tools.sh && rm -rf ./shell
+
+USER kibana

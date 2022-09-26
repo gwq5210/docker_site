@@ -101,3 +101,44 @@ curl: (56) Recv failure: Connection reset by peer
 ```
 
 原因是docker内监听的是127.0.0.1, 需要修改为0.0.0.0才可以
+
+## docker修改镜像源
+
+几个速度比较快的镜像地址
+Docker 官方中国区: [https://registry.docker-cn.com](https://registry.docker-cn.com)
+网易: [http://hub-mirror.c.163.com](http://hub-mirror.c.163.com)
+中科大: [https://docker.mirrors.ustc.edu.cn](https://docker.mirrors.ustc.edu.cn)
+
+### macos
+
+Docker for Mac客户端添加registry-mirrors设置
+
+```json
+{
+  "builder": {
+    "gc": {
+      "defaultKeepStorage": "20GB",
+      "enabled": true
+    }
+  },
+  "experimental": false,
+  "features": {
+    "buildkit": true
+  },
+  "registry-mirrors": [
+    "https://registry.docker-cn.com"
+  ]
+}
+```
+
+## linux
+
+修改文件`/etc/docker/daemon.json`, 添加registry-mirrors设置
+
+该文件默认不存在
+
+```json
+{
+  "registry-mirrors": ["https://registry.docker-cn.com"]
+}
+```
