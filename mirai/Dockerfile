@@ -11,10 +11,6 @@ RUN ./shell/install_tools.sh && rm -rf ./shell && \
   ./mcl --update-package net.mamoe:chat-command --type plugin --channel stable && \
   ./mcl --dry-run
 
-RUN pwd
-
 EXPOSE 8080
 
-VOLUME /root/mirai
-
-CMD ls -l && pwd && ./mcl
+CMD ./mcl
