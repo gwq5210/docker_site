@@ -1,5 +1,5 @@
 FROM mysql
 
-COPY ../shell shell
+COPY ./shell shell
 
-RUN ./shell/install_tools.sh && rm -rf ./shell
+# RUN ./shell/install_tools.sh && rm -rf ./shell

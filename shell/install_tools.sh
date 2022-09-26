@@ -21,8 +21,11 @@ debian|ubuntu|devuan)
 alpine)
   ./install_tools_alpine.sh
   ;;
-centos|fedora|rhel|ol)
+centos|fedora|rhel)
   ./install_tools_centos.sh
+  ;;
+ol)
+  echo "ol"
   ;;
 *)
   exit 1

@@ -231,18 +231,20 @@ services:
     container_name: gwq5210_mirai  # 容器名
     volumes:
       - /usr/share/mirai/config:/root/mirai/config
-      - /usr/share/mirai/plugins/root/mirai/plugins
+      - /usr/share/mirai/plugins:/root/mirai/plugins
+      - /usr/share/mirai/logs:/root/mirai/logs
+      - /usr/share/mirai/bots:/root/mirai/bots
       - ./mirai/conf/Console/AutoLogin.yml:/root/mirai/config/Console/AutoLogin.yml
       - ./mirai/conf/net.mamoe.mirai-api-http/setting.yml:/root/mirai/config/net.mamoe.mirai-api-http/setting.yml
     ports: 
       - "127.0.0.1:8080:8080"
     environment:
       TZ: Asia/Shanghai
-    deploy:
-      resources:
-        limits:
-          cpus: '0.1'
-          memory: 128M
-        reservations:
-          cpus: '0.1'
-          memory: 128M
+    # deploy:
+    #   resources:
+    #     limits:
+    #       cpus: '0.1'
+    #       memory: 128M
+    #     reservations:
+    #       cpus: '0.1'
+    #       memory: 128M
