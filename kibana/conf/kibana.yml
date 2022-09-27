@@ -26,7 +26,7 @@ server.publicBaseUrl: "https://gwq5210.com:5601"
 #server.maxPayload: 1048576
 
 # The Kibana server's name.  This is used for display purposes.
-#server.name: "your-hostname"
+server.name: "gwq5210.com"
 
 # The URLs of the Elasticsearch instances to use for all your queries.
 elasticsearch.hosts: ["https://gwq5210.elasticsearch:9200"]
@@ -66,7 +66,7 @@ server.ssl.key: config/certs/gwq5210.com.key
 elasticsearch.ssl.certificateAuthorities: [ "config/certs/ca.crt" ]
 
 # To disregard the validity of SSL certificates, change this setting's value to 'none'.
-elasticsearch.ssl.verificationMode: none
+elasticsearch.ssl.verificationMode: full
 
 # Time in milliseconds to wait for Elasticsearch to respond to pings. Defaults to the value of
 # the elasticsearch.requestTimeout setting.
