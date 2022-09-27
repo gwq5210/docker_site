@@ -131,7 +131,7 @@ Docker for Mac客户端添加registry-mirrors设置
 }
 ```
 
-## linux
+### linux
 
 修改文件`/etc/docker/daemon.json`, 添加registry-mirrors设置
 
@@ -142,3 +142,53 @@ Docker for Mac客户端添加registry-mirrors设置
   "registry-mirrors": ["https://registry.docker-cn.com"]
 }
 ```
+
+## Get into the Docker VM
+
+When using Docker Desktop for Mac and Windows | Docker - https://www.docker.com/products/docker-desktop, you’re actually using a tiny (custom) Alpine Linux running in a special xhyve VM on macOS or Windows. There’s so much cool stuff happening, you’re meant to forget it’s still running on a Linux kernel.
+
+There are some ways to get into the Docker VM on Mac.
+
+### Usages
+
+2021 Update: Easiest option is Justin’s repo and image
+
+Just run this from your Mac terminal and it’ll drop you in a container with full permissions on the Docker VM. This also works for Docker for Windows for getting in Moby Linux VM (doesn’t work for Windows Containers).
+
+```sh
+docker run -it --rm --privileged --pid=host justincormack/nsenter1
+```
+
+more info: GitHub - justincormack/nsenter1: simple nsenter to namespaces of pid 1 - [https://github.com/justincormack/nsenter1](https://github.com/justincormack/nsenter1)
+
+- Option 1 (hard way): use netcat
+
+```sh
+nc -U ~/Library/Containers/com.docker.docker/Data/debug-shell.sock
+```
+
+Exit the shell with exit.
+
+- Option 2 (easier): Use nsenter in priviledged container
+
+```sh
+docker run -it --privileged --pid=host debian nsenter -t 1 -m -u -n -i sh
+```
+
+Phil Estes (Docker Maintainer) says:
+
+it’s running a container (using the debian image. nothing special about it other than it apparently has nsenter installed), with pid=host (so you are in the process space of the mini VM running Docker4Mac), and then nsenter says “whatever is pid 1, use that as context, and enter all the namespaces of that, and run a shell there"
+
+- Option 3 (easist): run nsenter from a pre-built image. From Justin Cormack (Docker Maintainer)
+
+```sh
+docker run -it --rm --privileged --pid=host justincormack/nsenter1
+```
+
+### References
+
+[1] [GitHub - justincormack/nsenter1: simple nsenter to namespaces of pid 1](https://github.com/justincormack/nsenter1)
+[2] [justincormack/nsenter1](https://hub.docker.com/r/justincormack/nsenter1)
+[3] [Docker Desktop for Mac Commands for Getting Into The Local Docker VM](https://www.bretfisher.com/docker-for-mac-commands-for-getting-into-local-docker-vm/)
+[4] [Getting a Shell in the Docker Desktop Mac VM · GitHub](https://gist.github.com/BretFisher/5e1a0c7bcca4c735e716abf62afad389)
+[5] [Docker Desktop for Mac and Windows | Docker](https://www.docker.com/products/docker-desktop)

@@ -1,9 +1,11 @@
 version: "3.1"
 secrets:                        # top level secrets block
   gwq5210.com.key:
-    file: ssl/gwq5210.com.key
+    file: certs/gwq5210.com/gwq5210.com.key
   gwq5210.com.crt:
-    file: ssl/gwq5210.com.crt
+    file: certs/gwq5210.com/gwq5210.com.crt
+  ca.crt:
+    file: certs/ca/ca.crt
   mysql_root_password:
     file: mysql/conf/mysql_root_password.txt
   v2ray_uuid:
@@ -14,12 +16,12 @@ secrets:                        # top level secrets block
     file: scrapyd/conf/scrapyd_password.txt
 
 services:
-  gwq5210_nginx:
+  gwq5210.nginx:
     # image: gwq5210/nginx
     build:
       context: .
       dockerfile: ./nginx/Dockerfile
-    container_name: gwq5210_nginx
+    container_name: gwq5210.nginx
     restart: always
     secrets:
      - gwq5210.com.key
@@ -40,11 +42,11 @@ services:
     environment:
       TZ: Asia/Shanghai
     depends_on:
-      - gwq5210_tank
-      - gwq5210_php
-      - gwq5210_phpmyadmin
-      - gwq5210_v2ray
-      - gwq5210_filebrowser
+      - gwq5210.tank
+      - gwq5210.php
+      - gwq5210.phpmyadmin
+      - gwq5210.v2ray
+      - gwq5210.filebrowser
     deploy:
       resources:
         limits:
@@ -54,13 +56,13 @@ services:
           cpus: '0.2'
           memory: 128M
 
-  gwq5210_mysql:
+  gwq5210.mysql:
     # image: gwq5210/mysql
     build:
       context: .
       dockerfile: ./mysql/Dockerfile
     restart: always
-    container_name: gwq5210_mysql  # 容器名
+    container_name: gwq5210.mysql  # 容器名
     secrets:
      - mysql_root_password
     volumes:
@@ -74,23 +76,21 @@ services:
       MYSQL_ROOT_PASSWORD_FILE: /run/secrets/mysql_root_password  # 使用docker secret设置root用户的密码
       MYSQL_DATABASE: "tank"
 
-  gwq5210_tank:
+  gwq5210.tank:
     # image: gwq5210/tank
     build:
       context: .
       dockerfile: ./tank/Dockerfile
     restart: always
-    container_name: gwq5210_tank
+    container_name: gwq5210.tank
     volumes:
       - /usr/share/tank/matter:/data/build/matter
       - /etc/tank/:/data/build/conf
       - /var/log/tank:/data/build/log
     ports:
       - "127.0.0.1:6011:6010"
-    links:
-      - "gwq5210_mysql:gwq5210.com"
     depends_on:
-      - gwq5210_mysql
+      - gwq5210.mysql
     environment:
       TZ: Asia/Shanghai
     deploy:
@@ -102,12 +102,12 @@ services:
           cpus: '0.2'
           memory: 128M
 
-  gwq5210_php:
+  gwq5210.php:
     # image: gwq5210/php
     build:
       context: .
       dockerfile: ./php/Dockerfile
-    container_name: gwq5210_php
+    container_name: gwq5210.php
     restart: always
     ports:
       - "127.0.0.1:9000:9000"
@@ -124,11 +124,9 @@ services:
           cpus: '0.1'
           memory: 128M
 
-  gwq5210_phpmyadmin:
+  gwq5210.phpmyadmin:
     image: phpmyadmin/phpmyadmin
-    container_name: gwq5210_phpmyadmin
-    links:
-      - "gwq5210_mysql:gwq5210.com"
+    container_name: gwq5210.phpmyadmin
     ports:
       - "127.0.0.1:8889:80"
     environment:
@@ -138,7 +136,7 @@ services:
       PMA_ARBITRARY: 1
     restart: always
     depends_on:
-      - gwq5210_mysql
+      - gwq5210.mysql
     deploy:
       resources:
         limits:
@@ -148,13 +146,13 @@ services:
           cpus: '0.1'
           memory: 128M
 
-  gwq5210_v2ray:
+  gwq5210.v2ray:
     # image: gwq5210/v2ray
     build:
       context: .
       dockerfile: ./v2ray/Dockerfile
     restart: always
-    container_name: gwq5210_v2ray  # 容器名
+    container_name: gwq5210.v2ray  # 容器名
     secrets:
      - v2ray_uuid
     volumes:
@@ -174,13 +172,13 @@ services:
           cpus: '0.1'
           memory: 128M
 
-  gwq5210_filebrowser:
+  gwq5210.filebrowser:
     # image: gwq5210/filebrowser
     build:
       context: .
       dockerfile: ./filebrowser/Dockerfile
     restart: always
-    container_name: gwq5210_filebrowser  # 容器名
+    container_name: gwq5210.filebrowser  # 容器名
     volumes:
       - /usr/share/filebrowser/data:/srv
       - /etc/filebrowser:/etc/filebrowser
@@ -198,12 +196,12 @@ services:
           cpus: '0.1'
           memory: 128M
 
-  gwq5210_scrapyd:
+  gwq5210.scrapyd:
     # image: gwq5210/scrapyd
     build:
       context: .
       dockerfile: ./scrapyd/Dockerfile
-    container_name: gwq5210_scrapyd  # 容器名
+    container_name: gwq5210.scrapyd  # 容器名
     ports:
       - "127.0.0.1:6801:6800"
     volumes:
@@ -222,13 +220,13 @@ services:
           cpus: '0.1'
           memory: 128M
 
-  gwq5210_mirai:
+  gwq5210.mirai:
     # image: gwq5210/mirai:latest
     build:
       context: .
       dockerfile: ./mirai/Dockerfile
     restart: always
-    container_name: gwq5210_mirai  # 容器名
+    container_name: gwq5210.mirai  # 容器名
     volumes:
       - /usr/share/mirai/config:/root/mirai/config
       - /usr/share/mirai/plugins:/root/mirai/plugins
@@ -248,3 +246,98 @@ services:
     #     reservations:
     #       cpus: '0.1'
     #       memory: 128M
+
+  gwq5210.elasticsearch:
+    # image: gwq5210/elasticsearch:latest
+    build:
+      context: .
+      dockerfile: ./elasticsearch/Dockerfile
+    container_name: gwq5210.elasticsearch
+    restart: always
+    environment:
+      - TZ=Asia/Shanghai
+      - bootstrap.memory_lock=true
+      - "ES_JAVA_OPTS=-Xms256m -Xmx256m"
+      - ELASTIC_PASSWORD=elastic
+    secrets:
+      - source: gwq5210.com.crt
+        target: $ES_CERTS_DIR/gwq5210.com.crt
+      - source: gwq5210.com.key
+        target: $ES_CERTS_DIR/gwq5210.com.key
+      - source: ca.crt
+        target: $ES_CERTS_DIR/ca.crt
+    ulimits:
+      memlock:
+        soft: -1
+        hard: -1
+    volumes:
+      # - /usr/share/elasticsearch/data:/usr/share/elasticsearch/data
+      - ./elasticsearch/conf/elasticsearch.yml:/usr/share/elasticsearch/config/elasticsearch.yml
+    ports:
+      - 9200:9200
+      - 9300:9300
+    healthcheck:
+      test: curl --cacert $ES_CERTS_DIR/ca.crt -s https://localhost:9200 >/dev/null; if [[ $$? == 52 ]]; then echo 0; else echo 1; fi
+      interval: 30s
+      timeout: 10s
+      retries: 5
+
+  gwq5210.kibana:
+    # image: gwq5210/kibana
+    build:
+      context: .
+      dockerfile: ./kibana/Dockerfile
+    container_name: gwq5210.kibana
+    restart: always
+    depends_on:
+      gwq5210.elasticsearch:
+        condition: service_healthy
+    ports:
+      - 5601:5601
+    environment:
+      TZ: Asia/Shanghai
+      SERVERNAME: localhost
+      ELASTICSEARCH_URL: https://gwq5210.com:9200
+      ELASTICSEARCH_HOSTS: https://gwq5210.com:9200
+      ELASTICSEARCH_USERNAME: elastic
+      ELASTICSEARCH_PASSWORD: elastic
+    secrets:
+      - source: gwq5210.com.crt
+        target: $KIBANA_CERTS_DIR/gwq5210.com.crt
+      - source: gwq5210.com.key
+        target: $KIBANA_CERTS_DIR/gwq5210.com.key
+      - source: ca.crt
+        target: $KIBANA_CERTS_DIR/ca.crt
+    volumes:
+      - ./kibana/conf/kibana.yml:/usr/share/kibana/config/kibana.yml
+    healthcheck:
+      test: curl --cacert $KIBANA_CERTS_DIR/ca.crt -k https://localhost:5601 >/dev/null; if [[ $$? == 52 ]]; then echo 0; else echo 1; fi
+      interval: 30s
+      timeout: 10s
+      retries: 5
+
+  setup_certs:
+    # image: gwq5210/elasticsearch:latest
+    build:
+      context: .
+      dockerfile: ./elasticsearch/Dockerfile
+    restart: on-failure
+    volumes:
+      - ./certs:/usr/share/elasticsearch/config/certs
+      - ./elasticsearch/setup_certs.sh:/usr/share/elasticsearch/setup_certs.sh
+    working_dir: /usr/share/elasticsearch
+    command:
+      - /bin/sh
+      - -c
+      - |
+        sh setup_certs.sh
+        # echo "Waiting for Elasticsearch availability";
+        # until curl -v --cacert config/certs/ca/ca.crt https://gwq5210.elasticsearch:9200 | grep -q "missing authentication credentials"; do sleep 5; done;
+        # echo "Setting kibana_system password";
+        # until curl -s -X POST --cacert config/certs/ca/ca.crt -u "elastic:${ELASTIC_PASSWORD}" -H "Content-Type: application/json" https://es01:9200/_security/user/kibana_system/_password -d "{\"password\":\"${KIBANA_PASSWORD}\"}" | grep -q "^{}"; do sleep 10; done;
+        echo "All done!";
+    healthcheck:
+      test: ["CMD-SHELL", "[ -f config/certs/gwq5210.com/gwq5210.com.crt ]"]
+      interval: 1s
+      timeout: 5s
+      retries: 120

@@ -1,0 +1,21 @@
+instances:
+  - name: gwq5210.com
+    dns:
+      - gwq5210.tank
+      - gwq5210.kibana
+      - gwq5210.v2ray
+      - gwq5210.php
+      - gwq5210.nginx
+      - gwq5210.mysql
+      - gwq5210.filebrowser
+      - gwq5210.mirai
+      - gwq5210.scrapyd
+      - gwq5210.ubuntu
+      - gwq5210.elasticsearch
+      - localhost
+      - gwq5210.local
+      - gwq5210.localhost
+      - www.gwq5210.com
+      - gwq5210.com
+    ip:
+      - 127.0.0.1
