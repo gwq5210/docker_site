@@ -192,3 +192,11 @@ docker run -it --rm --privileged --pid=host justincormack/nsenter1
 [3] [Docker Desktop for Mac Commands for Getting Into The Local Docker VM](https://www.bretfisher.com/docker-for-mac-commands-for-getting-into-local-docker-vm/)
 [4] [Getting a Shell in the Docker Desktop Mac VM · GitHub](https://gist.github.com/BretFisher/5e1a0c7bcca4c735e716abf62afad389)
 [5] [Docker Desktop for Mac and Windows | Docker](https://www.docker.com/products/docker-desktop)
+
+## windows docker volume位置
+
+浏览器中打开如下链接
+
+```text
+\\wsl$\docker-desktop-data\version-pack-data\community\docker\volumes\
+```
