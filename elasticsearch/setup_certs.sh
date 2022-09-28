@@ -1,6 +1,7 @@
 #!/bin/sh
 
 if [ ! -f config/certs/ca.zip ]; then
+  mkdir -p config/certs
   echo "Creating CA";
   ./bin/elasticsearch-certutil ca --silent --pem -out config/certs/ca.zip && unzip config/certs/ca.zip -d config/certs
   if [ $? -ne 0 ]; then
@@ -19,7 +20,8 @@ else
   echo "certs.zip already exists"
 fi;
 echo "Setting file permissions"
-chown -R root:root config/certs;
+chown -R elasticsearch:root config/certs;
+cd config/certs
 find . -type d -exec chmod 750 \{\} \;;
 find . -type f -exec chmod 640 \{\} \;;
 echo "Setup certs done"

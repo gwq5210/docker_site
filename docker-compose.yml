@@ -1,4 +1,4 @@
-version: "3.1"
+version: "3.9"
 secrets:                        # top level secrets block
   gwq5210.com.key:
     file: certs/gwq5210.com/gwq5210.com.key
@@ -6,14 +6,18 @@ secrets:                        # top level secrets block
     file: certs/gwq5210.com/gwq5210.com.crt
   ca.crt:
     file: certs/ca/ca.crt
-  mysql_root_password:
+  mysql_root_password.txt:
     file: mysql/conf/mysql_root_password.txt
-  v2ray_uuid:
+  v2ray_uuid.txt:
     file: v2ray/conf/v2ray_uuid.txt
-  scrapyd_username:
+  scrapyd_username.txt:
     file: scrapyd/conf/scrapyd_username.txt
-  scrapyd_password:
+  scrapyd_password.txt:
     file: scrapyd/conf/scrapyd_password.txt
+  elasticsearch_bootstrap_password.txt:
+    file: elasticsearch/conf/elasticsearch_bootstrap_password.txt
+  elasticsearch_keystore_password.txt:
+    file: elasticsearch/conf/elasticsearch_keystore_password.txt
 
 services:
   gwq5210.nginx:
@@ -29,7 +33,7 @@ services:
     volumes:
       - ./nginx/conf:/etc/nginx/conf.d
       - ./nginx/html:/var/www/gwq5210.com/html
-      - /var/log/nginx:/var/log/nginx
+      - ${DOCKER_SITE_LOGS_DIR}/nginx:/var/log/nginx
     # network_mode: "host"
     ports:  # host模式这个配置失效
       - "80:80"
@@ -41,6 +45,11 @@ services:
     links:
       - gwq5210.scrapyd
       - gwq5210.mirai
+      - gwq5210.elasticsearch
+      - gwq5210.filebrowser
+      - gwq5210.v2ray
+      - gwq5210.tank
+      - gwq5210.phpmyadmin
     ulimits:
       nproc: 65535
       nofile:
@@ -71,17 +80,27 @@ services:
     restart: always
     container_name: gwq5210.mysql  # 容器名
     secrets:
-     - mysql_root_password
+     - mysql_root_password.txt
     volumes:
-      - ./mysql/conf/my.cnf:/etc/mysql/my.cnf
-      - /var/log/mysql:/var/log/mysql
-      - /var/lib/mysql:/var/lib/mysql  # 挂载目录，持久化存储
+      - ./mysql/conf/my.cnf:/etc/mysql/conf.d/my.cnf
+      - ${DOCKER_SITE_LOGS_DIR}/mysql:/var/log/mysql
+      - ${DOCKER_SITE_KEY_DATA_DIR}/mysql:/var/lib/mysql  # 挂载目录，持久化存储
     ports:
       - "3306:3306"
+      - "33060:33060"
+      - "33061:33061"
     environment:
       TZ: Asia/Shanghai
-      MYSQL_ROOT_PASSWORD_FILE: /run/secrets/mysql_root_password  # 使用docker secret设置root用户的密码
+      MYSQL_ROOT_PASSWORD_FILE: /run/secrets/mysql_root_password.txt  # 使用docker secret设置root用户的密码
       MYSQL_DATABASE: "tank"
+    deploy:
+      resources:
+        limits:
+          cpus: '0.2'
+          memory: 512M
+        reservations:
+          cpus: '0.2'
+          memory: 512M
 
   gwq5210.tank:
     # image: gwq5210/tank
@@ -91,12 +110,12 @@ services:
     restart: always
     container_name: gwq5210.tank
     volumes:
-      - /usr/share/tank/matter:/data/build/matter
-      - /etc/tank/:/data/build/conf
-      - /var/log/tank:/data/build/log
+      - ${TANK_SHARE_DATA_DIR}:/data/build/matter
+      - ${DOCKER_SITE_CONF_DIR}/tank/:/data/build/conf
+      - ${DOCKER_SITE_LOGS_DIR}/tank:/data/build/log
     # ports:
     #   - "127.0.0.1:6011:6010"
-    depends_on:
+    links:
       - gwq5210.mysql
     environment:
       TZ: Asia/Shanghai
@@ -142,7 +161,7 @@ services:
       PMA_PORT: 3306
       PMA_ARBITRARY: 1
     restart: always
-    depends_on:
+    links:
       - gwq5210.mysql
     deploy:
       resources:
@@ -161,15 +180,15 @@ services:
     restart: always
     container_name: gwq5210.v2ray  # 容器名
     secrets:
-     - v2ray_uuid
+     - v2ray_uuid.txt
     volumes:
       - ./v2ray/conf/config.json:/etc/v2ray/config.json
-      - /var/log/v2ray:/var/log/v2ray
+      - ${DOCKER_SITE_LOGS_DIR}/v2ray:/var/log/v2ray
     # ports:
     #   - "127.0.0.1:10000:10000"
     environment:
       TZ: Asia/Shanghai
-      V2RAY_UUID_FILE: /run/secrets/v2ray_uuid
+      V2RAY_UUID_FILE: /run/secrets/v2ray_uuid.txt
     deploy:
       resources:
         limits:
@@ -187,8 +206,8 @@ services:
     restart: always
     container_name: gwq5210.filebrowser  # 容器名
     volumes:
-      - /usr/share/filebrowser/data:/srv
-      - /etc/filebrowser:/etc/filebrowser
+      - ${FILE_BROWSER_SHARE_DATA_DIR}:/srv
+      - ${DOCKER_SITE_CONF_DIR}/filebrowser:/etc/filebrowser
       - ./filebrowser/conf/filebrowser.json:/.filebrowser.json
     # ports:
     #   - "127.0.0.1:9091:80"
@@ -213,8 +232,8 @@ services:
     #   - "127.0.0.1:6801:6800"
     volumes:
       - ./scrapyd/conf:/etc/scrapyd
-      - /usr/share/scrapyd:/usr/share/scrapyd
-      - /var/log/scrapyd:/var/log/scrapyd
+      - ${DOCKER_SITE_DATA_DIR}/scrapyd:/usr/share/scrapyd
+      - ${DOCKER_SITE_LOGS_DIR}/scrapyd:/var/log/scrapyd
     restart: always
     environment:
       TZ: Asia/Shanghai
@@ -235,24 +254,23 @@ services:
     # restart: always
     container_name: gwq5210.mirai  # 容器名
     volumes:
-      - /usr/share/mirai/config:/root/mirai/config
-      - /usr/share/mirai/plugins:/root/mirai/plugins
-      - /usr/share/mirai/logs:/root/mirai/logs
-      - /usr/share/mirai/bots:/root/mirai/bots
+      - ${DOCKER_SITE_DATA_DIR}/mirai/plugins:/root/mirai/plugins
+      - ${DOCKER_SITE_LOGS_DIR}/mirai:/root/mirai/logs
+      - ${DOCKER_SITE_DATA_DIR}/mirai/bots:/root/mirai/bots
       - ./mirai/conf/Console/AutoLogin.yml:/root/mirai/config/Console/AutoLogin.yml
       - ./mirai/conf/net.mamoe.mirai-api-http/setting.yml:/root/mirai/config/net.mamoe.mirai-api-http/setting.yml
     # ports: 
     #   - "127.0.0.1:8080:8080"
     environment:
       TZ: Asia/Shanghai
-    # deploy:
-    #   resources:
-    #     limits:
-    #       cpus: '0.1'
-    #       memory: 128M
-    #     reservations:
-    #       cpus: '0.1'
-    #       memory: 128M
+    deploy:
+      resources:
+        limits:
+          cpus: '0.5'
+          memory: 512M
+        reservations:
+          cpus: '0.5'
+          memory: 512M
 
   gwq5210.elasticsearch:
     # image: gwq5210/elasticsearch:latest
@@ -264,8 +282,9 @@ services:
     environment:
       - TZ=Asia/Shanghai
       - bootstrap.memory_lock=true
-      - "ES_JAVA_OPTS=-Xms256m -Xmx256m"
-      - ELASTIC_PASSWORD=elastic
+      - xpack.license.self_generated.type=${LICENSE}
+      - ELASTIC_PASSWORD_FILE=/run/secrets/elasticsearch_bootstrap_password.txt
+      - KEYSTORE_PASSWORD_FILE=/run/secrets/elasticsearch_keystore_password.txt
     secrets:
       - source: gwq5210.com.crt
         target: $ES_CERTS_DIR/gwq5210.com.crt
@@ -273,12 +292,17 @@ services:
         target: $ES_CERTS_DIR/gwq5210.com.key
       - source: ca.crt
         target: $ES_CERTS_DIR/ca.crt
+      - source: elasticsearch_bootstrap_password.txt
+        target: /run/secrets/elasticsearch_bootstrap_password.txt
+      - source: elasticsearch_keystore_password.txt
+        target: /run/secrets/elasticsearch_keystore_password.txt
     ulimits:
       memlock:
         soft: -1
         hard: -1
     volumes:
-      # - /usr/share/elasticsearch/data:/usr/share/elasticsearch/data
+      - ${DOCKER_SITE_KEY_DATA_DIR}/elasticsearch/data:/usr/share/elasticsearch/data
+      - ${DOCKER_SITE_KEY_DATA_DIR}/elasticsearch/config/elasticsearch.keystore:/usr/share/elasticsearch/config/elasticsearch.keystore
       - ./elasticsearch/conf/elasticsearch.yml:/usr/share/elasticsearch/config/elasticsearch.yml
     ports:
       - 9200:9200
@@ -288,6 +312,14 @@ services:
       interval: 30s
       timeout: 10s
       retries: 5
+    deploy:
+      resources:
+        limits:
+          cpus: '0.5'
+          memory: 512M
+        reservations:
+          cpus: '0.5'
+          memory: 512M
 
   gwq5210.kibana:
     # image: gwq5210/kibana
@@ -296,14 +328,15 @@ services:
       dockerfile: ./kibana/Dockerfile
     container_name: gwq5210.kibana
     restart: always
-    depends_on:
-      - gwq5210.elasticsearch
+    links:
+      - gwq5210.elasticsearch:gwq5210.com
     ports:
       - 5601:5601
     environment:
       TZ: Asia/Shanghai
       ELASTICSEARCH_USERNAME: elastic
-      ELASTICSEARCH_PASSWORD: elastic
+      ELASTICSEARCH_PASSWORD_FILE: '/run/secrets/elasticsearch_bootstrap_password.txt'
+      ELASTICSEARCH_PASSWORD: 'a123456789'
     secrets:
       - source: gwq5210.com.crt
         target: $KIBANA_CERTS_DIR/gwq5210.com.crt
@@ -311,6 +344,8 @@ services:
         target: $KIBANA_CERTS_DIR/gwq5210.com.key
       - source: ca.crt
         target: $KIBANA_CERTS_DIR/ca.crt
+      - source: elasticsearch_bootstrap_password.txt
+        target: /run/secrets/elasticsearch_bootstrap_password.txt
     volumes:
       - ./kibana/conf/kibana.yml:/usr/share/kibana/config/kibana.yml
     healthcheck:
@@ -318,29 +353,11 @@ services:
       interval: 30s
       timeout: 10s
       retries: 5
-
-  setup_certs:
-    # image: gwq5210/elasticsearch:latest
-    build:
-      context: .
-      dockerfile: ./elasticsearch/Dockerfile
-    restart: on-failure
-    volumes:
-      - ./certs:/usr/share/elasticsearch/config/certs
-      - ./elasticsearch/setup_certs.sh:/usr/share/elasticsearch/setup_certs.sh
-    working_dir: /usr/share/elasticsearch
-    command:
-      - /bin/sh
-      - -c
-      - |
-        sh setup_certs.sh
-        # echo "Waiting for Elasticsearch availability";
-        # until curl -v --cacert config/certs/ca/ca.crt https://gwq5210.elasticsearch:9200 | grep -q "missing authentication credentials"; do sleep 5; done;
-        # echo "Setting kibana_system password";
-        # until curl -s -X POST --cacert config/certs/ca/ca.crt -u "elastic:${ELASTIC_PASSWORD}" -H "Content-Type: application/json" https://es01:9200/_security/user/kibana_system/_password -d "{\"password\":\"${KIBANA_PASSWORD}\"}" | grep -q "^{}"; do sleep 10; done;
-        echo "All done!";
-    healthcheck:
-      test: ["CMD-SHELL", "[ -f config/certs/gwq5210.com/gwq5210.com.crt ]"]
-      interval: 1s
-      timeout: 5s
-      retries: 120
+    deploy:
+      resources:
+        limits:
+          cpus: '0.5'
+          memory: 512M
+        reservations:
+          cpus: '0.5'
+          memory: 512M

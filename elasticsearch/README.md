@@ -9,14 +9,14 @@ xpack.security.enabled: true
 - 创建密码
 
 ```sh
-sudo ./bin/elasticsearch-setup-passwords interactive
+./bin/elasticsearch-setup-passwords interactive
 ```
 
 - 访问elasticsearch
 
 ```sh
-curl -u user:password 'http://localhost:9200'
-curl 'http://user:password@localhost:9200'
+curl -u elastic:a123456789 'http://localhost:9200'
+curl 'http://elastic:a123456789@localhost:9200'
 ```
 
 ## elasticsearch启用https
@@ -34,9 +34,9 @@ xpack.security.http.ssl.key: /path/to/name.key
 - 使用kibana-keystore保存用户密码
 
 ```sh
-sudo ./bin/kibana-keystore create
-sudo ./bin/kibana-keystore add elasticsearch.username # 输入elasticsearch用户名
-sudo ./bin/kibana-keystore add elasticsearch.password # 输入elasticsearch密码
+./bin/kibana-keystore create
+./bin/kibana-keystore add elasticsearch.username # 输入elasticsearch用户名
+./bin/kibana-keystore add elasticsearch.password # 输入elasticsearch密码
 ```
 
 ## kibana启用https

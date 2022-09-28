@@ -3,7 +3,7 @@ adapters:
   - ws
 debug: true
 enableVerify: true
-verifyKey: password
+verifyKey: a123456789
 singleMode: false
 cacheSize: 4096
 adapterSettings:

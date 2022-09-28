@@ -1,0 +1,48 @@
+version: "3.9"
+secrets:                        # top level secrets block
+  elasticsearch_bootstrap_password.txt:
+    file: elasticsearch/conf/elasticsearch_bootstrap_password.txt
+  elasticsearch_keystore_password.txt:
+    file: elasticsearch/conf/elasticsearch_keystore_password.txt
+
+services:
+  setup_certs:
+    # image: gwq5210/elasticsearch:latest
+    build:
+      context: .
+      dockerfile: ./elasticsearch/Dockerfile
+    environment:
+      - TZ=Asia/Shanghai
+    volumes:
+      - ./certs:/usr/share/elasticsearch/config/certs
+      - ./elasticsearch/setup_certs.sh:/usr/share/elasticsearch/setup_certs.sh
+    user: "1000"
+    working_dir: /usr/share/elasticsearch
+    command:
+      - /bin/sh
+      - -c
+      - |
+        sh setup_certs.sh
+
+  setup_elasticsearch_keystore:
+    # image: gwq5210/elasticsearch:latest
+    build:
+      context: .
+      dockerfile: ./elasticsearch/Dockerfile
+    environment:
+      - TZ=Asia/Shanghai
+      - ELASTIC_PASSWORD_FILE=/run/secrets/elasticsearch_bootstrap_password.txt
+      - KEYSTORE_PASSWORD_FILE=/run/secrets/elasticsearch_keystore_password.txt
+    volumes:
+      - ${DOCKER_SITE_KEY_DATA_DIR}/elasticsearch/config:/usr/share/elasticsearch/config
+      - ./elasticsearch/setup_keystore.sh:/usr/share/elasticsearch/setup_keystore.sh
+    user: "1000"
+    working_dir: /usr/share/elasticsearch
+    command:
+      - /bin/sh
+      - -c
+      - |
+        sh setup_keystore.sh
+    secrets:
+      - elasticsearch_bootstrap_password.txt
+      - elasticsearch_keystore_password.txt

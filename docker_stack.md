@@ -58,7 +58,7 @@ docker stack 不支持版本2规范编写的compose.yml文件，必须使用最�
 
 - docker stack被定义为适用于生产环境的编排工具，强化了（ 复制集、 容器重启策略、回滚策略、服务更新策略 ）等生产特性。
 
-为什么docker公司要强化docker stack， 因为docker stack是进阶docker swarm 的必经之路， 
+为什么docker公司要强化docker stack， 因为docker stack是进阶docker swarm 的必经之路
 
 docker stack 可认为是单机上的负载均衡部署； 可认为是多节点集群部署（docker swarm）的特例。
 

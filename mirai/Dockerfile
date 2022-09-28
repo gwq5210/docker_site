@@ -13,6 +13,6 @@ RUN ./shell/install_tools.sh && rm -rf ./shell && \
 
 EXPOSE 8080
 
-VOLUME [ "/root/mirai/logs", "/root/mirai/bots", "/root/mirai/config", "/root/mirai/data", "/root/mirai/logs", "/root/mirai/plugins" ]
+VOLUME [ "/root/mirai/bots" ]
 
 CMD ./mcl > logs/mcl.log

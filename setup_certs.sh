@@ -2,4 +2,4 @@
 
 cd `dirname "$0"`
 
-docker-compose run --rm setup_certs
+docker-compose -f setup-docker-compose.yml run -it --rm setup_certs
