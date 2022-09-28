@@ -15,4 +15,6 @@ EXPOSE 8080
 
 VOLUME [ "/root/mirai/bots" ]
 
-CMD ./mcl > logs/mcl.log
+COPY ./mirai/start_mcl.sh ./env_from_file.sh /root/mirai/
+
+CMD ./start_mcl.sh > logs/mcl.log

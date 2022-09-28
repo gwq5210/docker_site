@@ -18,6 +18,12 @@ secrets:                        # top level secrets block
     file: elasticsearch/conf/elasticsearch_bootstrap_password.txt
   elasticsearch_keystore_password.txt:
     file: elasticsearch/conf/elasticsearch_keystore_password.txt
+  mirai_bot_qq.txt:
+    file: mirai/conf/mirai_bot_qq.txt
+  mirai_bot_qq_password.txt:
+    file: mirai/conf/mirai_bot_qq_password.txt
+  mirai_verify_key.txt:
+    file: mirai/conf/mirai_verify_key.txt
 
 services:
   gwq5210.nginx:
@@ -57,12 +63,6 @@ services:
         hard: 65535
     environment:
       TZ: Asia/Shanghai
-    depends_on:
-      - gwq5210.tank
-      - gwq5210.php
-      - gwq5210.phpmyadmin
-      - gwq5210.v2ray
-      - gwq5210.filebrowser
     deploy:
       resources:
         limits:
@@ -263,6 +263,14 @@ services:
     #   - "127.0.0.1:8080:8080"
     environment:
       TZ: Asia/Shanghai
+      MIRAI_JAVA_OPTS: "-Xms128m -Xmx128m"
+      MIRAI_VERIFY_KEY_FILE: "/run/secrets/mirai_verify_key.txt"
+      MIRAI_BOT_QQ_FILE: "/run/secrets/mirai_bot_qq.txt"
+      MIRAI_BOT_QQ_PASSWORD_FILE: "/run/secrets/mirai_bot_qq_password.txt"
+    secrets:
+      - mirai_bot_qq.txt
+      - mirai_bot_qq_password.txt
+      - mirai_verify_key.txt
     deploy:
       resources:
         limits:
@@ -283,6 +291,7 @@ services:
       - TZ=Asia/Shanghai
       - bootstrap.memory_lock=true
       - xpack.license.self_generated.type=${LICENSE}
+      - "ES_JAVA_OPTS=-Xms128m -Xmx128m"
       - ELASTIC_PASSWORD_FILE=/run/secrets/elasticsearch_bootstrap_password.txt
       - KEYSTORE_PASSWORD_FILE=/run/secrets/elasticsearch_keystore_password.txt
     secrets:
@@ -348,6 +357,7 @@ services:
         target: /run/secrets/elasticsearch_bootstrap_password.txt
     volumes:
       - ./kibana/conf/kibana.yml:/usr/share/kibana/config/kibana.yml
+      - ./kibana/conf/node.options:/usr/share/kibana/config/node.options
     healthcheck:
       test: curl --cacert $KIBANA_CERTS_DIR/ca.crt -k https://localhost:5601 >/dev/null; if [[ $$? == 52 ]]; then echo 0; else echo 1; fi
       interval: 30s

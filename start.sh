@@ -1,4 +1,4 @@
 #!/bin/sh
 
-docker-compose up -d
-docker-compose ps
+docker-compose --compatibility up -d $@
+./ps.sh

@@ -16,7 +16,6 @@ services:
     volumes:
       - ./certs:/usr/share/elasticsearch/config/certs
       - ./elasticsearch/setup_certs.sh:/usr/share/elasticsearch/setup_certs.sh
-    user: "1000"
     working_dir: /usr/share/elasticsearch
     command:
       - /bin/sh
@@ -36,7 +35,6 @@ services:
     volumes:
       - ${DOCKER_SITE_KEY_DATA_DIR}/elasticsearch/config:/usr/share/elasticsearch/config
       - ./elasticsearch/setup_keystore.sh:/usr/share/elasticsearch/setup_keystore.sh
-    user: "1000"
     working_dir: /usr/share/elasticsearch
     command:
       - /bin/sh

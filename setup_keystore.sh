@@ -2,4 +2,4 @@
 
 cd `dirname "$0"`
 
-docker-compose -f setup-docker-compose.yml run -it --rm setup_elasticsearch_keystore
+docker-compose -f setup-docker-compose.yml --compatibility run --rm setup_elasticsearch_keystore
