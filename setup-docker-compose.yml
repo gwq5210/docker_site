@@ -4,6 +4,8 @@ secrets:                        # top level secrets block
     file: elasticsearch/elasticsearch_bootstrap_password.txt
   elasticsearch_keystore_password.txt:
     file: elasticsearch/elasticsearch_keystore_password.txt
+  elasticsearch_username.txt:
+    file: elasticsearch/elasticsearch_username.txt
 
 services:
   setup_certs:
@@ -44,3 +46,26 @@ services:
     secrets:
       - elasticsearch_bootstrap_password.txt
       - elasticsearch_keystore_password.txt
+
+  setup_kibana_keystore:
+    # image: gwq5210/kibana
+    build:
+      context: .
+      dockerfile: ./kibana/Dockerfile
+    container_name: setup_kibana_keystore
+    environment:
+      TZ: Asia/Shanghai
+      ELASTICSEARCH_USERNAME_FILE: '/run/secrets/elasticsearch_username.txt'
+      ELASTICSEARCH_PASSWORD_FILE: '/run/secrets/elasticsearch_bootstrap_password.txt'
+    volumes:
+      - ${DOCKER_SITE_KEY_DATA_DIR}/kibana/config:/usr/share/kibana/config
+      - ./kibana/setup_keystore.sh:/usr/share/kibana/setup_keystore.sh
+    working_dir: /usr/share/kibana
+    command:
+      - /bin/sh
+      - -c
+      - |
+        sh setup_keystore.sh
+    secrets:
+      - elasticsearch_username.txt
+      - elasticsearch_bootstrap_password.txt

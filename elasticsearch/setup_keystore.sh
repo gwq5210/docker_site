@@ -37,4 +37,6 @@ else
   echo "$COMMANDS" | bin/elasticsearch-keystore add bootstrap.password
 fi
 
+# chmod 640 /usr/share/elasticsearch/config/elasticsearch.keystore
+
 echo "Setup elasticsearch keystore done"
