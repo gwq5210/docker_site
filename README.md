@@ -41,11 +41,18 @@ echo "a123456789" | docker secret create elasticsearch_bootstrap_password.txt -
 echo "a123456789" | docker secret create elasticsearch_keystore_password.txt -
 ```
 
-## elasticsearch密码
+## filebrowser密码
+
+filebrowser密码可以使用初始密码admin，然后再网页端进行修改
+
+密码保存在filebrowser.db中，不确定是否加密
+
+## mirai密码
 
 ```sh
-echo "a123456789" | docker secret create elasticsearch_bootstrap_password.txt -
-echo "a123456789" | docker secret create elasticsearch_keystore_password.txt -
+echo "2423087292" | docker secret create mirai_bot_qq.txt -
+echo "d41d8cd98f00b204e9800998ecf8427e" | docker secret create mirai_bot_qq_password.txt -
+echo "a123456789" | docker secret create mirai_verify_key.txt -
 ```
 
 ## mysql密码
@@ -54,15 +61,40 @@ echo "a123456789" | docker secret create elasticsearch_keystore_password.txt -
 echo "a123456789" | docker secret create mysql_root_password.txt -
 ```
 
+## scrapyd密码
 
+```sh
+echo "gwq5210" | docker secret create scrapyd_username.txt -
+echo "a123456789" | docker secret create scrapyd_password.txt -
+```
 
+## tank密码
+
+tank当前不需要设置密码，可以在网页端设置，密码保存在mysql数据库中
+
+## v2ray密码
+
+```sh
+echo "ffffffff-ffff-ffff-ffff-ffffffffffff" | docker secret create v2ray_uuid.txt -
+```
 
 ## 一键启动
 
 ### 设置秘钥
 
 ```sh
+# 生成自签名证书和私钥
+# 这一步可以省略，修改为申请到的免费ssl证书替换
+./set_certs.sh
+
+# 设置elasticsearch和kibana的keystore文件
+./set_keystore.sh
+```
+
+### 启动所有服务
+
+```sh
 ./start.sh
-# or
-docker-compose up --build -d
+./stop.sh
+./restart.sh
 ```

@@ -108,6 +108,7 @@ curl: (56) Recv failure: Connection reset by peer
 Docker 官方中国区: [https://registry.docker-cn.com](https://registry.docker-cn.com)
 网易: [http://hub-mirror.c.163.com](http://hub-mirror.c.163.com)
 中科大: [https://docker.mirrors.ustc.edu.cn](https://docker.mirrors.ustc.edu.cn)
+腾讯: [https://mirror.ccs.tencentyun.com](https://mirror.ccs.tencentyun.com)
 
 ### macos
 
@@ -126,7 +127,10 @@ Docker for Mac客户端添加registry-mirrors设置
     "buildkit": true
   },
   "registry-mirrors": [
-    "https://registry.docker-cn.com"
+    "https://registry.docker-cn.com",
+    "http://hub-mirror.c.163.com",
+    "https://docker.mirrors.ustc.edu.cn",
+    "https://mirror.ccs.tencentyun.com"
   ]
 }
 ```
@@ -139,7 +143,12 @@ Docker for Mac客户端添加registry-mirrors设置
 
 ```json
 {
-  "registry-mirrors": ["https://registry.docker-cn.com"]
+  "registry-mirrors": [
+    "https://registry.docker-cn.com",
+    "http://hub-mirror.c.163.com",
+    "https://docker.mirrors.ustc.edu.cn",
+    "https://mirror.ccs.tencentyun.com"
+  ]
 }
 ```
 

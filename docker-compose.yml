@@ -66,11 +66,11 @@ services:
     deploy:
       resources:
         limits:
-          cpus: '0.2'
-          memory: 128M
+          # cpus: '0.2'
+          memory: 1024M
         reservations:
-          cpus: '0.2'
-          memory: 128M
+          # cpus: '0.2'
+          memory: 1024M
 
   gwq5210.mysql:
     # image: gwq5210/mysql
@@ -96,11 +96,11 @@ services:
     deploy:
       resources:
         limits:
-          cpus: '0.2'
-          memory: 512M
+          # cpus: '0.2'
+          memory: 1024M
         reservations:
-          cpus: '0.2'
-          memory: 512M
+          # cpus: '0.2'
+          memory: 1024M
 
   gwq5210.tank:
     # image: gwq5210/tank
@@ -122,11 +122,11 @@ services:
     deploy:
       resources:
         limits:
-          cpus: '0.2'
-          memory: 128M
+          # cpus: '0.2'
+          memory: 1024M
         reservations:
-          cpus: '0.2'
-          memory: 128M
+          # cpus: '0.2'
+          memory: 1024M
 
   gwq5210.php:
     # image: gwq5210/php
@@ -144,11 +144,11 @@ services:
     deploy:
       resources:
         limits:
-          cpus: '0.1'
-          memory: 128M
+          # cpus: '0.1'
+          memory: 1024M
         reservations:
-          cpus: '0.1'
-          memory: 128M
+          # cpus: '0.1'
+          memory: 1024M
 
   gwq5210.phpmyadmin:
     image: phpmyadmin/phpmyadmin
@@ -166,11 +166,11 @@ services:
     deploy:
       resources:
         limits:
-          cpus: '0.1'
-          memory: 128M
+          # cpus: '0.1'
+          memory: 1024M
         reservations:
-          cpus: '0.1'
-          memory: 128M
+          # cpus: '0.1'
+          memory: 1024M
 
   gwq5210.v2ray:
     # image: gwq5210/v2ray
@@ -192,11 +192,11 @@ services:
     deploy:
       resources:
         limits:
-          cpus: '0.1'
-          memory: 128M
+          # cpus: '0.1'
+          memory: 1024M
         reservations:
-          cpus: '0.1'
-          memory: 128M
+          # cpus: '0.1'
+          memory: 1024M
 
   gwq5210.filebrowser:
     # image: gwq5210/filebrowser
@@ -216,11 +216,11 @@ services:
     deploy:
       resources:
         limits:
-          cpus: '0.1'
-          memory: 128M
+          # cpus: '0.1'
+          memory: 1024M
         reservations:
-          cpus: '0.1'
-          memory: 128M
+          # cpus: '0.1'
+          memory: 1024M
 
   gwq5210.scrapyd:
     # image: gwq5210/scrapyd
@@ -245,11 +245,11 @@ services:
     deploy:
       resources:
         limits:
-          cpus: '0.1'
-          memory: 128M
+          # cpus: '0.1'
+          memory: 1024M
         reservations:
-          cpus: '0.1'
-          memory: 128M
+          # cpus: '0.1'
+          memory: 1024M
 
   gwq5210.mirai:
     # image: gwq5210/mirai:latest
@@ -269,7 +269,7 @@ services:
     #   - "127.0.0.1:8080:8080"
     environment:
       TZ: Asia/Shanghai
-      MIRAI_JAVA_OPTS: "-Xms128m -Xmx128m"
+      # MIRAI_JAVA_OPTS: "-Xms128m -Xmx128m"
       MIRAI_VERIFY_KEY_FILE: "/run/secrets/mirai_verify_key.txt"
       MIRAI_BOT_QQ_FILE: "/run/secrets/mirai_bot_qq.txt"
       MIRAI_BOT_QQ_PASSWORD_FILE: "/run/secrets/mirai_bot_qq_password.txt"
@@ -280,11 +280,11 @@ services:
     deploy:
       resources:
         limits:
-          cpus: '0.5'
-          memory: 512M
+          # cpus: '0.5'
+          memory: 1024M
         reservations:
-          cpus: '0.5'
-          memory: 512M
+          # cpus: '0.5'
+          memory: 1024M
 
   gwq5210.elasticsearch:
     # image: gwq5210/elasticsearch:latest
@@ -297,7 +297,7 @@ services:
       - TZ=Asia/Shanghai
       - bootstrap.memory_lock=true
       - xpack.license.self_generated.type=${LICENSE}
-      - "ES_JAVA_OPTS=-Xms128m -Xmx128m"
+      # - "ES_JAVA_OPTS=-Xms128m -Xmx128m"
       - ELASTIC_PASSWORD_FILE=/run/secrets/elasticsearch_bootstrap_password.txt
       - KEYSTORE_PASSWORD_FILE=/run/secrets/elasticsearch_keystore_password.txt
     secrets:
@@ -330,11 +330,11 @@ services:
     deploy:
       resources:
         limits:
-          cpus: '0.5'
-          memory: 512M
+          # cpus: '0.5'
+          memory: 1024M
         reservations:
-          cpus: '0.5'
-          memory: 512M
+          # cpus: '0.5'
+          memory: 1024M
 
   gwq5210.kibana:
     # image: gwq5210/kibana
@@ -372,8 +372,8 @@ services:
     deploy:
       resources:
         limits:
-          cpus: '0.5'
-          memory: 512M
+          # cpus: '0.5'
+          memory: 1024M
         reservations:
-          cpus: '0.5'
-          memory: 512M
+          # cpus: '0.5'
+          memory: 1024M
