@@ -4,6 +4,6 @@ COPY ./shell shell
 
 RUN ./shell/install_tools.sh && rm -rf ./shell
 
-COPY ./env_from_file.sh ./v2ray/start_v2ray.sh /usr/bin/
+COPY ./env_from_file.sh ./v2ray/start_v2ray.sh ./
 
-CMD start_v2ray.sh > /var/log/v2ray/v2ray.log
+CMD ./start_v2ray.sh >> /var/log/v2ray/v2ray.log 2>&1

@@ -1,6 +1,6 @@
 FROM openjdk:11-jre
 
-WORKDIR /root/mirai
+WORKDIR /usr/share/mirai
 
 COPY ./shell shell
 
@@ -9,12 +9,10 @@ RUN ./shell/install_tools.sh && rm -rf ./shell && \
   unzip mcl-2.1.1.zip && rm mcl-2.1.1.zip && chmod +x mcl && \
   ./mcl --update-package net.mamoe:mirai-api-http --type plugin --channel stable-v2 && \
   ./mcl --update-package net.mamoe:chat-command --type plugin --channel stable && \
-  ./mcl --dry-run && mkdir -p /usr/share/mirai/logs
+  ./mcl --dry-run
 
-EXPOSE 8080
+VOLUME [ "/usr/share/mirai/bots", "/usr/share/mirai/config" ]
 
-VOLUME [ "/root/mirai/bots" ]
+COPY ./mirai/start_mcl.sh ./env_from_file.sh /usr/share/mirai/
 
-COPY ./mirai/start_mcl.sh ./env_from_file.sh /root/mirai/
-
-CMD ./start_mcl.sh > logs/mcl.log
+CMD ./start_mcl.sh >> logs/mcl.log 2>&1

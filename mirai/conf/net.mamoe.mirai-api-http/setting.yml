@@ -6,6 +6,7 @@ enableVerify: true
 verifyKey: a123456789
 singleMode: false
 cacheSize: 4096
+persistenceFactory: 'built-in'
 adapterSettings:
   ## 详情看 http adapter 使用说明 配置
   http:

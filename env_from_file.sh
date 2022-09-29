@@ -1,7 +1,7 @@
 #!/bin/sh
 
 usage() {
-  echo "USAGE: $0 VAR_NAME_FILE ..."
+  echo "USAGE: $0 VAR_NAME ..."
 }
 
 if [ $# -lt 1 ] ; then
@@ -9,14 +9,13 @@ if [ $# -lt 1 ] ; then
   exit 1
 fi
 
-for VAR_NAME_FILE in $@ ; do
+for VAR_NAME in $@ ; do
+  VAR_NAME_FILE=${VAR_NAME}_FILE
   eval FILE_NAME=\${${VAR_NAME_FILE}}
   # echo "$VAR_NAME_FILE = $FILE_NAME"
   if [ x${FILE_NAME} == x ]; then
-    echo "${VAR_NAME_FILE} is empty"
+    echo "${VAR_NAME_FILE} is empty, use $VAR_NAME"
   else
-    VAR_NAME="${VAR_NAME_FILE%_FILE}"
-
     if env | grep "^${VAR_NAME}="; then
       echo "ERROR: Both $VAR_NAME_FILE and $VAR_NAME are set. These are mutually exclusive." >&2
       exit 1

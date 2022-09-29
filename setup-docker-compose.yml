@@ -1,9 +1,9 @@
 version: "3.1"
 secrets:                        # top level secrets block
   elasticsearch_bootstrap_password.txt:
-    file: elasticsearch/conf/elasticsearch_bootstrap_password.txt
+    file: elasticsearch/elasticsearch_bootstrap_password.txt
   elasticsearch_keystore_password.txt:
-    file: elasticsearch/conf/elasticsearch_keystore_password.txt
+    file: elasticsearch/elasticsearch_keystore_password.txt
 
 services:
   setup_certs:
