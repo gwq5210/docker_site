@@ -50,12 +50,12 @@ services:
       - "9090:9090"  # filebrowser
     links:
       - gwq5210.scrapyd
-      - gwq5210.mirai
-      - gwq5210.elasticsearch
-      - gwq5210.filebrowser
-      - gwq5210.v2ray
-      - gwq5210.tank
-      - gwq5210.phpmyadmin
+      # - gwq5210.mirai
+      # - gwq5210.elasticsearch
+      # - gwq5210.filebrowser
+      # - gwq5210.v2ray
+      # - gwq5210.tank
+      # - gwq5210.phpmyadmin
     ulimits:
       nproc: 65535
       nofile:
