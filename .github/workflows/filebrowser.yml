@@ -1,8 +1,18 @@
-name: Build Docker Image
+name: Build gwq5210/filebrowser
 
 on:
   # Allows you to run this workflow manually from the Actions tab
   workflow_dispatch:
+  push:
+    branches:
+      - 'main'
+
+# 定义环境变量, 后面会使用
+# 定义 APP_NAME 用于 docker build-args
+# 定义 DOCKERHUB_REPO 标记 docker hub repo 名称
+env:
+  APP_NAME: gwq5210/filebrowser
+  DOCKERHUB_REPO: gwq5210/filebrowser
 
 jobs:
   main:
@@ -33,7 +43,7 @@ jobs:
       # 构建 Docker 并推送到 Docker hub
       - name: Build and push
         id: docker_build
-        uses: docker/build-push-action@v3
+        uses: docker/build-push-action@v2
         with:
           # 是否 docker push
           push: true
@@ -41,10 +51,11 @@ jobs:
           platforms: |
             linux/amd64
             linux/arm64/v8
-          file: elasticsearch/Dockerfile
+          file: filebrowser/Dockerfile
+          # docker build arg, 注入 APP_NAME/APP_VERSION
           build-args: |
-            APP_NAME=gwq5210/elasticsearch
-            APP_VERSION=latest
-          # 生成docker tag: latest
+            APP_NAME=${{ env.APP_NAME }}
+            APP_VERSION=${{ env.APP_VERSION }}
+          # 生成两个 docker tag: ${APP_VERSION} 和 latest
           tags: |
-            gwq5210/elasticsearch:latest
+            ${{ env.DOCKERHUB_REPO }}:latest
