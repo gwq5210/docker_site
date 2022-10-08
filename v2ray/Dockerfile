@@ -1,4 +1,4 @@
-FROM v2fly/v2fly-core
+FROM v2fly/v2fly-core:v4.45.2
 
 COPY ./shell shell
 
