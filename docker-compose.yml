@@ -27,10 +27,10 @@ secrets:                        # top level secrets block
 
 services:
   gwq5210.nginx:
-    # image: gwq5210/nginx
-    build:
-      context: .
-      dockerfile: ./nginx/Dockerfile
+    image: gwq5210/nginx
+    # build:
+    #   context: .
+    #   dockerfile: ./nginx/Dockerfile
     container_name: gwq5210.nginx
     restart: always
     secrets:
@@ -81,10 +81,10 @@ services:
           memory: 1024M
 
   gwq5210.mysql:
-    # image: gwq5210/mysql
-    build:
-      context: .
-      dockerfile: ./mysql/Dockerfile
+    image: gwq5210/mysql
+    # build:
+    #   context: .
+    #   dockerfile: ./mysql/Dockerfile
     restart: always
     container_name: gwq5210.mysql  # 容器名
     secrets:
@@ -116,10 +116,10 @@ services:
           memory: 1024M
 
   gwq5210.tank:
-    # image: gwq5210/tank
-    build:
-      context: .
-      dockerfile: ./tank/Dockerfile
+    image: gwq5210/tank
+    # build:
+    #   context: .
+    #   dockerfile: ./tank/Dockerfile
     restart: always
     container_name: gwq5210.tank
     volumes:
@@ -147,10 +147,10 @@ services:
           memory: 1024M
 
   gwq5210.php:
-    # image: gwq5210/php
-    build:
-      context: .
-      dockerfile: ./php/Dockerfile
+    image: gwq5210/php
+    # build:
+    #   context: .
+    #   dockerfile: ./php/Dockerfile
     container_name: gwq5210.php
     restart: always
     # ports:
@@ -201,10 +201,10 @@ services:
           memory: 1024M
 
   gwq5210.v2ray:
-    # image: gwq5210/v2ray
-    build:
-      context: .
-      dockerfile: ./v2ray/Dockerfile
+    image: gwq5210/v2ray
+    # build:
+    #   context: .
+    #   dockerfile: ./v2ray/Dockerfile
     restart: always
     container_name: gwq5210.v2ray  # 容器名
     secrets:
@@ -232,10 +232,10 @@ services:
           memory: 1024M
 
   gwq5210.filebrowser:
-    # image: gwq5210/filebrowser
-    build:
-      context: .
-      dockerfile: ./filebrowser/Dockerfile
+    image: gwq5210/filebrowser
+    # build:
+    #   context: .
+    #   dockerfile: ./filebrowser/Dockerfile
     restart: always
     container_name: gwq5210.filebrowser  # 容器名
     volumes:
@@ -256,10 +256,10 @@ services:
           memory: 1024M
 
   gwq5210.scrapyd:
-    # image: gwq5210/scrapyd
-    build:
-      context: .
-      dockerfile: ./scrapyd/Dockerfile
+    image: gwq5210/scrapyd
+    # build:
+    #   context: .
+    #   dockerfile: ./scrapyd/Dockerfile
     container_name: gwq5210.scrapyd  # 容器名
     # ports:
     #   - "127.0.0.1:6801:6800"
@@ -290,10 +290,10 @@ services:
           memory: 1024M
 
   gwq5210.mirai:
-    # image: gwq5210/mirai:latest
-    build:
-      context: .
-      dockerfile: ./mirai/Dockerfile
+    image: gwq5210/mirai:latest
+    # build:
+    #   context: .
+    #   dockerfile: ./mirai/Dockerfile
     # restart: always
     container_name: gwq5210.mirai  # 容器名
     volumes:
@@ -332,10 +332,10 @@ services:
           memory: 1024M
 
   gwq5210.elasticsearch:
-    # image: gwq5210/elasticsearch:latest
-    build:
-      context: .
-      dockerfile: ./elasticsearch/Dockerfile
+    image: gwq5210/elasticsearch:latest
+    # build:
+    #   context: .
+    #   dockerfile: ./elasticsearch/Dockerfile
     container_name: gwq5210.elasticsearch
     restart: always
     environment:
@@ -382,10 +382,10 @@ services:
           memory: 1024M
 
   gwq5210.kibana:
-    # image: gwq5210/kibana
-    build:
-      context: .
-      dockerfile: ./kibana/Dockerfile
+    image: gwq5210/kibana
+    # build:
+    #   context: .
+    #   dockerfile: ./kibana/Dockerfile
     container_name: gwq5210.kibana
     restart: always
     links:
