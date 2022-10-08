@@ -25,7 +25,7 @@ centos|fedora|rhel)
   ./install_tools_centos.sh
   ;;
 ol)
-  echo "ol"
+  ./install_tools_ol.sh
   ;;
 *)
   exit 1

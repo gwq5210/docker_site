@@ -10,4 +10,4 @@ sed -i "s/account:.*/account: $MIRAI_BOT_QQ/g" /usr/share/mirai/config/Console/A
 sed -i "s/value:.*/value: $MIRAI_BOT_QQ_PASSWORD/g" /usr/share/mirai/config/Console/AutoLogin.yml
 sed -i "s/verifyKey:.*/verifyKey: $MIRAI_VERIFY_KEY/g" /usr/share/mirai/config/net.mamoe.mirai-api-http/setting.yml
 
-$JAVA_BINARY $MIRAI_JAVA_OPTS -jar mcl.jar $*
+$JAVA_BINARY $MIRAI_JAVA_OPTS -jar mcl.jar $* $MIRAI_ARGS
