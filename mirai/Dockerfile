@@ -9,7 +9,7 @@ RUN ./shell/install_tools.sh && rm -rf ./shell && \
   unzip mcl-2.1.1.zip && rm mcl-2.1.1.zip && chmod +x mcl && \
   ./mcl --update-package net.mamoe:mirai-api-http --type plugin --channel stable-v2 && \
   ./mcl --update-package net.mamoe:chat-command --type plugin --channel stable && \
-  ./mcl --dry-run && ./mcl --disable-module updater
+  ./mcl --dry-run && ./mcl --disable-module updater && echo "exit" | ./mcl
 
 VOLUME [ "/usr/share/mirai/bots" ]
 
