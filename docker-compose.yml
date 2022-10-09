@@ -1,38 +1,37 @@
 version: "3.1"
 secrets:                        # top level secrets block
   gwq5210.com.key:
-    file: certs/gwq5210.com/gwq5210.com.key
+    external: true
   gwq5210.com.crt:
-    file: certs/gwq5210.com/gwq5210.com.crt
+    external: true
   ca.crt:
     file: certs/ca/ca.crt
   mysql_root_password.txt:
-    file: mysql/mysql_root_password.txt
+    external: true
   v2ray_uuid.txt:
-    file: v2ray/v2ray_uuid.txt
+    external: true
   scrapyd_username.txt:
-    file: scrapyd/scrapyd_username.txt
+    external: true
   scrapyd_password.txt:
-    file: scrapyd/scrapyd_password.txt
+    external: true
   elasticsearch_bootstrap_password.txt:
-    file: elasticsearch/elasticsearch_bootstrap_password.txt
+    external: true
   elasticsearch_keystore_password.txt:
-    file: elasticsearch/elasticsearch_keystore_password.txt
+    external: true
   mirai_bot_qq.txt:
-    file: mirai/mirai_bot_qq.txt
+    external: true
   mirai_bot_qq_password.txt:
-    file: mirai/mirai_bot_qq_password.txt
+    external: true
   mirai_verify_key.txt:
-    file: mirai/mirai_verify_key.txt
+    external: true
 
 services:
-  gwq5210.nginx:
-    image: gwq5210/nginx
+  gwq5210_nginx:
+    image: gwq5210/nginx:latest
     # build:
     #   context: .
     #   dockerfile: ./nginx/Dockerfile
-    container_name: gwq5210.nginx
-    restart: always
+    container_name: gwq5210_nginx
     secrets:
      - gwq5210.com.key
      - gwq5210.com.crt
@@ -42,23 +41,21 @@ services:
       - ./nginx/html:/var/www/gwq5210.com/html
       - ${DOCKER_SITE_LOGS_DIR}/nginx:/var/log/nginx
     # network_mode: "host"
+    networks:
+      - default
     ports:  # host模式这个配置失效
       - "80:80"
       - "443:443"
-      - "6800:6800"  # scrapyd
-      - "6010:6010"  # tank
-      - "8888:8888"  # phpmyadmin
-      - "9090:9090"  # filebrowser
-    links:
-      - gwq5210.scrapyd
-      - gwq5210.mirai
-      - gwq5210.elasticsearch
-      - gwq5210.kibana
-      - gwq5210.filebrowser
-      - gwq5210.v2ray
-      - gwq5210.tank
-      - gwq5210.phpmyadmin
-      - gwq5210.php
+    depends_on:
+      - gwq5210_scrapyd
+      - gwq5210_mirai
+      - gwq5210_elasticsearch
+      - gwq5210_kibana
+      - gwq5210_filebrowser
+      - gwq5210_v2ray
+      - gwq5210_tank
+      - gwq5210_phpmyadmin
+      - gwq5210_php
     ulimits:
       nproc: 65535
       nofile:
@@ -75,24 +72,22 @@ services:
       resources:
         limits:
           # cpus: '0.2'
-          memory: 1024M
-        reservations:
-          # cpus: '0.2'
-          memory: 1024M
+          memory: 2048M
 
-  gwq5210.mysql:
-    image: gwq5210/mysql
+  gwq5210_mysql:
+    image: gwq5210/mysql:latest
     # build:
     #   context: .
     #   dockerfile: ./mysql/Dockerfile
-    restart: always
-    container_name: gwq5210.mysql  # 容器名
+    container_name: gwq5210_mysql  # 容器名
     secrets:
      - mysql_root_password.txt
     volumes:
       - ./mysql/conf/my.cnf:/etc/mysql/conf.d/my.cnf
       - ${DOCKER_SITE_LOGS_DIR}/mysql:/var/log/mysql
       - ${DOCKER_SITE_KEY_DATA_DIR}/mysql:/var/lib/mysql  # 挂载目录，持久化存储
+    networks:
+      - default
     ports:
       - "3306:3306"
       - "33060:33060"
@@ -110,26 +105,24 @@ services:
       resources:
         limits:
           # cpus: '0.2'
-          memory: 1024M
-        reservations:
-          # cpus: '0.2'
-          memory: 1024M
+          memory: 2048M
 
-  gwq5210.tank:
-    image: gwq5210/tank
+  gwq5210_tank:
+    image: gwq5210/tank:latest
     # build:
     #   context: .
     #   dockerfile: ./tank/Dockerfile
-    restart: always
-    container_name: gwq5210.tank
+    container_name: gwq5210_tank
     volumes:
       - ${TANK_SHARE_DATA_DIR}:/data/build/matter
       - ${DOCKER_SITE_CONF_DIR}/tank:/data/build/conf
       - ${DOCKER_SITE_LOGS_DIR}/tank:/data/build/log
+    networks:
+      - default
     # ports:
     #   - "127.0.0.1:6011:6010"
-    links:
-      - gwq5210.mysql
+    depends_on:
+      - gwq5210_mysql
     environment:
       TZ: Asia/Shanghai
     healthcheck:
@@ -141,18 +134,16 @@ services:
       resources:
         limits:
           # cpus: '0.2'
-          memory: 1024M
-        reservations:
-          # cpus: '0.2'
-          memory: 1024M
+          memory: 2048M
 
-  gwq5210.php:
-    image: gwq5210/php
+  gwq5210_php:
+    image: gwq5210/php:latest
     # build:
     #   context: .
     #   dockerfile: ./php/Dockerfile
-    container_name: gwq5210.php
-    restart: always
+    container_name: gwq5210_php
+    networks:
+      - default
     # ports:
     #   - "127.0.0.1:9000:9000"
     volumes:
@@ -168,14 +159,13 @@ services:
       resources:
         limits:
           # cpus: '0.1'
-          memory: 1024M
-        reservations:
-          # cpus: '0.1'
-          memory: 1024M
+          memory: 2048M
 
-  gwq5210.phpmyadmin:
-    image: phpmyadmin/phpmyadmin
-    container_name: gwq5210.phpmyadmin
+  gwq5210_phpmyadmin:
+    image: phpmyadmin/phpmyadmin:latest
+    container_name: gwq5210_phpmyadmin
+    networks:
+      - default
     # ports:
     #   - "127.0.0.1:8889:80"
     environment:
@@ -183,9 +173,8 @@ services:
       PMA_HOST: gwq5210.com
       PMA_PORT: 3306
       PMA_ARBITRARY: 1
-    restart: always
-    links:
-      - gwq5210.mysql
+    depends_on:
+      - gwq5210_mysql
     healthcheck:
       test: curl -f http://localhost || exit 1
       interval: 5s
@@ -195,23 +184,21 @@ services:
       resources:
         limits:
           # cpus: '0.1'
-          memory: 1024M
-        reservations:
-          # cpus: '0.1'
-          memory: 1024M
+          memory: 2048M
 
-  gwq5210.v2ray:
-    image: gwq5210/v2ray
+  gwq5210_v2ray:
+    image: gwq5210/v2ray:latest
     # build:
     #   context: .
     #   dockerfile: ./v2ray/Dockerfile
-    restart: always
-    container_name: gwq5210.v2ray  # 容器名
+    container_name: gwq5210_v2ray  # 容器名
     secrets:
      - v2ray_uuid.txt
     volumes:
       - ./v2ray/conf/config.json:/etc/v2ray/config.json
       - ${DOCKER_SITE_LOGS_DIR}/v2ray:/var/log/v2ray
+    networks:
+      - default
     # ports:
     #   - "127.0.0.1:10000:10000"
     environment:
@@ -226,18 +213,16 @@ services:
       resources:
         limits:
           # cpus: '0.1'
-          memory: 1024M
-        reservations:
-          # cpus: '0.1'
-          memory: 1024M
+          memory: 2048M
 
-  gwq5210.filebrowser:
-    image: gwq5210/filebrowser
+  gwq5210_filebrowser:
+    image: gwq5210/filebrowser:latest
     # build:
     #   context: .
     #   dockerfile: ./filebrowser/Dockerfile
-    restart: always
-    container_name: gwq5210.filebrowser  # 容器名
+    container_name: gwq5210_filebrowser  # 容器名
+    networks:
+      - default
     volumes:
       - ${FILE_BROWSER_SHARE_DATA_DIR}:/srv
       - ${DOCKER_SITE_CONF_DIR}/filebrowser:/etc/filebrowser
@@ -250,24 +235,22 @@ services:
       resources:
         limits:
           # cpus: '0.1'
-          memory: 1024M
-        reservations:
-          # cpus: '0.1'
-          memory: 1024M
+          memory: 2048M
 
-  gwq5210.scrapyd:
-    image: gwq5210/scrapyd
+  gwq5210_scrapyd:
+    image: gwq5210/scrapyd:latest
     # build:
     #   context: .
     #   dockerfile: ./scrapyd/Dockerfile
-    container_name: gwq5210.scrapyd  # 容器名
+    container_name: gwq5210_scrapyd  # 容器名
+    networks:
+      - default
     # ports:
     #   - "127.0.0.1:6801:6800"
     volumes:
       - ./scrapyd/conf:/etc/scrapyd
       - ${DOCKER_SITE_LOGS_DIR}/scrapyd:/var/log/scrapyd
       - ${DOCKER_SITE_DATA_DIR}/scrapyd:/var/lib/scrapyd
-    restart: always
     environment:
       TZ: Asia/Shanghai
       SCRAPYD_USERNAME_FILE: /run/secrets/scrapyd_username.txt
@@ -284,27 +267,23 @@ services:
       resources:
         limits:
           # cpus: '0.1'
-          memory: 1024M
-        reservations:
-          # cpus: '0.1'
-          memory: 1024M
+          memory: 2048M
 
-  gwq5210.mirai:
+  gwq5210_mirai:
     image: gwq5210/mirai:latest
     # build:
     #   context: .
     #   dockerfile: ./mirai/Dockerfile
-    # restart: always
-    container_name: gwq5210.mirai  # 容器名
+    container_name: gwq5210_mirai  # 容器名
     volumes:
       - ${DOCKER_SITE_DATA_DIR}/mirai/bots:/usr/share/mirai/bots
-      - ${DOCKER_SITE_DATA_DIR}/mirai/plugins:/usr/share/mirai/plugins
       - ${DOCKER_SITE_LOGS_DIR}/mirai:/usr/share/mirai/logs
-      - ${DOCKER_SITE_CONF_DIR}/mirai:/usr/share/mirai/config
       - ./mirai/conf/Console/AutoLogin.yml:/etc/mirai/Console/AutoLogin.yml
       - ./mirai/conf/net.mamoe.mirai-api-http/setting.yml:/etc/mirai/net.mamoe.mirai-api-http/setting.yml
     # ports: 
     #   - "127.0.0.1:8080:8080"
+    networks:
+      - default
     environment:
       TZ: Asia/Shanghai
       # MIRAI_JAVA_OPTS: "-Xms128m -Xmx128m"
@@ -323,21 +302,21 @@ services:
       timeout: 3s
       retries: 3
     deploy:
+      restart_policy:
+        condition: none
       resources:
         limits:
           # cpus: '0.5'
-          memory: 1024M
-        reservations:
-          # cpus: '0.5'
-          memory: 1024M
+          memory: 2048M
 
-  gwq5210.elasticsearch:
+  gwq5210_elasticsearch:
     image: gwq5210/elasticsearch:latest
     # build:
     #   context: .
     #   dockerfile: ./elasticsearch/Dockerfile
-    container_name: gwq5210.elasticsearch
-    restart: always
+    container_name: gwq5210_elasticsearch
+    networks:
+      - default
     environment:
       - TZ=Asia/Shanghai
       - bootstrap.memory_lock=true
@@ -354,8 +333,10 @@ services:
         target: $ES_CERTS_DIR/ca.crt
       - source: elasticsearch_bootstrap_password.txt
         target: /run/secrets/elasticsearch_bootstrap_password.txt
+        mode: 0400
       - source: elasticsearch_keystore_password.txt
         target: /run/secrets/elasticsearch_keystore_password.txt
+        mode: 0400
     ulimits:
       memlock:
         soft: -1
@@ -376,20 +357,18 @@ services:
       resources:
         limits:
           # cpus: '0.5'
-          memory: 1024M
-        reservations:
-          # cpus: '0.5'
-          memory: 1024M
+          memory: 2048M
 
-  gwq5210.kibana:
-    image: gwq5210/kibana
+  gwq5210_kibana:
+    image: gwq5210/kibana:latest
     # build:
     #   context: .
     #   dockerfile: ./kibana/Dockerfile
-    container_name: gwq5210.kibana
-    restart: always
-    links:
-      - gwq5210.elasticsearch:gwq5210.com
+    container_name: gwq5210_kibana
+    depends_on:
+      - gwq5210_elasticsearch
+    networks:
+      - default
     ports:
       - 5601:5601
     environment:
@@ -401,8 +380,6 @@ services:
         target: $KIBANA_CERTS_DIR/gwq5210.com.key
       - source: ca.crt
         target: $KIBANA_CERTS_DIR/ca.crt
-      - source: elasticsearch_bootstrap_password.txt
-        target: /run/secrets/elasticsearch_bootstrap_password.txt
     volumes:
       - ./kibana/conf/kibana.yml:/usr/share/kibana/config/kibana.yml
       - ./kibana/conf/node.options:/usr/share/kibana/config/node.options
@@ -416,7 +393,8 @@ services:
       resources:
         limits:
           # cpus: '0.5'
-          memory: 1024M
-        reservations:
-          # cpus: '0.5'
-          memory: 1024M
+          memory: 2048M
+
+networks:
+  default:
+    driver: overlay

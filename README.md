@@ -30,8 +30,8 @@ certs
 gwq5210.com.crt和gwq5210.com.key用于nginx和elasticsearch的https
 
 ```sh
-docker secret create gwq5210.com.crt gwq5210.com.crt
-docker secret create gwq5210.com.key gwq5210.com.key
+docker secret create gwq5210.com.crt certs/gwq5210.com/gwq5210.com.crt
+docker secret create gwq5210.com.key certs/gwq5210.com/gwq5210.com.key
 ```
 
 ## elasticsearch密码
@@ -80,7 +80,7 @@ echo "ffffffff-ffff-ffff-ffff-ffffffffffff" | docker secret create v2ray_uuid.tx
 
 ## 一键启动
 
-### 设置秘钥
+### 设置秘钥(必须，设置一次即可)
 
 ```sh
 # 生成自签名证书和私钥
@@ -89,6 +89,12 @@ echo "ffffffff-ffff-ffff-ffff-ffffffffffff" | docker secret create v2ray_uuid.tx
 
 # 设置elasticsearch和kibana的keystore文件
 ./set_keystore.sh
+```
+
+### 设置docker secrets
+
+```sh
+./setup.sh
 ```
 
 ### 启动所有服务

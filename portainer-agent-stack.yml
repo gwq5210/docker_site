@@ -1,0 +1,55 @@
+version: '3.1'
+
+services:
+  agent:
+    image: portainer/agent:2.15.1
+    volumes:
+      - /var/run/docker.sock:/var/run/docker.sock
+      - /var/lib/docker/volumes:/var/lib/docker/volumes
+    networks:
+      - agent_network
+    deploy:
+      mode: global
+      placement:
+        constraints: [node.platform.os == linux]
+      resources:
+        limits:
+          # cpus: '0.5'
+          memory: 2048M
+
+  portainer:
+    image: portainer/portainer-ee:2.15.1
+    command: -H tcp://tasks.agent:9001 --tlsskipverify --sslcert /run/secrets/gwq5210.com.crt --sslkey /run/secrets/gwq5210.com.key
+    ports:
+      - "9443:9443"
+      - "9000:9000"
+      - "8000:8000"
+    volumes:
+      - portainer_data:/data
+    networks:
+      - agent_network
+    deploy:
+      mode: replicated
+      replicas: 1
+      placement:
+        constraints: [node.role == manager]
+      resources:
+        limits:
+          # cpus: '0.5'
+          memory: 2048M
+    secrets:
+      - gwq5210.com.crt
+      - gwq5210.com.key
+
+networks:
+  agent_network:
+    driver: overlay
+
+volumes:
+  portainer_data:
+
+secrets:
+  gwq5210.com.crt:
+    external: true
+  gwq5210.com.key:
+    external: true

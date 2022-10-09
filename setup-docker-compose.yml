@@ -1,18 +1,18 @@
 version: "3.1"
 secrets:                        # top level secrets block
   elasticsearch_bootstrap_password.txt:
-    file: elasticsearch/elasticsearch_bootstrap_password.txt
+    external: true
   elasticsearch_keystore_password.txt:
-    file: elasticsearch/elasticsearch_keystore_password.txt
+    external: true
   elasticsearch_username.txt:
-    file: elasticsearch/elasticsearch_username.txt
+    external: true
 
 services:
   setup_certs:
-    # image: gwq5210/elasticsearch:latest
-    build:
-      context: .
-      dockerfile: ./elasticsearch/Dockerfile
+    image: gwq5210/elasticsearch:latest
+    # build:
+    #   context: .
+    #   dockerfile: ./elasticsearch/Dockerfile
     environment:
       - TZ=Asia/Shanghai
     volumes:
@@ -24,12 +24,15 @@ services:
       - -c
       - |
         sh setup_certs.sh
+    deploy:
+      restart_policy:
+        condition: none
 
   setup_elasticsearch_keystore:
-    # image: gwq5210/elasticsearch:latest
-    build:
-      context: .
-      dockerfile: ./elasticsearch/Dockerfile
+    image: gwq5210/elasticsearch:latest
+    # build:
+    #   context: .
+    #   dockerfile: ./elasticsearch/Dockerfile
     environment:
       - TZ=Asia/Shanghai
       - ELASTIC_PASSWORD_FILE=/run/secrets/elasticsearch_bootstrap_password.txt
@@ -44,14 +47,21 @@ services:
       - |
         sh setup_keystore.sh
     secrets:
-      - elasticsearch_bootstrap_password.txt
-      - elasticsearch_keystore_password.txt
+      - source: elasticsearch_bootstrap_password.txt
+        target: /run/secrets/elasticsearch_bootstrap_password.txt
+        mode: 0400
+      - source: elasticsearch_keystore_password.txt
+        target: /run/secrets/elasticsearch_keystore_password.txt
+        mode: 0400
+    deploy:
+      restart_policy:
+        condition: none
 
   setup_kibana_keystore:
-    # image: gwq5210/kibana
-    build:
-      context: .
-      dockerfile: ./kibana/Dockerfile
+    image: gwq5210/kibana:latest
+    # build:
+    #   context: .
+    #   dockerfile: ./kibana/Dockerfile
     container_name: setup_kibana_keystore
     environment:
       TZ: Asia/Shanghai
@@ -69,3 +79,6 @@ services:
     secrets:
       - elasticsearch_username.txt
       - elasticsearch_bootstrap_password.txt
+    deploy:
+      restart_policy:
+        condition: none
