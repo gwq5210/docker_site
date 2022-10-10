@@ -277,9 +277,7 @@ services:
     container_name: gwq5210_mirai  # 容器名
     volumes:
       - ${DOCKER_SITE_DATA_DIR}/mirai/bots:/usr/share/mirai/bots
-      - ${DOCKER_SITE_DATA_DIR}/mirai/plugins:/usr/share/mirai/plugins
       - ${DOCKER_SITE_LOGS_DIR}/mirai:/usr/share/mirai/logs
-      - ${DOCKER_SITE_CONF_DIR}/mirai:/usr/share/mirai/config
       - ./mirai/conf/Console/AutoLogin.yml:/etc/mirai/Console/AutoLogin.yml
       - ./mirai/conf/net.mamoe.mirai-api-http/setting.yml:/etc/mirai/net.mamoe.mirai-api-http/setting.yml
     # ports: 
@@ -312,10 +310,10 @@ services:
           memory: 2048M
 
   gwq5210_elasticsearch:
-    image: gwq5210/elasticsearch:latest
-    # build:
-    #   context: .
-    #   dockerfile: ./elasticsearch/Dockerfile
+    # image: gwq5210/elasticsearch:latest
+    build:
+      context: .
+      dockerfile: ./elasticsearch/Dockerfile
     container_name: gwq5210_elasticsearch
     networks:
       - default
@@ -400,3 +398,4 @@ services:
 networks:
   default:
     driver: overlay
+    attachable: true
