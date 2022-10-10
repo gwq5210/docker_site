@@ -36,4 +36,5 @@ done
 
 chmod 777 ${DOCKER_SITE_KEY_DATA_DIR}/elasticsearch/data
 
-docker-compose config | docker stack deploy -c - docker_site
+# docker-compose config | docker stack deploy -c - docker_site
+./stack_deploy.sh docker_site docker-compose.yml

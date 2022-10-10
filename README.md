@@ -83,24 +83,20 @@ echo "ffffffff-ffff-ffff-ffff-ffffffffffff" | docker secret create v2ray_uuid.tx
 ### 设置秘钥(必须，设置一次即可)
 
 ```sh
-# 生成自签名证书和私钥
-# 这一步可以省略，修改为申请到的免费ssl证书替换
-./set_certs.sh
-
-# 设置elasticsearch和kibana的keystore文件
-./set_keystore.sh
-```
-
-### 设置docker secrets
-
-```sh
+# 1. 如果没有自签名证书和根证书，则在certs目录下生成证书
+# 2. 设置docker secrets
+# 3. 设置elasticsearch和kibana的keystore文件
 ./setup.sh
 ```
 
 ### 启动所有服务
 
 ```sh
+# 启动docker_site服务
 ./start.sh
 ./stop.sh
 ./restart.sh
+# 启动portainer服务
+./portainer_start.sh
+./portainer_stop.sh
 ```

@@ -1,8 +1,6 @@
 instances:
   - name: gwq5210.com
     dns:
-      - gwq5210.com
-      - *.gwq5210.com
       - localhost
     ip:
       - 127.0.0.1
