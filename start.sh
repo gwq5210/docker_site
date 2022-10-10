@@ -1,5 +1,7 @@
 #!/bin/bash
 
+cd `dirname "$0"`
+
 # docker-compose --compatibility up -d $@
 
 DOCKER_SITE_KEY_DATA_DIR=$(cat .env | grep "DOCKER_SITE_KEY_DATA_DIR" | egrep -v "^#" | awk -F = '{print $2}')

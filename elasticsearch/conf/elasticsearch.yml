@@ -104,12 +104,12 @@ xpack.security.audit.enabled: false
 xpack.security.http.ssl.enabled: true
 xpack.security.http.ssl.certificate: certs/gwq5210.com.crt
 xpack.security.http.ssl.key: certs/gwq5210.com.key
-# xpack.security.http.ssl.certificate_authorities: certs/ca.crt
 
 # Enable Transport Layer Security to encrypt internode communications.
-xpack.security.transport.ssl.enabled: true
-xpack.security.transport.ssl.certificate: certs/gwq5210.com.crt
-xpack.security.transport.ssl.key: certs/gwq5210.com.key
+# 当前只有一个es节点
+# xpack.security.transport.ssl.enabled: true
+# xpack.security.transport.ssl.certificate: certs/gwq5210.com.crt
+# xpack.security.transport.ssl.key: certs/gwq5210.com.key
 
-xpack.security.transport.ssl.verification_mode: full
+# xpack.security.transport.ssl.verification_mode: full
 # xpack.security.transport.ssl.certificate_authorities: certs/ca.crt
