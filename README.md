@@ -27,7 +27,7 @@ certs
 └── instances.yml
 ```
 
-gwq5210.com.crt和gwq5210.com.key用于nginx和elasticsearch的https
+gwq5210.com.crt和gwq5210.com.key用于nginx、elasticsearch、portainer的https服务
 
 ```sh
 docker secret create gwq5210.com.crt certs/gwq5210.com/gwq5210.com.crt
@@ -79,6 +79,12 @@ echo "ffffffff-ffff-ffff-ffff-ffffffffffff" | docker secret create v2ray_uuid.tx
 ```
 
 ## 一键启动
+
+### 拉取所需要的镜像
+
+```sh
+./pull_all.sh
+```
 
 ### 设置秘钥(必须，设置一次即可)
 
