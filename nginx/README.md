@@ -77,6 +77,32 @@ $ acme.sh --install-cert -d gwq5210.com \
 
 注意：通过该命令可将 ~/.acme.sh/gwq5210.com 内的证书copy到指定位置/etc/nginx 为nginx服务器实际的地址(可修改为自己服务器对应的地址)service nginx force-reload 为nginx重启命令(可修改为自己服务器对应的命令)，force-reload 会重载证书后续 acme.sh 签发了新证书后就自动完成该拷贝过程
 
+acme.sh的使用可以参考github上的[acme.sh中文说明](https://github.com/acmesh-official/acme.sh/wiki/%E8%AF%B4%E6%98%8E)，非常详细
+
+##### 更新acme.sh
+
+目前由于 acme 协议和 letsencrypt CA 都在频繁的更新, 因此 acme.sh 也经常更新以保持同步.
+
+升级 acme.sh 到最新版
+
+```sh
+acme.sh --upgrade
+```
+
+如果你不想手动升级, 可以开启自动升级:
+
+```sh
+acme.sh --upgrade --auto-upgrade
+```
+
+之后, acme.sh就会自动保持更新了.
+
+你也可以随时关闭自动更新:
+
+```
+acme.sh --upgrade --auto-upgrade  0
+```
+
 ##### 配置nginx
 
 ```sh
