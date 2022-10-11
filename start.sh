@@ -14,6 +14,7 @@ TANK_SHARE_DATA_DIR=$(cat .env | grep "TANK_SHARE_DATA_DIR" | egrep -v "^#" | aw
 dir_array=()
 dir_array[${#dir_array[@]}]=$FILE_BROWSER_SHARE_DATA_DIR
 dir_array[${#dir_array[@]}]=$TANK_SHARE_DATA_DIR
+dir_array[${#dir_array[@]}]=${TANK_SHARE_DATA_DIR}/gwq5210/root
 dir_array[${#dir_array[@]}]=${DOCKER_SITE_LOGS_DIR}/nginx
 dir_array[${#dir_array[@]}]=${DOCKER_SITE_LOGS_DIR}/mysql
 dir_array[${#dir_array[@]}]=${DOCKER_SITE_KEY_DATA_DIR}/mysql
