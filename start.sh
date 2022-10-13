@@ -29,6 +29,7 @@ dir_array[${#dir_array[@]}]=${DOCKER_SITE_DATA_DIR}/mirai/plugins
 dir_array[${#dir_array[@]}]=${DOCKER_SITE_LOGS_DIR}/mirai
 dir_array[${#dir_array[@]}]=${DOCKER_SITE_CONF_DIR}/mirai
 dir_array[${#dir_array[@]}]=${DOCKER_SITE_KEY_DATA_DIR}/elasticsearch/data
+dir_array[${#dir_array[@]}]=${DOCKER_SITE_KEY_DATA_DIR}/aliyunpan/sync_drive
 
 for dir in ${dir_array[@]};
 do

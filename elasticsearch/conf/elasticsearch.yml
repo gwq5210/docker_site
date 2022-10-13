@@ -112,3 +112,5 @@ xpack.security.transport.ssl.key: certs/gwq5210.com.key
 
 xpack.security.transport.ssl.verification_mode: full
 # xpack.security.transport.ssl.certificate_authorities: certs/ca.crt
+
+path.repo: ["/usr/share/elasticsearch/backup"]
