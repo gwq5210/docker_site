@@ -86,6 +86,8 @@ services:
       - ./mysql/conf/my.cnf:/etc/mysql/conf.d/my.cnf
       - ${DOCKER_SITE_LOGS_DIR}/mysql:/var/log/mysql
       - ${DOCKER_SITE_KEY_DATA_DIR}/mysql:/var/lib/mysql  # 挂载目录，持久化存储
+      - ${DOCKER_SITE_BACKUP_DIR}/mysql:/usr/share/mysql/backup
+      - ./shell/mysql_backup.sh:/usr/local/bin/mysql_backup.sh
     networks:
       - default
     ports:
@@ -436,6 +438,40 @@ services:
       - ALIYUNPAN_LOCAL_DELAY_TIME=3
       # 任务步骤, 支持两种: scan(只扫描并建立同步数据库),sync(正常启动同步任务)
       - ALIYUNPAN_TASK_STEP=sync
+    deploy:
+      resources:
+        limits:
+          # cpus: '0.5'
+          memory: 2048M
+
+  gwq5210_jiacrontab_admin:
+    image: gwq5210/jiacrontab:latest
+    container_name: gwq5210_jiacrontab_admin
+    restart: always
+    command: ./jiacrontab_admin -config /etc/jiacrontab/jiacrontab_admin.ini
+    ports:
+      - 20000:20000
+    volumes:
+      - ${DOCKER_SITE_DATA_DIR}/jiacrontab:/jiacrontab/bin/data
+      - ./jiacrontab/conf/jiacrontab_admin.ini:/etc/jiacrontab/jiacrontab_admin.ini
+    environment:
+      - TZ=Asia/Shanghai
+    deploy:
+      resources:
+        limits:
+          # cpus: '0.5'
+          memory: 2048M
+
+  gwq5210_jiacrontabd:
+    image: gwq5210/jiacrontab:latest
+    container_name: gwq5210_jiacrontabd
+    restart: always
+    command: ./jiacrontabd -config /etc/jiacrontab/jiacrontabd.ini
+    volumes:
+      - ${DOCKER_SITE_DATA_DIR}/jiacrontab:/jiacrontab/bin/data
+      - ./jiacrontab/conf/jiacrontabd.ini:/etc/jiacrontab/jiacrontabd.ini
+    environment:
+      - TZ=Asia/Shanghai
     deploy:
       resources:
         limits:
