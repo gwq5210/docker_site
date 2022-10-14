@@ -56,6 +56,7 @@ services:
       - gwq5210_tank
       - gwq5210_phpmyadmin
       - gwq5210_php
+      # - gwq5210_jiacrontab_admin
     ulimits:
       nproc: 65535
       nofile:
@@ -444,39 +445,37 @@ services:
           # cpus: '0.5'
           memory: 2048M
 
-  gwq5210_jiacrontab_admin:
-    image: gwq5210/jiacrontab:latest
-    container_name: gwq5210_jiacrontab_admin
-    restart: always
-    command: ./jiacrontab_admin -config /etc/jiacrontab/jiacrontab_admin.ini
-    ports:
-      - 20000:20000
-    volumes:
-      - ${DOCKER_SITE_DATA_DIR}/jiacrontab:/jiacrontab/bin/data
-      - ./jiacrontab/conf/jiacrontab_admin.ini:/etc/jiacrontab/jiacrontab_admin.ini
-    environment:
-      - TZ=Asia/Shanghai
-    deploy:
-      resources:
-        limits:
-          # cpus: '0.5'
-          memory: 2048M
+  # gwq5210_jiacrontab_admin:
+  #   image: gwq5210/jiacrontab:latest
+  #   container_name: gwq5210_jiacrontab_admin
+  #   restart: always
+  #   command: ./jiacrontab_admin -config /etc/jiacrontab/jiacrontab_admin.ini
+  #   volumes:
+  #     - ${DOCKER_SITE_DATA_DIR}/jiacrontab:/jiacrontab/bin/data
+  #     - ./jiacrontab/conf/jiacrontab_admin.ini:/etc/jiacrontab/jiacrontab_admin.ini
+  #   environment:
+  #     - TZ=Asia/Shanghai
+  #   deploy:
+  #     resources:
+  #       limits:
+  #         # cpus: '0.5'
+  #         memory: 2048M
 
-  gwq5210_jiacrontabd:
-    image: gwq5210/jiacrontab:latest
-    container_name: gwq5210_jiacrontabd
-    restart: always
-    command: ./jiacrontabd -config /etc/jiacrontab/jiacrontabd.ini
-    volumes:
-      - ${DOCKER_SITE_DATA_DIR}/jiacrontab:/jiacrontab/bin/data
-      - ./jiacrontab/conf/jiacrontabd.ini:/etc/jiacrontab/jiacrontabd.ini
-    environment:
-      - TZ=Asia/Shanghai
-    deploy:
-      resources:
-        limits:
-          # cpus: '0.5'
-          memory: 2048M
+  # gwq5210_jiacrontabd:
+  #   image: gwq5210/jiacrontab:latest
+  #   container_name: gwq5210_jiacrontabd
+  #   restart: always
+  #   command: ./jiacrontabd -config /etc/jiacrontab/jiacrontabd.ini
+  #   volumes:
+  #     - ${DOCKER_SITE_DATA_DIR}/jiacrontab:/jiacrontab/bin/data
+  #     - ./jiacrontab/conf/jiacrontabd.ini:/etc/jiacrontab/jiacrontabd.ini
+  #   environment:
+  #     - TZ=Asia/Shanghai
+  #   deploy:
+  #     resources:
+  #       limits:
+  #         # cpus: '0.5'
+  #         memory: 2048M
 
 networks:
   default:
