@@ -1,4 +1,9 @@
 version: "3.1"
+
+networks:
+  default:
+    driver: overlay
+
 secrets:                        # top level secrets block
   gwq5210.com.key:
     external: true
@@ -88,7 +93,7 @@ services:
       - ${DOCKER_SITE_LOGS_DIR}/mysql:/var/log/mysql
       - ${DOCKER_SITE_KEY_DATA_DIR}/mysql:/var/lib/mysql  # 挂载目录，持久化存储
       - ${DOCKER_SITE_BACKUP_DIR}/mysql:/usr/share/mysql/backup
-      - ./shell/mysql_backup.sh:/usr/local/bin/mysql_backup.sh
+      - ./mysql/mysql_backup.sh:/usr/local/bin/mysql_backup.sh
     networks:
       - default
     ports:
@@ -445,6 +450,20 @@ services:
           # cpus: '0.5'
           memory: 2048M
 
+  # gwq5210_baota:
+  #   image: gwq5210/baota:latest
+  #   container_name: gwq5210_baota
+  #   restart: always
+  #   ports:
+  #     - "8888:8888"
+  #   environment:
+  #     - TZ=Asia/Shanghai
+  #   deploy:
+  #     resources:
+  #       limits:
+  #         # cpus: '0.5'
+  #         memory: 2048M
+
   # gwq5210_jiacrontab_admin:
   #   image: gwq5210/jiacrontab:latest
   #   container_name: gwq5210_jiacrontab_admin
@@ -476,7 +495,3 @@ services:
   #       limits:
   #         # cpus: '0.5'
   #         memory: 2048M
-
-networks:
-  default:
-    driver: overlay
