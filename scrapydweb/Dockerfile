@@ -9,9 +9,6 @@ COPY ./shell shell
 
 RUN ./shell/install_tools.sh && rm -rf ./shell
 
-RUN apt-get update && \ 
-  apt-get install -y git && \
-  pip3 install -U git+https://github.com/my8100/scrapydweb.git && \
-  apt-get remove -y git
+RUN apt-get update && pip3 install scrapydweb
 
 CMD scrapydweb
