@@ -8,6 +8,13 @@ DOCS: https://github.com/my8100/files/blob/master/scrapydweb/README.md
 """
 import os
 
+def read_file(file_name):
+    content = ''
+    if not os.path.exists(file_name):
+        return ''
+    with open(file_name, 'r') as f:
+        content = f.read()
+    return content
 
 ############################## QUICK SETUP start ##############################
 ############################## 快速设置 开始 ###################################
@@ -19,10 +26,10 @@ SCRAPYDWEB_BIND = '0.0.0.0'
 SCRAPYDWEB_PORT = 5000
 
 # The default is False, set it to True to enable basic auth for the web UI.
-ENABLE_AUTH = False
+ENABLE_AUTH = True
 # In order to enable basic auth, both USERNAME and PASSWORD should be non-empty strings.
-USERNAME = ''
-PASSWORD = ''
+USERNAME = read_file('/run/secrets/scrapyd_username.txt')
+PASSWORD = read_file('/run/secrets/scrapyd_password.txt')
 
 
 # Make sure that [Scrapyd](https://github.com/scrapy/scrapyd) has been installed
@@ -45,6 +52,7 @@ PASSWORD = ''
 #   - it's recommended to pass in a tuple of 5 elements.
 #   - e.g. ('', '', '127.0.0.1', '6800', '') or ('username', 'password', 'localhost', '6801', 'group')
 SCRAPYD_SERVERS = [
+    f'{USERNAME}:{PASSWORD}@gwq5210_scrapyd:6800'
     # 'username:password@localhost:6801#group',
     # ('username', 'password', 'localhost', '6801', 'group'),
 ]
@@ -59,20 +67,20 @@ SCRAPYD_SERVERS = [
 # ScrapydWeb would try to directly read Scrapy logfiles from disk, instead of making a request
 # to the Scrapyd server.
 # e.g. '127.0.0.1:6800' or 'localhost:6801', do not forget the port number.
-LOCAL_SCRAPYD_SERVER = ''
+LOCAL_SCRAPYD_SERVER = 'gwq5210_scrapyd:6800'
 
 # Enter the directory when you run Scrapyd, run the command below
 # to find out where the Scrapy logs are stored:
 # python -c "from os.path import abspath, isdir; from scrapyd.config import Config; path = abspath(Config().get('logs_dir')); print(path); print(isdir(path))"
 # Check out https://scrapyd.readthedocs.io/en/stable/config.html#logs-dir for more info.
 # e.g. 'C:/Users/username/logs' or '/home/username/logs'
-LOCAL_SCRAPYD_LOGS_DIR = ''
+LOCAL_SCRAPYD_LOGS_DIR = '/var/log/scrapyd'
 
 # The default is False, set it to True to automatically run LogParser as a subprocess at startup.
 # Note that you can run the LogParser service separately via command 'logparser' as you like.
 # Run 'logparser -h' to find out the config file of LogParser for more advanced settings.
 # Visit https://github.com/my8100/logparser for more info.
-ENABLE_LOGPARSER = False
+ENABLE_LOGPARSER = True
 ############################## QUICK SETUP end ################################
 ############################## 快速设置 结束 ###################################
 
@@ -109,7 +117,9 @@ SCRAPYD_LOG_EXTENSIONS = ['.log', '.log.gz', '.txt']
     # '',  # visit the second Scrapyd server without reverse proxy.
 # ]
 # See https://github.com/my8100/scrapydweb/issues/94 for more info.
-SCRAPYD_SERVERS_PUBLIC_URLS = None
+SCRAPYD_SERVERS_PUBLIC_URLS = [
+    'https://scrapyd.gwq5210.com'
+]
 
 
 ############################## LogParser ######################################
@@ -158,7 +168,8 @@ SCHEDULE_DOWNLOAD_DELAY = None
 # The default is "-d setting=CLOSESPIDER_TIMEOUT=60\r\n-d setting=CLOSESPIDER_PAGECOUNT=10\r\n-d arg1=val1",
 # set it to '' or any non-empty string to customize the default value of `additional`.
 # Use '\r\n' as the line separator.
-SCHEDULE_ADDITIONAL = "-d setting=CLOSESPIDER_TIMEOUT=60\r\n-d setting=CLOSESPIDER_PAGECOUNT=10\r\n-d arg1=val1"
+# SCHEDULE_ADDITIONAL = "-d setting=CLOSESPIDER_TIMEOUT=60\r\n-d setting=CLOSESPIDER_PAGECOUNT=10\r\n-d arg1=val1"
+SCHEDULE_ADDITIONAL = ""
 
 
 ############################## Page Display ###################################
@@ -352,7 +363,7 @@ VERBOSE = False
 
 # The default is '', which means saving all program data in the Python directory.
 # e.g. 'C:/Users/username/scrapydweb_data' or '/home/username/scrapydweb_data'
-DATA_PATH = os.environ.get('DATA_PATH', '')
+DATA_PATH = os.environ.get('DATA_PATH', '/app/data')
 
 # The default is '', which means saving data of Jobs and Timer Tasks in DATA_PATH using SQLite.
 # The data could be also saved in MySQL or PostgreSQL backend in order to improve concurrency.
@@ -363,4 +374,4 @@ DATA_PATH = os.environ.get('DATA_PATH', '')
 # 'postgresql://username:password@127.0.0.1:5432'
 # 'sqlite:///C:/Users/username'
 # 'sqlite:////home/username'
-DATABASE_URL = os.environ.get('DATABASE_URL', '')
+DATABASE_URL = f'mysql://root:{read_file("/run/secrets/mysql_root_password.txt")}@gwq5210.com:3306'

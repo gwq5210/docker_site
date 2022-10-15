@@ -34,6 +34,7 @@ dir_array[${#dir_array[@]}]=${DOCKER_SITE_KEY_DATA_DIR}/aliyunpan/sync_drive
 dir_array[${#dir_array[@]}]=${DOCKER_SITE_BACKUP_DIR}/elasticsearch
 dir_array[${#dir_array[@]}]=${DOCKER_SITE_BACKUP_DIR}/mysql
 dir_array[${#dir_array[@]}]=${DOCKER_SITE_DATA_DIR}/jiacrontab
+dir_array[${#dir_array[@]}]=${DOCKER_SITE_DATA_DIR}/scrapydweb
 
 for dir in ${dir_array[@]};
 do
