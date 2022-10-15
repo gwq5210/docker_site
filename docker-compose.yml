@@ -256,7 +256,7 @@ services:
     networks:
       - default
     # ports:
-    #   - "127.0.0.1:6801:6800"
+    #   - "127.0.0.1:6800:6800"
     volumes:
       - ./scrapyd/conf:/etc/scrapyd
       - ${DOCKER_SITE_LOGS_DIR}/scrapyd:/var/log/scrapyd
@@ -280,20 +280,27 @@ services:
           # cpus: '0.1'
           memory: 2048M
 
-  gwq5210_scrapydweb:
-    image: gwq5210/scrapydweb:latest
-    container_name: gwq5210_scrapydweb  # 容器名
-    environment:
-      TZ: Asia/Shanghai
-    ports:
-      - "5000:5000"
-    deploy:
-      # restart_policy:
-      #   condition: none
-      resources:
-        limits:
-          # cpus: '0.5'
-          memory: 2048M
+  # gwq5210_scrapydweb:
+  #   image: gwq5210/scrapydweb:latest
+  #   container_name: gwq5210_scrapydweb  # 容器名
+  #   environment:
+  #     TZ: Asia/Shanghai
+  #   volumes:
+  #     - ./scrapydweb/conf/settings.py:/app/scrapydweb_settings_v10.py
+  #   depends_on:
+  #     - gwq5210_scrapyd
+  #   ports:
+  #     - "5000:5000"
+  #   secrets:
+  #    - gwq5210.com.key
+  #    - gwq5210.com.crt
+  #   deploy:
+  #     # restart_policy:
+  #     #   condition: none
+  #     resources:
+  #       limits:
+  #         # cpus: '0.5'
+  #         memory: 2048M
 
   gwq5210_mirai:
     image: gwq5210/mirai:latest

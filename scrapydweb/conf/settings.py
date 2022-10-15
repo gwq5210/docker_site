@@ -45,9 +45,8 @@ PASSWORD = ''
 #   - it's recommended to pass in a tuple of 5 elements.
 #   - e.g. ('', '', '127.0.0.1', '6800', '') or ('username', 'password', 'localhost', '6801', 'group')
 SCRAPYD_SERVERS = [
-    '127.0.0.1:6800',
     # 'username:password@localhost:6801#group',
-    ('username', 'password', 'localhost', '6801', 'group'),
+    # ('username', 'password', 'localhost', '6801', 'group'),
 ]
 
 
@@ -83,11 +82,11 @@ ENABLE_LOGPARSER = False
 # to run ScrapydWeb in HTTPS mode.
 # Note that this feature is not fully tested, please leave your comment here if ScrapydWeb
 # raises any excepion at startup: https://github.com/my8100/scrapydweb/issues/18
-ENABLE_HTTPS = False
+ENABLE_HTTPS = True
 # e.g. '/home/username/cert.pem'
-CERTIFICATE_FILEPATH = ''
+CERTIFICATE_FILEPATH = '/run/secrets/gwq5210.com.crt'
 # e.g. '/home/username/cert.key'
-PRIVATEKEY_FILEPATH = ''
+PRIVATEKEY_FILEPATH = '/run/secrets/gwq5210.com.key'
 
 
 ############################## Scrapy #########################################
