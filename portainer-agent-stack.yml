@@ -22,8 +22,8 @@ services:
     command: -H tcp://tasks.agent:9001 --tlsskipverify --sslcert /run/secrets/gwq5210.com.crt --sslkey /run/secrets/gwq5210.com.key
     ports:
       - "9443:9443"
-      - "9000:9000"
-      - "8000:8000"
+      # - "9000:9000"
+      # - "8000:8000"
     volumes:
       - ${DOCKER_SITE_KEY_DATA_DIR}/portainer/data:/data
     networks:
