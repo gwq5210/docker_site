@@ -5,11 +5,9 @@
 FROM python:3.7-slim
 
 COPY ./scrapyd/conf/scrapyd.conf /etc/scrapyd/
-RUN pip3 install scrapy==2.6.2 scrapyd==1.3.0 && apt update && apt install -y tini
+RUN pip3 install scrapy==2.6.2 scrapyd==1.3.0
 VOLUME /var/lib/scrapyd/
 EXPOSE 6800
-
-ENTRYPOINT ["tini", "--"]
 
 COPY ./shell shell
 
