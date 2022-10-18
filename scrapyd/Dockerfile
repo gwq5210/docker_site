@@ -1,10 +1,19 @@
-FROM easypi/scrapyd:latest
+#
+# Dockerfile for scrapyd
+#
+
+FROM python:3.7-slim
+
+COPY ./scrapyd/conf/scrapyd.conf /etc/scrapyd/
+RUN pip3 install scrapy==2.6.2 scrapyd==1.3.0
+VOLUME /var/lib/scrapyd/
+EXPOSE 6800
+
+ENTRYPOINT ["tini", "--"]
 
 COPY ./shell shell
 
 RUN ./shell/install_tools.sh && rm -rf ./shell
-
-RUN git clone https://github.com/gwq5210/spider.git && pip3 install -r spider/requirements.txt && rm -rf spider
 
 COPY ./scrapyd/start_scrapyd.sh ./env_from_file.sh /usr/local/bin/
 
