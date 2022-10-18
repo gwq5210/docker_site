@@ -464,13 +464,13 @@ services:
       # 指定网盘文件夹作为备份目录，不要指定根目录
       - ALIYUNPAN_PAN_DIR=/docker_site_data
       # 备份模式：upload(备份本地文件到云盘), download(备份云盘文件到本地), sync(双向同步备份)
-      - ALIYUNPAN_SYNC_MODE=upload
+      - ALIYUNPAN_SYNC_MODE=sync
       # 优先级，只对双向同步备份模式有效。选项支持三种: time-时间优先，local-本地优先，pan-网盘优先
-      - ALIYUNPAN_SYNC_PRIORITY=time
+      - ALIYUNPAN_SYNC_PRIORITY=local
       # 是否显示文件备份过程日志，true-显示，false-不显示
       - ALIYUNPAN_SYNC_LOG=true
       # 本地文件修改检测延迟间隔，单位秒。如果本地文件会被频繁修改，例如录制视频文件，配置好该时间可以避免上传未录制好的文件
-      - ALIYUNPAN_LOCAL_DELAY_TIME=3
+      - ALIYUNPAN_LOCAL_DELAY_TIME=60
       # 任务步骤, 支持两种: scan(只扫描并建立同步数据库),sync(正常启动同步任务)
       - ALIYUNPAN_TASK_STEP=sync
     deploy:
