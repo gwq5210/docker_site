@@ -17,7 +17,7 @@ COPY ./shell shell
 
 RUN ./shell/install_tools.sh && rm -rf ./shell && apt install -y tzdata
 
-RUN gcl https://github.com/gwq5210/tank.git . && go build && cp -r /data/tank /data/build/
+RUN git clone https://github.com/gwq5210/tank.git . && go build && cp -r /data/tank /data/build/
 
 # use 6010 as default.
 EXPOSE 6010
