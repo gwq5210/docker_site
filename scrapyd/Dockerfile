@@ -5,7 +5,7 @@
 FROM python:3.7-slim
 
 COPY ./scrapyd/conf/scrapyd.conf /etc/scrapyd/
-RUN pip3 install scrapy==2.6.2 scrapyd==1.3.0
+RUN pip3 install scrapy==2.6.2 scrapyd==1.3.0 && apt update && apt install -y tini
 VOLUME /var/lib/scrapyd/
 EXPOSE 6800
 
