@@ -71,9 +71,9 @@ services:
       TZ: Asia/Shanghai
     healthcheck:
       test: curl -f http://localhost || exit 1
-      interval: 5s
-      timeout: 3s
-      retries: 3
+      interval: 60s
+      timeout: 60s
+      retries: 10
     deploy:
       resources:
         limits:
@@ -136,9 +136,9 @@ services:
       TZ: Asia/Shanghai
     healthcheck:
       test: curl -f http://localhost:6010 || exit 1
-      interval: 5s
-      timeout: 3s
-      retries: 3
+      interval: 60s
+      timeout: 60s
+      retries: 10
     deploy:
       resources:
         limits:
@@ -161,9 +161,9 @@ services:
       TZ: Asia/Shanghai
     healthcheck:
       test: php-fpm-healthcheck || exit 1
-      interval: 5s
-      timeout: 3s
-      retries: 3
+      interval: 60s
+      timeout: 60s
+      retries: 10
     deploy:
       resources:
         limits:
@@ -187,9 +187,9 @@ services:
       - gwq5210_mysql
     healthcheck:
       test: curl -f http://localhost || exit 1
-      interval: 5s
-      timeout: 3s
-      retries: 3
+      interval: 60s
+      timeout: 60s
+      retries: 10
     deploy:
       resources:
         limits:
@@ -216,9 +216,9 @@ services:
       V2RAY_UUID_FILE: /run/secrets/v2ray_uuid.txt
     healthcheck:
       test: curl -s http://localhost:10000 || exit 1
-      interval: 5s
-      timeout: 3s
-      retries: 3
+      interval: 60s
+      timeout: 60s
+      retries: 10
     deploy:
       resources:
         limits:
@@ -271,9 +271,9 @@ services:
       - scrapyd_password.txt
     healthcheck:
       test: curl -s http://localhost:6800 || exit 1
-      interval: 5s
-      timeout: 3s
-      retries: 3
+      interval: 60s
+      timeout: 60s
+      retries: 10
     deploy:
       resources:
         limits:
@@ -338,9 +338,9 @@ services:
       - mirai_verify_key.txt
     healthcheck:
       test: curl -s http://localhost:8080 || exit 1
-      interval: 5s
-      timeout: 3s
-      retries: 3
+      interval: 60s
+      timeout: 60s
+      retries: 10
     deploy:
       # restart_policy:
       #   condition: none
@@ -391,9 +391,9 @@ services:
       - 9300:9300
     healthcheck:
       test: curl --cacert $ES_CERTS_DIR/ca.crt -s -k https://localhost:9200 >/dev/null; if [[ $$? == 52 ]]; then echo 0; else echo 1; fi
-      interval: 5s
-      timeout: 3s
-      retries: 3
+      interval: 60s
+      timeout: 60s
+      retries: 10
     deploy:
       resources:
         limits:
@@ -427,9 +427,9 @@ services:
       - ${DOCKER_SITE_KEY_DATA_DIR}/kibana/config/kibana.keystore:/usr/share/kibana/config/kibana.keystore
     healthcheck:
       test: curl --cacert $KIBANA_CERTS_DIR/ca.crt -s -k https://localhost:5601 >/dev/null; if [[ $$? == 52 ]]; then echo 0; else echo 1; fi
-      interval: 5s
-      timeout: 3s
-      retries: 3
+      interval: 60s
+      timeout: 60s
+      retries: 10
     deploy:
       resources:
         limits:
