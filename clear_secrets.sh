@@ -14,3 +14,5 @@ cd `dirname "$0"`
 ./shell/clear_secrets.sh scrapyd_username.txt
 ./shell/clear_secrets.sh scrapyd_password.txt
 ./shell/clear_secrets.sh v2ray_uuid.txt
+./shell/clear_secrets.sh portainer_token.txt
+./shell/clear_secrets.sh portainer_backup_password.txt

@@ -17,8 +17,8 @@ for VAR_NAME in $@ ; do
     echo "${VAR_NAME_FILE} is empty, use $VAR_NAME"
   else
     if env | grep "^${VAR_NAME}="; then
-      echo "ERROR: Both $VAR_NAME_FILE and $VAR_NAME are set. These are mutually exclusive." >&2
-      exit 1
+      echo "WARN: Both $VAR_NAME_FILE and $VAR_NAME are set. overwrite $VAR_NAME." >&2
+      unset $VAR_NAME
     fi
 
     if [[ ! -f "${FILE_NAME}" ]]; then
