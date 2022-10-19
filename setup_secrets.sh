@@ -16,3 +16,4 @@ cd `dirname "$0"`
 ./shell/create_secret.sh -s v2ray_uuid.txt -d $(cat v2ray/v2ray_uuid.txt)
 ./shell/create_secret.sh -s portainer_token.txt -d "$(cat portainer_backup/portainer_token.txt)"
 ./shell/create_secret.sh -s portainer_backup_password.txt -d $(cat portainer_backup/portainer_backup_password.txt)
+./shell/create_secret.sh -s aliyunpan_refresh_token.txt -d $(cat aliyunpan/aliyunpan_refresh_token.txt)

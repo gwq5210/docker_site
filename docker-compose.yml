@@ -29,6 +29,8 @@ secrets:                        # top level secrets block
     external: true
   mirai_verify_key.txt:
     external: true
+  aliyunpan_refresh_token.txt:
+    external: true
 
 services:
   gwq5210_nginx:
@@ -437,7 +439,7 @@ services:
           memory: 2048M
 
   gwq5210_aliyunpan_sync:
-    image: tickstep/aliyunpan-sync:v0.2.2
+    image: gwq5210/aliyunpan:latest
     container_name: gwq5210_aliyunpan_sync
     restart: always
     volumes:
@@ -450,7 +452,7 @@ services:
     environment:
       - TZ=Asia/Shanghai
       # refresh token
-      - ALIYUNPAN_REFRESH_TOKEN=
+      - ALIYUNPAN_REFRESH_TOKEN_FILE=/run/secrets/aliyunpan_refresh_token.txt
       # 上传下载链接类型：1-默认 2-阿里ECS环境
       - ALIYUNPAN_TRANSFER_URL_TYPE=1
       # 下载文件并发数
@@ -473,6 +475,8 @@ services:
       - ALIYUNPAN_LOCAL_DELAY_TIME=60
       # 任务步骤, 支持两种: scan(只扫描并建立同步数据库),sync(正常启动同步任务)
       - ALIYUNPAN_TASK_STEP=sync
+    secrets:
+      - aliyunpan_refresh_token.txt
     deploy:
       resources:
         limits:
