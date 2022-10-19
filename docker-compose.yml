@@ -476,7 +476,7 @@ services:
     deploy:
       resources:
         limits:
-          # cpus: '0.5'
+          cpus: '0.2'
           memory: 2048M
 
   # gwq5210_baota:
