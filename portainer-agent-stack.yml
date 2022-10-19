@@ -21,7 +21,7 @@ services:
 
   portainer:
     image: gwq5210/portainer:latest
-    command: -H tcp://tasks.agent:9001 --tlsskipverify --sslcert /run/secrets/gwq5210.com.crt --sslkey /run/secrets/gwq5210.com.key
+    command: -H tcp://tasks.agent:9001 --tlsskipverify --sslcert /run/secrets/gwq5210.com.crt --sslkey /run/secrets/gwq5210.com.key --secret-key-name="portainer_key.txt"
     ports:
       - "9443:9443"
       # - "9000:9000"
@@ -45,6 +45,7 @@ services:
     secrets:
       - gwq5210.com.crt
       - gwq5210.com.key
+      - portainer_key.txt
     environment:
       TZ: Asia/Shanghai
 
@@ -93,4 +94,6 @@ secrets:
   portainer_token.txt:
     external: true
   portainer_backup_password.txt:
+    external: true
+  portainer_key.txt:
     external: true

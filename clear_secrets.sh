@@ -17,3 +17,4 @@ cd `dirname "$0"`
 ./shell/clear_secrets.sh portainer_token.txt
 ./shell/clear_secrets.sh portainer_backup_password.txt
 ./shell/clear_secrets.sh aliyunpan_refresh_token.txt
+./shell/clear_secrets.sh portainer_key.txt
