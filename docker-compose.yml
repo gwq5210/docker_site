@@ -71,6 +71,11 @@ services:
         hard: 65535
     environment:
       TZ: Asia/Shanghai
+    # healthcheck:
+    #   test: curl -f http://localhost || exit 1
+    #   interval: 60s
+    #   timeout: 60s
+    #   retries: 10
     deploy:
       resources:
         limits:
@@ -101,12 +106,12 @@ services:
       TZ: Asia/Shanghai
       MYSQL_ROOT_PASSWORD_FILE: /run/secrets/mysql_root_password.txt  # 使用docker secret设置root用户的密码
       MYSQL_DATABASE: "tank"
-    healthcheck:
-      # 健康检查会导致容器重启
-      test: mysqladmin -u root ping -h localhost -p$$(cat /run/secrets/mysql_root_password.txt) || exit 1
-      interval: 60s
-      timeout: 60s
-      retries: 10
+    # healthcheck:
+    #   # 健康检查会导致容器重启
+    #   test: mysqladmin -u root ping -h localhost -p$$(cat /run/secrets/mysql_root_password.txt) || exit 1
+    #   interval: 60s
+    #   timeout: 60s
+    #   retries: 10
     deploy:
       resources:
         limits:
@@ -131,11 +136,11 @@ services:
       - gwq5210_mysql
     environment:
       TZ: Asia/Shanghai
-    healthcheck:
-      test: curl -f http://localhost:6010 || exit 1
-      interval: 60s
-      timeout: 60s
-      retries: 10
+    # healthcheck:
+    #   test: curl -f http://localhost:6010 || exit 1
+    #   interval: 60s
+    #   timeout: 60s
+    #   retries: 10
     deploy:
       resources:
         limits:
@@ -156,11 +161,11 @@ services:
       - ./nginx/html:/var/www/gwq5210.com/html
     environment:
       TZ: Asia/Shanghai
-    healthcheck:
-      test: php-fpm-healthcheck || exit 1
-      interval: 60s
-      timeout: 60s
-      retries: 10
+    # healthcheck:
+    #   test: php-fpm-healthcheck || exit 1
+    #   interval: 60s
+    #   timeout: 60s
+    #   retries: 10
     deploy:
       resources:
         limits:
@@ -182,11 +187,11 @@ services:
       PMA_ARBITRARY: 1
     depends_on:
       - gwq5210_mysql
-    healthcheck:
-      test: curl -f http://localhost || exit 1
-      interval: 60s
-      timeout: 60s
-      retries: 10
+    # healthcheck:
+    #   test: curl -f http://localhost || exit 1
+    #   interval: 60s
+    #   timeout: 60s
+    #   retries: 10
     deploy:
       resources:
         limits:
@@ -211,11 +216,11 @@ services:
     environment:
       TZ: Asia/Shanghai
       V2RAY_UUID_FILE: /run/secrets/v2ray_uuid.txt
-    healthcheck:
-      test: curl -s http://localhost:10000 || exit 1
-      interval: 60s
-      timeout: 60s
-      retries: 10
+    # healthcheck:
+    #   test: curl -s http://localhost:10000 || exit 1
+    #   interval: 60s
+    #   timeout: 60s
+    #   retries: 10
     deploy:
       resources:
         limits:
@@ -266,11 +271,11 @@ services:
     secrets:
       - scrapyd_username.txt
       - scrapyd_password.txt
-    healthcheck:
-      test: curl -s http://localhost:6800 || exit 1
-      interval: 60s
-      timeout: 60s
-      retries: 10
+    # healthcheck:
+    #   test: curl -s http://localhost:6800 || exit 1
+    #   interval: 60s
+    #   timeout: 60s
+    #   retries: 10
     deploy:
       resources:
         limits:
@@ -333,11 +338,11 @@ services:
       - mirai_bot_qq.txt
       - mirai_bot_qq_password.txt
       - mirai_verify_key.txt
-    healthcheck:
-      test: curl -s http://localhost:8080 || exit 1
-      interval: 60s
-      timeout: 60s
-      retries: 10
+    # healthcheck:
+    #   test: curl -s http://localhost:8080 || exit 1
+    #   interval: 60s
+    #   timeout: 60s
+    #   retries: 10
     deploy:
       # restart_policy:
       #   condition: none
@@ -386,11 +391,11 @@ services:
     ports:
       - 9200:9200
       - 9300:9300
-    healthcheck:
-      test: curl --cacert $ES_CERTS_DIR/ca.crt -s -k https://localhost:9200 >/dev/null; if [[ $$? == 52 ]]; then echo 0; else echo 1; fi
-      interval: 60s
-      timeout: 60s
-      retries: 10
+    # healthcheck:
+    #   test: curl --cacert $ES_CERTS_DIR/ca.crt -s -k https://localhost:9200 >/dev/null; if [[ $$? == 52 ]]; then echo 0; else echo 1; fi
+    #   interval: 60s
+    #   timeout: 60s
+    #   retries: 10
     deploy:
       resources:
         limits:
@@ -422,11 +427,11 @@ services:
       - ./kibana/conf/kibana.yml:/usr/share/kibana/config/kibana.yml
       - ./kibana/conf/node.options:/usr/share/kibana/config/node.options
       - ${DOCKER_SITE_KEY_DATA_DIR}/kibana/config/kibana.keystore:/usr/share/kibana/config/kibana.keystore
-    healthcheck:
-      test: curl --cacert $KIBANA_CERTS_DIR/ca.crt -s -k https://localhost:5601 >/dev/null; if [[ $$? == 52 ]]; then echo 0; else echo 1; fi
-      interval: 60s
-      timeout: 60s
-      retries: 10
+    # healthcheck:
+    #   test: curl --cacert $KIBANA_CERTS_DIR/ca.crt -s -k https://localhost:5601 >/dev/null; if [[ $$? == 52 ]]; then echo 0; else echo 1; fi
+    #   interval: 60s
+    #   timeout: 60s
+    #   retries: 10
     deploy:
       resources:
         limits:
