@@ -483,6 +483,25 @@ services:
           cpus: '0.2'
           memory: 2048M
 
+  # gwq5210_frps:
+  #   image: snowdreamtech/frpc:latest
+  #   container_name: gwq5210_frps
+  #   restart: always
+  #   volumes:
+  #     - ./frps/conf/frps.ini:/etc/frp/frps.ini
+  #   ports:
+  #     - 5601:5601
+  #   environment:
+  #     - TZ=Asia/Shanghai
+  #   secrets:
+  #     - gwq5210.com.key
+  #     - gwq5210.com.crt
+  #   deploy:
+  #     resources:
+  #       limits:
+  #         # cpus: '0.2'
+  #         memory: 2048M
+
   # gwq5210_baota:
   #   image: gwq5210/baota:latest
   #   container_name: gwq5210_baota
