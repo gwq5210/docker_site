@@ -492,6 +492,7 @@ services:
       - ${DOCKER_SITE_LOGS_DIR}/frp:/var/log/frp
     ports:
       - 7000:7000
+      - 7001:7001
       - 7500:7500
       - 220:220
     environment:
