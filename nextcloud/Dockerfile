@@ -1,4 +1,4 @@
-FROM nextcloud:latest
+FROM nextcloud:fpm
 
 COPY ./shell shell
 
