@@ -494,8 +494,6 @@ services:
       - 7000:7000
       - 7500:7500
       - 220:220
-      - 7080:7080
-      - 7443:7443
     environment:
       - TZ=Asia/Shanghai
     secrets:
