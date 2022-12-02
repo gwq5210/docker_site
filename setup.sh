@@ -44,6 +44,8 @@ dir_array[${#dir_array[@]}]=${DOCKER_SITE_BACKUP_DIR}/elasticsearch
 dir_array[${#dir_array[@]}]=${DOCKER_SITE_BACKUP_DIR}/mysql
 dir_array[${#dir_array[@]}]=${DOCKER_SITE_DATA_DIR}/jiacrontab
 dir_array[${#dir_array[@]}]=${DOCKER_SITE_DATA_DIR}/scrapydweb
+dir_array[${#dir_array[@]}]=${DOCKER_SITE_DATA_DIR}/qbittorrent/conf
+dir_array[${#dir_array[@]}]=${DOCKER_SITE_DATA_DIR}/downloads
 
 for dir in ${dir_array[@]};
 do

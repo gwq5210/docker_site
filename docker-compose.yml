@@ -512,6 +512,23 @@ services:
           # cpus: '0.2'
           memory: 4096M
 
+  gwq5210_qbittorrent:
+    image: lscr.io/linuxserver/qbittorrent:latest
+    container_name: gwq5210_qbittorrent
+    environment:
+      - PUID=1000
+      - PGID=1000
+      - TZ=Asia/Shanghai
+      - WEBUI_PORT=6880
+    volumes:
+      - ${DOCKER_SITE_DATA_DIR}/qbittorrent/conf:/config
+      - ${DOCKER_SITE_DATA_DIR}/downloads:/downloads
+    ports:
+      # - 6880:6880
+      - 6881:6881
+      - 6881:6881/udp
+    restart: unless-stopped
+
   # gwq5210_baota:
   #   image: gwq5210/baota:latest
   #   container_name: gwq5210_baota
