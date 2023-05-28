@@ -19,6 +19,8 @@ fi
 ./stop.sh
 ./portainer_stop.sh
 
+sleep 60
+
 echo "" | ./shell/create_secret.sh -f -u -s gwq5210.com.crt -d $crt_file
 echo "" | ./shell/create_secret.sh -f -u -s gwq5210.com.key -d $key_file
 
