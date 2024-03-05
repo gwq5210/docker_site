@@ -44,10 +44,16 @@ parsers:
       mix-object:
         dns:
           enable: false
+  - url: https://example.com/profile.yaml
     code: |
-      module.exports.parse = (raw, { yaml }) => {
+      module.exports.parse = (raw, { axios, yaml, notify, console }) => {
         const obj = yaml.parse(raw)
-        console.log(obj)
+        var proxy_groups = obj["proxy-groups"]
+        proxy_groups.forEach((item, index, arr)=>{
+          if (item.name !== '我的代理') {
+            item.proxies.unshift('我的代理')
+          }
+        })
         return yaml.stringify(obj)
       }
 ```
