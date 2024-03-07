@@ -4,12 +4,15 @@
 [advanced-usage-for-clash](https://docs.mebi.me/docs/advanced-usage-for-clash)
 [Parsers-for-clash](https://github.com/iczrac/Parsers-for-clash)
 [https://docs.gtk.pw/contents/parser.html](https://docs.gtk.pw/contents/parser.html)
+[Parsers-for-clash](https://github.com/iczrac/Parsers-for-clash)
 
 ```yml
 parsers:
   - url: https://example.com/profile.yaml
     yaml:
       prepend-rules:
+        - DOMAIN-KEYWORD,lanzou,我的代理
+        - DOMAIN-SUFFIX,woozooo.com,我的代理
         - DOMAIN-SUFFIX,baidu.com,我的代理
         - DOMAIN-SUFFIX,baidubcr.com,我的代理
         - DOMAIN-SUFFIX,baidupan.com,我的代理
