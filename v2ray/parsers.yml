@@ -331,6 +331,18 @@ parsers: # array
         - DOMAIN,www.bing.com,🤖OpenAI
         - DOMAIN,self.events.data.microsoft.com,🤖OpenAI
         - DOMAIN,login.microsoftonline.com,🤖OpenAI
+        - 'DOMAIN,chat.openai.com.cdn.cloudflare.net,🤖OpenAI'
+        - 'DOMAIN,openaiapi-site.azureedge.net,🤖OpenAI'
+        - 'DOMAIN,openaicom-api-bdcpf8c6d2e9atf6.z01.azurefd.net,🤖OpenAI'
+        - 'DOMAIN,openaicomproductionae4b.blob.core.windows.net,🤖OpenAI'
+        - 'DOMAIN,production-openaicom-storage.azureedge.net,🤖OpenAI'
+        - 'DOMAIN,o33249.ingest.sentry.io,🤖OpenAI'
+        - 'DOMAIN,openaicom.imgix.net,🤖OpenAI'
+        - 'DOMAIN-SUFFIX,chatgpt.com,🤖OpenAI'
+        - 'DOMAIN-SUFFIX,oaistatic.com,🤖OpenAI'
+        - 'DOMAIN-SUFFIX,oaiusercontent.com,🤖OpenAI'
+        - 'DOMAIN-SUFFIX,openai.com,🤖OpenAI'
+        - 'DOMAIN-KEYWORD,openai,🤖OpenAI'
         - RULE-SET,bilibiliintl,🛀Bilibiliintl
         - RULE-SET,twitter,🦤Twitter
         - RULE-SET,github,🥷PROXY
@@ -500,7 +512,7 @@ parsers: # array
         copilot: # copilot的分流规则
           type: http
           behavior: classical
-          url: "https://cdn.jsdelivr.net/gh/blackmatrix7/ios_rule_script@master/rule/Clash/Copilot/Copilot.yaml"
+          url: "https://raw.githubusercontent.com/blackmatrix7/ios_rule_script/master/rule/Clash/Copilot/Copilot.yaml"
           path: ./ruleset/copilot.yaml
           interval: 86400
 
