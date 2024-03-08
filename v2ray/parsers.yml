@@ -31,35 +31,24 @@ parsers: # array
           interval: 300
           proxies:
             - 我的代理
+            - GPT
+            - SELECT_GPT
             - 🚀URL-TEST
             - 🎛LOAD-BALANCE
             - 🕹Fallback
             - 👆SELECT
-            - DIRECT
-            - 🇭🇰香港
-            - 🐳台湾
-            - 🇯🇵日本
-            - 🇸🇬新加坡
-            - 🇰🇷韩国
-            - 🇺🇸美国
-            - 👨‍🎤其他
 
         - name: 👆SELECT
           type: select
           proxies:
             - 我的代理
+            - GPT
+            - SELECT_GPT
             - 🚀URL-TEST
             - 🎛LOAD-BALANCE
             - 🕹Fallback
             - ⏳YouTube-Url-Test
             - DIRECT
-            - 🇭🇰香港
-            - 🐳台湾
-            - 🇯🇵日本
-            - 🇸🇬新加坡
-            - 🇰🇷韩国
-            - 🇺🇸美国
-            - 👨‍🎤其他
 
         - name: 🚀URL-TEST
           type: url-test
@@ -79,6 +68,9 @@ parsers: # array
           interval: 60
           lazy: true
           tolerance: 30
+          proxies:
+            - 我的代理
+            - DIRECT
 
         - name: 🎎YouTube
           type: select
@@ -90,13 +82,6 @@ parsers: # array
             - ⏳YouTube-Url-Test
             - 👆SELECT
             - DIRECT
-            - 🇭🇰香港
-            - 🐳台湾
-            - 🇯🇵日本
-            - 🇸🇬新加坡
-            - 🇰🇷韩国
-            - 🇺🇸美国
-            - 👨‍🎤其他
 
         - name: ⏳YouTube-Url-Test
           type: url-test
@@ -105,7 +90,7 @@ parsers: # array
           lazy: true
           tolerance: 100
           proxies:
-            - REJECT
+            - 我的代理
             - DIRECT
 
         - name: 📽Netflix
@@ -117,19 +102,17 @@ parsers: # array
             - 🕹Fallback
             - 👆SELECT
             - DIRECT
-            - 🇭🇰香港
-            - 🐳台湾
-            - 🇯🇵日本
-            - 🇸🇬新加坡
-            - 🇰🇷韩国
-            - 🇺🇸美国
-            - 👨‍🎤其他
 
         - name: SELECT_GPT
           type: select
           proxies:
             - 我的代理
             - DIRECT
+
+        - name: GPT
+          type: url-test
+          url: http://www.google.com/generate_204
+          interval: 300
 
         - name: 🤖OpenAI
           type: select
@@ -141,13 +124,17 @@ parsers: # array
             - 🕹Fallback
             - 👆SELECT
             - DIRECT
-            - 🇭🇰香港
-            - 🐳台湾
-            - 🇯🇵日本
-            - 🇸🇬新加坡
-            - 🇰🇷韩国
-            - 🇺🇸美国
-            - 👨‍🎤其他
+
+        - name: Copilot
+          type: select
+          proxies:
+            - GPT
+            - SELECT_GPT
+            - 🚀URL-TEST
+            - 🎛LOAD-BALANCE
+            - 🕹Fallback
+            - 👆SELECT
+            - DIRECT
 
         - name: 🔍Bing
           type: select
@@ -159,13 +146,6 @@ parsers: # array
             - 🕹Fallback
             - 👆SELECT
             - DIRECT
-            - 🇭🇰香港
-            - 🐳台湾
-            - 🇯🇵日本
-            - 🇸🇬新加坡
-            - 🇰🇷韩国
-            - 🇺🇸美国
-            - 👨‍🎤其他
 
         - name: 🚅Google
           type: select
@@ -176,13 +156,6 @@ parsers: # array
             - 🕹Fallback
             - 👆SELECT
             - DIRECT
-            - 🇭🇰香港
-            - 🐳台湾
-            - 🇯🇵日本
-            - 🇸🇬新加坡
-            - 🇰🇷韩国
-            - 🇺🇸美国
-            - 👨‍🎤其他
 
         - name: 🛀Bilibiliintl
           type: select
@@ -193,13 +166,6 @@ parsers: # array
             - 🕹Fallback
             - 👆SELECT
             - DIRECT
-            - 🇭🇰香港
-            - 🐳台湾
-            - 🇯🇵日本
-            - 🇸🇬新加坡
-            - 🇰🇷韩国
-            - 🇺🇸美国
-            - 👨‍🎤其他
 
         - name: 🦤Twitter
           type: select
@@ -210,13 +176,13 @@ parsers: # array
             - 🕹Fallback
             - 👆SELECT
             - DIRECT
-            - 🇭🇰香港
-            - 🐳台湾
-            - 🇯🇵日本
-            - 🇸🇬新加坡
-            - 🇰🇷韩国
-            - 🇺🇸美国
-            - 👨‍🎤其他
+            # - 🇭🇰香港
+            # - 🐳台湾
+            # - 🇯🇵日本
+            # - 🇸🇬新加坡
+            # - 🇰🇷韩国
+            # - 🇺🇸美国
+            # - 👨‍🎤其他
 
         - name: 🚦AD
           type: select
@@ -225,45 +191,40 @@ parsers: # array
             - DIRECT
             - 🥷PROXY
 
-        - name: 🇭🇰香港
-          type: url-test
-          url: http://www.google.com/generate_204
-          interval: 300
+        # - name: 🇭🇰香港
+        #   type: url-test
+        #   url: http://www.google.com/generate_204
+        #   interval: 300
 
-        - name: 🐳台湾
-          type: url-test
-          url: http://www.google.com/generate_204
-          interval: 300
+        # - name: 🐳台湾
+        #   type: url-test
+        #   url: http://www.google.com/generate_204
+        #   interval: 300
 
-        - name: 🇯🇵日本
-          type: url-test
-          url: http://www.google.com/generate_204
-          interval: 300
+        # - name: 🇯🇵日本
+        #   type: url-test
+        #   url: http://www.google.com/generate_204
+        #   interval: 300
 
-        - name: 🇸🇬新加坡
-          type: url-test
-          url: http://www.google.com/generate_204
-          interval: 300
+        # - name: 🇸🇬新加坡
+        #   type: url-test
+        #   url: http://www.google.com/generate_204
+        #   interval: 300
 
-        - name: 🇰🇷韩国
-          type: url-test
-          url: http://www.google.com/generate_204
-          interval: 300
+        # - name: 🇰🇷韩国
+        #   type: url-test
+        #   url: http://www.google.com/generate_204
+        #   interval: 300
 
-        - name: 🇺🇸美国
-          type: url-test
-          url: http://www.google.com/generate_204
-          interval: 300
+        # - name: 🇺🇸美国
+        #   type: url-test
+        #   url: http://www.google.com/generate_204
+        #   interval: 300
 
-        - name: 👨‍🎤其他
-          type: url-test
-          url: http://www.google.com/generate_204
-          interval: 300
-
-        - name: GPT
-          type: url-test
-          url: http://www.google.com/generate_204
-          interval: 300
+        # - name: 👨‍🎤其他
+        #   type: url-test
+        #   url: http://www.google.com/generate_204
+        #   interval: 300
 
       # 策略组示例
       # - name: 分组名
@@ -282,26 +243,26 @@ parsers: # array
         - proxy-groups.(🎛LOAD-BALANCE).proxies=[]proxyNames
         - proxy-groups.(🕹Fallback).proxies=[]proxyNames
         - proxy-groups.(⏳YouTube-Url-Test).proxies=[]proxyNames
-        - proxy-groups.🇭🇰香港.proxies=[]proxyNames|港|香港|🇭🇰|HK|Hong Kong # 向指定策略组添加订阅中的节点名，可使用正则过滤
-        - proxy-groups.🐳台湾.proxies=[]proxyNames|台|台湾|新北|彰化|TW|Taiwan
-        - proxy-groups.🇯🇵日本.proxies=[]proxyNames|日|日本|🇯🇵|川日|东京|大阪|泉日|埼玉|沪日|深日|[^-]日|JP|Japan
-        - proxy-groups.🇰🇷韩国.proxies=[]proxyNames|韩|韓|韩国|🇰🇷|KR|Korea|KOR|首尔
-        - proxy-groups.🇸🇬新加坡.proxies=[]proxyNames|新加坡|🇸🇬|坡|狮城|SG|Singapore
-        - proxy-groups.🇺🇸美国.proxies=[]proxyNames|美|美国|🇺🇸|波特兰|达拉斯|俄勒冈|凤凰城|费利蒙|硅谷|拉斯维加斯|洛杉矶|圣何塞|圣克拉拉|西雅图|芝加哥|US|United States
-        - proxy-groups.👨‍🎤其他.proxies=[]proxyNames|^[^香日台新韩美]*$ # 这个可以自定义，这个正则的意思是排除节点名字有“香日台新韩美”的节点。
         - proxy-groups.GPT.proxies=[]proxyNames|GPT
         - proxy-groups.SELECT_GPT.proxies=[]proxyNames|GPT
+        # - proxy-groups.🇭🇰香港.proxies=[]proxyNames|港|香港|🇭🇰|HK|Hong Kong # 向指定策略组添加订阅中的节点名，可使用正则过滤
+        # - proxy-groups.🐳台湾.proxies=[]proxyNames|台|台湾|新北|彰化|TW|Taiwan
+        # - proxy-groups.🇯🇵日本.proxies=[]proxyNames|日|日本|🇯🇵|川日|东京|大阪|泉日|埼玉|沪日|深日|[^-]日|JP|Japan
+        # - proxy-groups.🇰🇷韩国.proxies=[]proxyNames|韩|韓|韩国|🇰🇷|KR|Korea|KOR|首尔
+        # - proxy-groups.🇸🇬新加坡.proxies=[]proxyNames|新加坡|🇸🇬|坡|狮城|SG|Singapore
+        # - proxy-groups.🇺🇸美国.proxies=[]proxyNames|美|美国|🇺🇸|波特兰|达拉斯|俄勒冈|凤凰城|费利蒙|硅谷|拉斯维加斯|洛杉矶|圣何塞|圣克拉拉|西雅图|芝加哥|US|United States
+        # - proxy-groups.👨‍🎤其他.proxies=[]proxyNames|^[^香日台新韩美]*$ # 这个可以自定义，这个正则的意思是排除节点名字有“香日台新韩美”的节点。
         - mixed-port=7890
 
         # 为各个策略组添加一个DIRECT，避免机场节点无法匹配上面的正则筛选而导致配置出错。应该有其他办法避免，但是我不会。
-        - proxy-groups.🇭🇰香港.proxies.0+DIRECT
-        - proxy-groups.🐳台湾.proxies.0+DIRECT
-        - proxy-groups.🇯🇵日本.proxies.0+DIRECT
-        - proxy-groups.🇰🇷韩国.proxies.0+DIRECT
-        - proxy-groups.🇸🇬新加坡.proxies.0+DIRECT
-        - proxy-groups.🇺🇸美国.proxies.0+DIRECT
-        - proxy-groups.👨‍🎤其他.proxies.0+DIRECT
-        - proxy-groups.GPT.proxies.0+DIRECT
+        # - proxy-groups.🇭🇰香港.proxies.0+DIRECT
+        # - proxy-groups.🐳台湾.proxies.0+DIRECT
+        # - proxy-groups.🇯🇵日本.proxies.0+DIRECT
+        # - proxy-groups.🇰🇷韩国.proxies.0+DIRECT
+        # - proxy-groups.🇸🇬新加坡.proxies.0+DIRECT
+        # - proxy-groups.🇺🇸美国.proxies.0+DIRECT
+        # - proxy-groups.👨‍🎤其他.proxies.0+DIRECT
+        # - proxy-groups.GPT.proxies.0+DIRECT
 
         # - proxy-groups.节点名字.proxies.0+DIRECT # 向指定分组第一个位置添加一个 DIRECT 节点名
         # 一些可能用到的正则过滤节点示例，使分组更细致
@@ -314,34 +275,62 @@ parsers: # array
 
       # 添加规则
       prepend-rules: # 规则由上往下遍历，如上面规则已经命中，则不再往下处理
-        - DOMAIN-KEYWORD,lanzou,我的代理
-        - DOMAIN-SUFFIX,woozooo.com,我的代理
-        - DOMAIN-SUFFIX,baidu.com,我的代理
-        - DOMAIN-SUFFIX,baidubcr.com,我的代理
-        - DOMAIN-SUFFIX,baidupan.com,我的代理
-        - DOMAIN-SUFFIX,baidupcs.com,我的代理
-        - DOMAIN-SUFFIX,vv.video.qq.com,我的代理
-        - DOMAIN-SUFFIX,quark.cn,我的代理
-        - DOMAIN-SUFFIX,aliyun.com,我的代理
-        - DOMAIN-SUFFIX,yinxiang.com,我的代理
-        - DOMAIN,fairplay.l.qq.com,我的代理
-        - DOMAIN,livew.l.qq.com,我的代理
-        - DOMAIN,vd.l.qq.com,我的代理
-        - DOMAIN-SUFFIX,myqcloud.com,我的代理
-        - DOMAIN-SUFFIX,tencent.com,我的代理
-        - DOMAIN-SUFFIX,tencent-cloud.com,我的代理
-        - DOMAIN-SUFFIX,tencent-cloud.net,我的代理
-        - DOMAIN-SUFFIX,tenpay.com,我的代理
-        - DOMAIN-SUFFIX,wechat.com,我的代理
-        - DOMAIN-SUFFIX,qqmail.com,我的代理
-        - DOMAIN-SUFFIX,qq.com,我的代理
-        - DOMAIN-SUFFIX,servicewechat.com,我的代理
+        - DOMAIN-KEYWORD,lanzou,🥷PROXY
+        - DOMAIN-SUFFIX,woozooo.com,🥷PROXY
+        - DOMAIN-SUFFIX,baidu.com,🥷PROXY
+        - DOMAIN-SUFFIX,baidubcr.com,🥷PROXY
+        - DOMAIN-SUFFIX,baidupan.com,🥷PROXY
+        - DOMAIN-SUFFIX,baidupcs.com,🥷PROXY
+        - DOMAIN-SUFFIX,vv.video.qq.com,🥷PROXY
+        - DOMAIN-SUFFIX,quark.cn,🥷PROXY
+        - DOMAIN-SUFFIX,aliyun.com,🥷PROXY
+        - DOMAIN-SUFFIX,yinxiang.com,🥷PROXY
+        - DOMAIN,fairplay.l.qq.com,🥷PROXY
+        - DOMAIN,livew.l.qq.com,🥷PROXY
+        - DOMAIN,vd.l.qq.com,🥷PROXY
+        - DOMAIN-SUFFIX,myqcloud.com,🥷PROXY
+        - DOMAIN-SUFFIX,tencent.com,🥷PROXY
+        - DOMAIN-SUFFIX,tencent-cloud.com,🥷PROXY
+        - DOMAIN-SUFFIX,tencent-cloud.net,🥷PROXY
+        - DOMAIN-SUFFIX,tenpay.com,🥷PROXY
+        - DOMAIN-SUFFIX,wechat.com,🥷PROXY
+        - DOMAIN-SUFFIX,qqmail.com,🥷PROXY
+        - DOMAIN-SUFFIX,qq.com,🥷PROXY
+        - DOMAIN-SUFFIX,servicewechat.com,🥷PROXY
         - DOMAIN-SUFFIX,jdev.tw,🥷PROXY
         - DOMAIN-SUFFIX,omnivore.app,🥷PROXY
         - RULE-SET,youtube,🎎YouTube
         - RULE-SET,netflix,📽Netflix
         - RULE-SET,openai,🤖OpenAI
         - RULE-SET,bing,🔍Bing
+        - RULE-SET,copilot,Copilot
+        - DOMAIN-KEYWORD,chatgpt,🤖OpenAI
+        - DOMAIN,th.bing.com,🤖OpenAI
+        - DOMAIN,www.bingapis.com,🤖OpenAI
+        - DOMAIN,sapphire.api.microsoftapp.net,🤖OpenAI
+        - DOMAIN,prod.rewardsplatform.microsoft.com,🤖OpenAI
+        - DOMAIN,c.clarity.ms,🤖OpenAI
+        - DOMAIN,c.bing.com,🤖OpenAI
+        - DOMAIN,sydney.bing.com,🤖OpenAI
+        - DOMAIN,www.clarity.ms,🤖OpenAI
+        - DOMAIN,p.clarity.ms,🤖OpenAI
+        - DOMAIN,dealczars.bing-shopping.microsoft-falcon.io,🤖OpenAI
+        - DOMAIN,shopping.bing-shopping.microsoft-falcon.io,🤖OpenAI
+        - DOMAIN,cdn.jsdelivr.net,🤖OpenAI
+        - DOMAIN,logincdn.msauth.net,🤖OpenAI
+        - DOMAIN,account.live.com,🤖OpenAI
+        - DOMAIN,acctcdn.msauth.net,🤖OpenAI
+        - DOMAIN,odc.officeapps.live.com,🤖OpenAI
+        - DOMAIN,substrate.office.com,🤖OpenAI
+        - DOMAIN,ssl.bing.com,🤖OpenAI
+        - DOMAIN,services.bingapis.com,🤖OpenAI
+        - DOMAIN,location.microsoft.com,🤖OpenAI
+        - DOMAIN,api.msn.com,🤖OpenAI
+        - DOMAIN,gateway.bingviz.microsoftapp.net,🤖OpenAI
+        - DOMAIN,in.appcenter.ms,🤖OpenAI
+        - DOMAIN,www.bing.com,🤖OpenAI
+        - DOMAIN,self.events.data.microsoft.com,🤖OpenAI
+        - DOMAIN,login.microsoftonline.com,🤖OpenAI
         - RULE-SET,bilibiliintl,🛀Bilibiliintl
         - RULE-SET,twitter,🦤Twitter
         - RULE-SET,github,🥷PROXY
@@ -506,6 +495,13 @@ parsers: # array
           behavior: classical
           url: "https://cdn.jsdelivr.net/gh/blackmatrix7/ios_rule_script@master/rule/Clash/Bing/Bing.yaml"
           path: ./ruleset/bing.yaml
+          interval: 86400
+
+        copilot: # copilot的分流规则
+          type: http
+          behavior: classical
+          url: "https://cdn.jsdelivr.net/gh/blackmatrix7/ios_rule_script@master/rule/Clash/Copilot/Copilot.yaml"
+          path: ./ruleset/copilot.yaml
           interval: 86400
 
         openai: # OpenAI的分流规则
