@@ -152,6 +152,20 @@ Docker for Mac客户端添加registry-mirrors设置
 }
 ```
 
+## Docker windows docker desktop 网络代理设置
+
+```json
+{
+  "credsStore": "desktop",
+  "proxies": {
+    "default": {
+      "httpProxy": "http://host.docker.internal:10809",
+      "httpsProxy": "http://host.docker.internal:10809"
+    }
+  }
+}
+```
+
 ## Get into the Docker VM
 
 When using Docker Desktop for Mac and Windows | Docker - https://www.docker.com/products/docker-desktop, you’re actually using a tiny (custom) Alpine Linux running in a special xhyve VM on macOS or Windows. There’s so much cool stuff happening, you’re meant to forget it’s still running on a Linux kernel.
