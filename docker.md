@@ -127,9 +127,7 @@ Docker for Mac客户端添加registry-mirrors设置
     "buildkit": true
   },
   "registry-mirrors": [
-    "https://registry.docker-cn.com",
     "http://hub-mirror.c.163.com",
-    "https://docker.mirrors.ustc.edu.cn",
     "https://mirror.ccs.tencentyun.com"
   ]
 }
