@@ -157,6 +157,16 @@ parsers: # array
             - 👆SELECT
             - DIRECT
 
+        - name: Apple
+          type: select
+          proxies:
+            - 我的代理
+            - 🚀URL-TEST
+            - 🎛LOAD-BALANCE
+            - 🕹Fallback
+            - 👆SELECT
+            - DIRECT
+
         - name: 🛀Bilibiliintl
           type: select
           proxies:
