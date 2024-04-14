@@ -361,8 +361,8 @@ parsers: # array
         - DOMAIN,yacd.haishan.me,DIRECT
         - RULE-SET,private,DIRECT
         - RULE-SET,reject,🚦AD
-        - RULE-SET,icloud,DIRECT #
-        - RULE-SET,apple,DIRECT # 这三个为国内可直连地址，如果希望走代理改为🥷PROXY
+        - RULE-SET,icloud,Apple #
+        - RULE-SET,apple,Apple # 这三个为国内可直连地址，如果希望走代理改为🥷PROXY
         - RULE-SET,google,🚅Google #
         - RULE-SET,googledrive,🚅Google #
         - RULE-SET,googlesearch,🚅Google #
