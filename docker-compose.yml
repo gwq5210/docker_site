@@ -335,7 +335,7 @@ services:
     environment:
       TZ: Asia/Shanghai
       # MIRAI_JAVA_OPTS: "-Xms128m -Xmx128m"
-      MIRAI_JAVA_OPTS: "-Dmcl.disable-ansi=true"
+      MIRAI_JAVA_OPTS: "-Dmcl.disable-ansi=true -Dmirai.console.skip-end-user-readme"
       MIRAI_ARGS: "-x --boot-only"
       MIRAI_VERIFY_KEY_FILE: "/run/secrets/mirai_verify_key.txt"
       MIRAI_BOT_QQ_FILE: "/run/secrets/mirai_bot_qq.txt"
