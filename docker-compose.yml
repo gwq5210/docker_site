@@ -210,7 +210,7 @@ services:
       - default
     environment:
       TZ: Asia/Shanghai
-      MIRAI_JAVA_OPTS: "-Dmcl.disable-ansi=true -Dmirai.console.skip-end-user-readme"
+      MIRAI_JAVA_OPTS: "-Dmcl.disable-ansi=true -Dmirai.console.skip-end-user-readme -Dmirai.no-desktop=true"
       MIRAI_ARGS: "-x --boot-only"
       MIRAI_VERIFY_KEY_FILE: "/run/secrets/mirai_verify_key.txt"
       MIRAI_BOT_QQ_FILE: "/run/secrets/mirai_bot_qq.txt"
