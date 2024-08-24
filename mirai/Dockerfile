@@ -11,7 +11,7 @@ RUN ./shell/install_tools.sh && rm -rf ./shell && \
   ./mcl --update-package net.mamoe:chat-command --type plugin --channel stable && \
   ./mcl --dry-run && \
   wget -O plugins/mirai-login-solver-sakura-0.0.12.mirai2.jar https://github.com/KasukuSakura/mirai-login-solver-sakura/releases/download/v0.0.12/mirai-login-solver-sakura-0.0.12.mirai2.jar && \
-  ./mcl --disable-module updater && echo "exit" | ./mcl
+  ./mcl --disable-module updater && echo "exit" | java -Dmcl.disable-ansi=true -Dmirai.console.skip-end-user-readme -jar mcl.jar -x --boot-only
 
 VOLUME [ "/usr/share/mirai/bots" ]
 
