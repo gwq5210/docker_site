@@ -29,15 +29,10 @@ secrets:                        # top level secrets block
     external: true
   mirai_verify_key.txt:
     external: true
-  aliyunpan_refresh_token.txt:
-    external: true
 
 services:
   gwq5210_nginx:
     image: gwq5210/nginx:latest
-    # build:
-    #   context: .
-    #   dockerfile: ./nginx/Dockerfile
     container_name: gwq5210_nginx
     secrets:
       - gwq5210.com.key
@@ -47,7 +42,6 @@ services:
       - ./nginx/conf/nginx.conf:/etc/nginx/nginx.conf
       - ./nginx/html:/var/www/gwq5210.com/html
       - ${DOCKER_SITE_LOGS_DIR}/nginx:/var/log/nginx
-    # network_mode: "host"
     networks:
       - default
     ports:  # host模式这个配置失效
@@ -64,12 +58,9 @@ services:
       - gwq5210_mirai
       - gwq5210_elasticsearch
       - gwq5210_kibana
-      - gwq5210_filebrowser
       - gwq5210_v2ray
-      - gwq5210_tank
       - gwq5210_phpmyadmin
       - gwq5210_php
-      # - gwq5210_jiacrontab_admin
     ulimits:
       nproc: 65535
       nofile:
@@ -77,11 +68,6 @@ services:
         hard: 65535
     environment:
       TZ: Asia/Shanghai
-    # healthcheck:
-    #   test: curl -f http://localhost || exit 1
-    #   interval: 60s
-    #   timeout: 60s
-    #   retries: 10
     deploy:
       resources:
         limits:
@@ -90,9 +76,6 @@ services:
 
   gwq5210_mysql:
     image: gwq5210/mysql:latest
-    # build:
-    #   context: .
-    #   dockerfile: ./mysql/Dockerfile
     container_name: gwq5210_mysql  # 容器名
     secrets:
       - mysql_root_password.txt
@@ -112,70 +95,23 @@ services:
       TZ: Asia/Shanghai
       MYSQL_ROOT_PASSWORD_FILE: /run/secrets/mysql_root_password.txt  # 使用docker secret设置root用户的密码
       MYSQL_DATABASE: "tank"
-    # healthcheck:
-    #   # 健康检查会导致容器重启
-    #   test: mysqladmin -u root ping -h localhost -p$$(cat /run/secrets/mysql_root_password.txt) || exit 1
-    #   interval: 60s
-    #   timeout: 60s
-    #   retries: 10
     deploy:
       resources:
         limits:
-          # cpus: '2.0'
           memory: 4096M
-
-  gwq5210_tank:
-    image: gwq5210/tank:latest
-    # build:
-    #   context: .
-    #   dockerfile: ./tank/Dockerfile
-    container_name: gwq5210_tank
-    volumes:
-      - ${TANK_SHARE_DATA_DIR}:/data/build/matter
-      - ${DOCKER_SITE_CONF_DIR}/tank:/data/build/conf
-      - ${DOCKER_SITE_LOGS_DIR}/tank:/data/build/log
-    networks:
-      - default
-    # ports:
-    #   - "127.0.0.1:6011:6010"
-    depends_on:
-      - gwq5210_mysql
-    environment:
-      TZ: Asia/Shanghai
-    # healthcheck:
-    #   test: curl -f http://localhost:6010 || exit 1
-    #   interval: 60s
-    #   timeout: 60s
-    #   retries: 10
-    deploy:
-      resources:
-        limits:
-          # cpus: '1.0'
-          memory: 2048M
 
   gwq5210_php:
     image: gwq5210/php:latest
-    # build:
-    #   context: .
-    #   dockerfile: ./php/Dockerfile
     container_name: gwq5210_php
     networks:
       - default
-    # ports:
-    #   - "127.0.0.1:9000:9000"
     volumes:
       - ./nginx/html:/var/www/gwq5210.com/html
     environment:
       TZ: Asia/Shanghai
-    # healthcheck:
-    #   test: php-fpm-healthcheck || exit 1
-    #   interval: 60s
-    #   timeout: 60s
-    #   retries: 10
     deploy:
       resources:
         limits:
-          # cpus: '0.1'
           memory: 2048M
 
   gwq5210_phpmyadmin:
@@ -183,8 +119,6 @@ services:
     container_name: gwq5210_phpmyadmin
     networks:
       - default
-    # ports:
-    #   - "127.0.0.1:8889:80"
     environment:
       TZ: Asia/Shanghai
       PMA_ABSOLUTE_URI: https://phpmyadmin.gwq5210.com
@@ -193,22 +127,13 @@ services:
       PMA_ARBITRARY: 1
     depends_on:
       - gwq5210_mysql
-    # healthcheck:
-    #   test: curl -f http://localhost || exit 1
-    #   interval: 60s
-    #   timeout: 60s
-    #   retries: 10
     deploy:
       resources:
         limits:
-          # cpus: '0.1'
           memory: 2048M
 
   gwq5210_v2ray:
     image: gwq5210/v2ray:latest
-    # build:
-    #   context: .
-    #   dockerfile: ./v2ray/Dockerfile
     container_name: gwq5210_v2ray  # 容器名
     secrets:
       - v2ray_uuid.txt
@@ -217,54 +142,19 @@ services:
       - ${DOCKER_SITE_LOGS_DIR}/v2ray:/var/log/v2ray
     networks:
       - default
-    # ports:
-    #   - "127.0.0.1:10000:10000"
     environment:
       TZ: Asia/Shanghai
       V2RAY_UUID_FILE: /run/secrets/v2ray_uuid.txt
-    # healthcheck:
-    #   test: curl -s http://localhost:10000 || exit 1
-    #   interval: 60s
-    #   timeout: 60s
-    #   retries: 10
     deploy:
       resources:
         limits:
-          # cpus: '0.1'
-          memory: 2048M
-
-  gwq5210_filebrowser:
-    image: gwq5210/filebrowser:latest
-    # build:
-    #   context: .
-    #   dockerfile: ./filebrowser/Dockerfile
-    container_name: gwq5210_filebrowser  # 容器名
-    networks:
-      - default
-    volumes:
-      - ${FILE_BROWSER_SHARE_DATA_DIR}:/srv
-      - ${DOCKER_SITE_CONF_DIR}/filebrowser:/etc/filebrowser
-      - ./filebrowser/conf/filebrowser.json:/.filebrowser.json
-    # ports:
-    #   - "127.0.0.1:9091:80"
-    environment:
-      TZ: Asia/Shanghai
-    deploy:
-      resources:
-        limits:
-          # cpus: '0.1'
           memory: 2048M
 
   gwq5210_scrapyd:
     image: gwq5210/scrapyd:latest
-    # build:
-    #   context: .
-    #   dockerfile: ./scrapyd/Dockerfile
     container_name: gwq5210_scrapyd  # 容器名
     networks:
       - default
-    # ports:
-    #   - "127.0.0.1:6800:6800"
     volumes:
       - ./scrapyd/conf:/etc/scrapyd
       - ${DOCKER_SITE_LOGS_DIR}/scrapyd:/var/log/scrapyd
@@ -277,15 +167,9 @@ services:
     secrets:
       - scrapyd_username.txt
       - scrapyd_password.txt
-    # healthcheck:
-    #   test: curl -s http://localhost:6800 || exit 1
-    #   interval: 60s
-    #   timeout: 60s
-    #   retries: 10
     deploy:
       resources:
         limits:
-          # cpus: '0.1'
           memory: 2048M
 
   gwq5210_scrapydweb:
@@ -310,31 +194,22 @@ services:
     ports:
       - "5000:5000"
     deploy:
-      # restart_policy:
-      #   condition: none
       resources:
         limits:
-          # cpus: '0.5'
           memory: 2048M
 
   gwq5210_mirai:
     image: gwq5210/mirai:latest
-    # build:
-    #   context: .
-    #   dockerfile: ./mirai/Dockerfile
     container_name: gwq5210_mirai  # 容器名
     volumes:
       - ${DOCKER_SITE_DATA_DIR}/mirai/bots:/usr/share/mirai/bots
       - ${DOCKER_SITE_LOGS_DIR}/mirai:/usr/share/mirai/logs
       - ./mirai/conf/Console/AutoLogin.yml:/etc/mirai/Console/AutoLogin.yml
       - ./mirai/conf/net.mamoe.mirai-api-http/setting.yml:/etc/mirai/net.mamoe.mirai-api-http/setting.yml
-    # ports: 
-    #   - "127.0.0.1:8080:8080"
     networks:
       - default
     environment:
       TZ: Asia/Shanghai
-      # MIRAI_JAVA_OPTS: "-Xms128m -Xmx128m"
       MIRAI_JAVA_OPTS: "-Dmcl.disable-ansi=true -Dmirai.console.skip-end-user-readme"
       MIRAI_ARGS: "-x --boot-only"
       MIRAI_VERIFY_KEY_FILE: "/run/secrets/mirai_verify_key.txt"
@@ -344,24 +219,13 @@ services:
       - mirai_bot_qq.txt
       - mirai_bot_qq_password.txt
       - mirai_verify_key.txt
-    # healthcheck:
-    #   test: curl -s http://localhost:8080 || exit 1
-    #   interval: 60s
-    #   timeout: 60s
-    #   retries: 10
     deploy:
-      # restart_policy:
-      #   condition: none
       resources:
         limits:
-          # cpus: '0.5'
           memory: 2048M
 
   gwq5210_elasticsearch:
     image: gwq5210/elasticsearch:latest
-    # build:
-    #   context: .
-    #   dockerfile: ./elasticsearch/Dockerfile
     container_name: gwq5210_elasticsearch
     networks:
       - default
@@ -369,7 +233,6 @@ services:
       - TZ=Asia/Shanghai
       - bootstrap.memory_lock=true
       - xpack.license.self_generated.type=${LICENSE}
-      # - "ES_JAVA_OPTS=-Xms128m -Xmx128m"
       - ELASTIC_PASSWORD_FILE=/run/secrets/elasticsearch_bootstrap_password.txt
       - KEYSTORE_PASSWORD_FILE=/run/secrets/elasticsearch_keystore_password.txt
     secrets:
@@ -397,22 +260,13 @@ services:
     ports:
       - 9200:9200
       - 9300:9300
-    # healthcheck:
-    #   test: curl --cacert $ES_CERTS_DIR/ca.crt -s -k https://localhost:9200 >/dev/null; if [[ $$? == 52 ]]; then echo 0; else echo 1; fi
-    #   interval: 60s
-    #   timeout: 60s
-    #   retries: 10
     deploy:
       resources:
         limits:
-          # cpus: '0.5'
           memory: 2048M
 
   gwq5210_kibana:
     image: gwq5210/kibana:latest
-    # build:
-    #   context: .
-    #   dockerfile: ./kibana/Dockerfile
     container_name: gwq5210_kibana
     depends_on:
       - gwq5210_elasticsearch
@@ -433,144 +287,7 @@ services:
       - ./kibana/conf/kibana.yml:/usr/share/kibana/config/kibana.yml
       - ./kibana/conf/node.options:/usr/share/kibana/config/node.options
       - ${DOCKER_SITE_KEY_DATA_DIR}/kibana/config/kibana.keystore:/usr/share/kibana/config/kibana.keystore
-    # healthcheck:
-    #   test: curl --cacert $KIBANA_CERTS_DIR/ca.crt -s -k https://localhost:5601 >/dev/null; if [[ $$? == 52 ]]; then echo 0; else echo 1; fi
-    #   interval: 60s
-    #   timeout: 60s
-    #   retries: 10
     deploy:
       resources:
         limits:
-          # cpus: '0.5'
           memory: 2048M
-
-  # gwq5210_aliyunpan_sync:
-  #   image: gwq5210/aliyunpan:latest
-  #   container_name: gwq5210_aliyunpan_sync
-  #   restart: 'no'
-  #   volumes:
-  #     # 指定本地备份目录绝对路径：/tickstep/Documents/设计文档
-  #     - ${DOCKER_SITE_HOME}:/home/app/data:rw
-  #     # （可选）可以指定JS插件sync_handler.js用于过滤文件，详见下面的插件说明
-  #     - ./aliyunpan/js/sync_handler.js:/home/app/config/plugin/js/sync_handler.js
-  #     # （推荐）挂载sync_drive同步数据库到本地，这样即使容器销毁，同步数据库还可以用于以后使用
-  #     - ${DOCKER_SITE_KEY_DATA_DIR}/aliyunpan/sync_drive:/home/app/config/sync_drive
-  #   environment:
-  #     - TZ=Asia/Shanghai
-  #     # refresh token
-  #     - ALIYUNPAN_REFRESH_TOKEN_FILE=/run/secrets/aliyunpan_refresh_token.txt
-  #     # 上传下载链接类型：1-默认 2-阿里ECS环境
-  #     - ALIYUNPAN_TRANSFER_URL_TYPE=1
-  #     # 下载文件并发数
-  #     - ALIYUNPAN_DOWNLOAD_PARALLEL=2
-  #     # 上传文件并发数
-  #     - ALIYUNPAN_UPLOAD_PARALLEL=2
-  #     # 下载数据块大小，单位为KB，默认为1024KB，建议范围1024KB~10240KB
-  #     - ALIYUNPAN_DOWNLOAD_BLOCK_SIZE=1024
-  #     # 上传数据块大小，单位为KB，默认为10240KB，建议范围1024KB~10240KB
-  #     - ALIYUNPAN_UPLOAD_BLOCK_SIZE=10240
-  #     # 指定网盘文件夹作为备份目录，不要指定根目录
-  #     - ALIYUNPAN_PAN_DIR=/docker_site_data
-  #     # 备份模式：upload(备份本地文件到云盘), download(备份云盘文件到本地), sync(双向同步备份)
-  #     - ALIYUNPAN_SYNC_MODE=sync
-  #     # 优先级，只对双向同步备份模式有效。选项支持三种: time-时间优先，local-本地优先，pan-网盘优先
-  #     - ALIYUNPAN_SYNC_PRIORITY=local
-  #     # 是否显示文件备份过程日志，true-显示，false-不显示
-  #     - ALIYUNPAN_SYNC_LOG=true
-  #     # 本地文件修改检测延迟间隔，单位秒。如果本地文件会被频繁修改，例如录制视频文件，配置好该时间可以避免上传未录制好的文件
-  #     - ALIYUNPAN_LOCAL_DELAY_TIME=60
-  #     # 任务步骤, 支持两种: scan(只扫描并建立同步数据库),sync(正常启动同步任务)
-  #     - ALIYUNPAN_TASK_STEP=sync
-  #   secrets:
-  #     - aliyunpan_refresh_token.txt
-  #   deploy:
-  #     resources:
-  #       limits:
-  #         cpus: '0.2'
-  #         memory: 2048M
-
-  gwq5210_frps:
-    image: snowdreamtech/frps:latest
-    container_name: gwq5210_frps
-    restart: always
-    volumes:
-      - ./frp/conf/frps.ini:/etc/frp/frps.ini
-      - ${DOCKER_SITE_LOGS_DIR}/frp:/var/log/frp
-    ports:
-      - 7000:7000
-      - 7001:7001
-      - 7500:7500
-      - 220:220
-    environment:
-      - TZ=Asia/Shanghai
-    secrets:
-      - gwq5210.com.key
-      - gwq5210.com.crt
-    deploy:
-      resources:
-        limits:
-          # cpus: '0.2'
-          memory: 4096M
-
-  gwq5210_qbittorrent:
-    image: lscr.io/linuxserver/qbittorrent:latest
-    container_name: gwq5210_qbittorrent
-    environment:
-      - PUID=1000
-      - PGID=1000
-      - TZ=Asia/Shanghai
-      - WEBUI_PORT=6880
-    volumes:
-      - ${DOCKER_SITE_DATA_DIR}/qbittorrent/conf:/config
-      - ${DOCKER_SITE_DATA_DIR}/downloads:/downloads
-    ports:
-      # - 6880:6880
-      - 6881:6881
-      - 6881:6881/udp
-    restart: unless-stopped
-
-  # gwq5210_baota:
-  #   image: gwq5210/baota:latest
-  #   container_name: gwq5210_baota
-  #   restart: always
-  #   ports:
-  #     - "8888:8888"
-  #   environment:
-  #     - TZ=Asia/Shanghai
-  #   deploy:
-  #     resources:
-  #       limits:
-  #         # cpus: '0.5'
-  #         memory: 2048M
-
-  # gwq5210_jiacrontab_admin:
-  #   image: gwq5210/jiacrontab:latest
-  #   container_name: gwq5210_jiacrontab_admin
-  #   restart: always
-  #   command: ./jiacrontab_admin -config /etc/jiacrontab/jiacrontab_admin.ini
-  #   volumes:
-  #     - ${DOCKER_SITE_DATA_DIR}/jiacrontab:/jiacrontab/bin/data
-  #     - ./jiacrontab/conf/jiacrontab_admin.ini:/etc/jiacrontab/jiacrontab_admin.ini
-  #   environment:
-  #     - TZ=Asia/Shanghai
-  #   deploy:
-  #     resources:
-  #       limits:
-  #         # cpus: '0.5'
-  #         memory: 2048M
-
-  # gwq5210_jiacrontabd:
-  #   image: gwq5210/jiacrontab:latest
-  #   container_name: gwq5210_jiacrontabd
-  #   restart: always
-  #   command: ./jiacrontabd -config /etc/jiacrontab/jiacrontabd.ini
-  #   volumes:
-  #     - ${DOCKER_SITE_DATA_DIR}/jiacrontab:/jiacrontab/bin/data
-  #     - ./jiacrontab/conf/jiacrontabd.ini:/etc/jiacrontab/jiacrontabd.ini
-  #   environment:
-  #     - TZ=Asia/Shanghai
-  #   deploy:
-  #     resources:
-  #       limits:
-  #         # cpus: '0.5'
-  #         memory: 2048M
