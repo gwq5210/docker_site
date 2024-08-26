@@ -1,0 +1,18 @@
+#!/bin/bash
+
+rm -rf "/tmp/.X1-lock"
+
+: ${NAPCAT_GID:=1001}
+: ${NAPCAT_UID:=911}
+
+usermod -o -u ${NAPCAT_UID} napcat
+groupmod -o -g ${NAPCAT_GID} napcat
+usermod -g ${NAPCAT_GID} napcat
+chown -R ${NAPCAT_UID}:${NAPCAT_GID} /app
+
+gosu napcat Xvfb :1 -screen 0 1080x760x16 +extension GLX +render &
+sleep 2
+export FFMPEG_PATH=/usr/bin/ffmpeg
+export DISPLAY=:1
+cd /app/napcat
+gosu napcat /opt/QQ/qq --no-sandbox -q $ACCOUNT

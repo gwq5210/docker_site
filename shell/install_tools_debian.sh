@@ -1,6 +1,6 @@
 #!/bin/sh
 
-PKG=apt
+PKG=apt-get
 
 # 安装工具, 安装zsh，zsh-autosuggestions，修改配置
 $PKG update && $PKG upgrade -y && $PKG install -y htop wget dstat sysstat git vim curl openssl zsh telnet && \
