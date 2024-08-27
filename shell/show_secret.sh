@@ -10,12 +10,12 @@ usage() {
   exit 0
 }
 
-if [ $# -lt 1 ] ; then
+if [ $# -lt 0 ] ; then
   usage
   exit 1
 fi
 
-docker_container_name=""
+docker_container_name="*"
 
 while getopts 'hn:' OPT; do
     case $OPT in
@@ -25,19 +25,18 @@ while getopts 'hn:' OPT; do
     esac
 done
 
+docker_container_id_list=()
 if [ x${docker_container_name} == x ]; then
-  echo "docker_container_name is empty"
-  usage
-  exit 0
+  docker_container_id_list=$(docker ps | grep -v 'CONTAINER ID' | awk '{print $1}')
+else
+  docker_container_id_list=$(docker ps | grep -v 'CONTAINER ID' | grep ${docker_container_name} | awk '{print $1}')
 fi;
 
-docker_container_id_list=$(docker ps | grep -v 'CONTAINER ID' | grep ${docker_container_name} | awk '{print $1}')
-
-echo ${docker_container_name}
-echo ${docker_container_id_list}
+echo docker_container_name: ${docker_container_name}
+echo docker_container_id_list: ${docker_container_id_list}
 
 for docker_container_id in $docker_container_id_list
 do
-  echo ${docker_container_id}
+  echo docker_container_id: ${docker_container_id}
+  docker exec -i ${docker_container_id} sh < ./show_docker_secrets.sh
 done
-
