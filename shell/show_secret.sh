@@ -15,7 +15,7 @@ if [ $# -lt 0 ] ; then
   exit 1
 fi
 
-docker_container_name="*"
+docker_container_name=""
 
 while getopts 'hn:' OPT; do
     case $OPT in
