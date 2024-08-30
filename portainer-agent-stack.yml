@@ -1,99 +1,94 @@
-version: '3.1'
+version: "3.1"
 
 services:
-  agent:
-    image: gwq5210/portainer_agent:latest
-    volumes:
-      - /var/run/docker.sock:/var/run/docker.sock
-      - /var/lib/docker/volumes:/var/lib/docker/volumes
-    networks:
-      - agent_network
-    environment:
-      TZ: Asia/Shanghai
-    deploy:
-      mode: global
-      placement:
-        constraints: [node.platform.os == linux]
-      resources:
-        limits:
-          # cpus: '0.5'
-          memory: 2048M
+    agent:
+        image: gwq5210/portainer_agent:latest
+        volumes:
+            - /var/run/docker.sock:/var/run/docker.sock
+            - /var/lib/docker/volumes:/var/lib/docker/volumes
+        networks:
+            - agent_network
+        environment:
+            TZ: Asia/Shanghai
+        deploy:
+            mode: global
+            placement:
+                constraints: [node.platform.os == linux]
+            resources:
+                limits:
+                    memory: 2048M
 
-  portainer:
-    image: gwq5210/portainer:latest
-    command: -H tcp://tasks.agent:9001 --tlsskipverify --sslcert /run/secrets/gwq5210.com.crt --sslkey /run/secrets/gwq5210.com.key --secret-key-name="portainer_key.txt"
-    ports:
-      - "9443:9443"
-      # - "9000:9000"
-      # - "8000:8000"
-    volumes:
-      - ${DOCKER_SITE_KEY_DATA_DIR}/portainer/data:/data
-      - ${DOCKER_SITE_HOME}:/home
-    networks:
-      - agent_network
-    depends_on:
-      - agent
-    deploy:
-      mode: replicated
-      replicas: 1
-      placement:
-        constraints: [node.role == manager]
-      resources:
-        limits:
-          # cpus: '0.5'
-          memory: 2048M
-    secrets:
-      - gwq5210.com.crt
-      - gwq5210.com.key
-      - portainer_key.txt
-    environment:
-      TZ: Asia/Shanghai
+    portainer:
+        image: gwq5210/portainer:latest
+        command: -H tcp://tasks.agent:9001 --tlsskipverify --sslcert /run/secrets/gwq5210.com.crt --sslkey /run/secrets/gwq5210.com.key --secret-key-name="portainer_key.txt"
+        ports:
+            - "9443:9443"
+        volumes:
+            - ${DOCKER_SITE_KEY_DATA_DIR}/portainer/data:/data
+            - ${DOCKER_SITE_HOME}:/home
+        networks:
+            - agent_network
+        depends_on:
+            - agent
+        deploy:
+            mode: replicated
+            replicas: 1
+            placement:
+                constraints: [node.role == manager]
+            resources:
+                limits:
+                    memory: 2048M
+        secrets:
+            - gwq5210.com.crt
+            - gwq5210.com.key
+            - portainer_key.txt
+        environment:
+            TZ: Asia/Shanghai
 
-  portainer_backup:
-    container_name: portainer_backup
-    image: gwq5210/portainer_backup:latest
-    hostname: portainer-backup
-    restart: unless-stopped
-    command: schedule --filename "portainer-backup-{{DATETIME}}.tar.gz"
-    depends_on:
-      - portainer
-    environment:
-      TZ: Asia/Shanghai
-      PORTAINER_BACKUP_URL: "https://gwq5210.com:9443"
-      PORTAINER_BACKUP_TOKEN_FILE: "/run/secrets/portainer_token.txt"
-      PORTAINER_BACKUP_PASSWORD_FILE: "/run/secrets/portainer_backup_password.txt"
-      PORTAINER_BACKUP_OVERWRITE: 1
-      PORTAINER_BACKUP_SCHEDULE: "0 0 2 * * *"
-      PORTAINER_BACKUP_STACKS: 1
-      PORTAINER_BACKUP_DRYRUN: 0
-      PORTAINER_BACKUP_CONCISE: 0
-      PORTAINER_BACKUP_DIRECTORY: "/backup"
-      PORTAINER_BACKUP_DEBUG: 0
-    volumes:
-      - ${DOCKER_SITE_BACKUP_DIR}/portainer:/backup
-    networks:
-      - agent_network
-    deploy:
-      resources:
-        limits:
-          # cpus: '0.5'
-          memory: 2048M
-    secrets:
-      - portainer_token.txt
-      - portainer_backup_password.txt
+    portainer_backup:
+        container_name: portainer_backup
+        image: gwq5210/portainer_backup:latest
+        hostname: portainer-backup
+        restart: unless-stopped
+        command: schedule --filename "portainer-backup-{{DATETIME}}.tar.gz"
+        depends_on:
+            - portainer
+        environment:
+            TZ: Asia/Shanghai
+            PORTAINER_BACKUP_URL: "https://gwq5210.com:9443"
+            PORTAINER_BACKUP_TOKEN_FILE: "/run/secrets/portainer_token.txt"
+            PORTAINER_BACKUP_PASSWORD_FILE: "/run/secrets/portainer_backup_password.txt"
+            PORTAINER_BACKUP_OVERWRITE: 1
+            PORTAINER_BACKUP_SCHEDULE: "0 0 2 * * *"
+            PORTAINER_BACKUP_STACKS: 1
+            PORTAINER_BACKUP_DRYRUN: 0
+            PORTAINER_BACKUP_CONCISE: 0
+            PORTAINER_BACKUP_DIRECTORY: "/backup"
+            PORTAINER_BACKUP_DEBUG: 0
+        volumes:
+            - ${DOCKER_SITE_BACKUP_DIR}/portainer:/backup
+        networks:
+            - agent_network
+        deploy:
+            resources:
+                limits:
+                    memory: 2048M
+        secrets:
+            - portainer_token.txt
+            - portainer_backup_password.txt
 
 networks:
-  agent_network:
-    driver: overlay
+    agent_network:
+        driver: overlay
 
 secrets:
-  gwq5210.com.crt:
-    external: true
-  gwq5210.com.key:
-    external: true
-  portainer_token.txt:
-    external: true
-  portainer_backup_password.txt:
-    external: true
-  portainer_key.txt:
-    external: true
+    gwq5210.com.crt:
+        file: gwq5210.com.crt
+    gwq5210.com.key:
+        file: gwq5210.com.key
+    portainer_token.txt:
+        file: secrets/portainer_token.txt
+    portainer_backup_password.txt:
+        file: secrets/portainer_backup_password.txt
+    portainer_key.txt:
+        file: secrets/portainer_key.txt

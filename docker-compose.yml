@@ -7,29 +7,29 @@ networks:
 secrets:
     # top level secrets block
     gwq5210.com.key:
-        external: true
+        file: secrets/gwq5210.com.key
     gwq5210.com.crt:
-        external: true
+        file: secrets/gwq5210.com.crt
     ca.crt:
         file: certs/ca/ca.crt
     mysql_root_password.txt:
-        external: true
+        file: secrets/mysql_root_password.txt
     v2ray_uuid.txt:
-        external: true
+        file: secrets/v2ray_uuid.txt
     scrapyd_username.txt:
-        external: true
+        file: secrets/scrapyd_username.txt
     scrapyd_password.txt:
-        external: true
+        file: secrets/scrapyd_password.txt
     elasticsearch_bootstrap_password.txt:
-        external: true
+        file: secrets/elasticsearch_bootstrap_password.txt
     elasticsearch_keystore_password.txt:
-        external: true
-    # onebot_qq.txt:
-    #     external: true
-    # onebot_qq_password.txt:
-    #     external: true
-    # onebot_verify_key.txt:
-    #     external: true
+        file: secrets/elasticsearch_keystore_password.txt
+    onebot_qq.txt:
+        file: secrets/onebot_qq.txt
+    onebot_qq_password.txt:
+        file: secrets/onebot_qq_password.txt
+    onebot_verify_key.txt:
+        file: secrets/onebot_verify_key.txt
 
 services:
     gwq5210_nginx:
