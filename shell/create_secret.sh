@@ -16,12 +16,10 @@ if [ $# -lt 1 ] ; then
   exit 1
 fi
 
+base_dir=`dirname "$0"`
 secret_dir="secrets"
-secret_backup_dir="secrets_backup"
-time_str=$(date "+%Y%m%d%H%M%S")
 
 mkdir -p $secret_dir
-mkdir -p $secret_backup_dir
 
 update="false"
 from_file="false"
@@ -45,17 +43,15 @@ if [ x${secret_file_name} == x ]; then
   exit 0
 fi;
 
-echo "pwd: $PWD"
-echo "update: $update"
-echo "from_file: $from_file"
-echo "secret_file_name: $secret_file_name"
-echo "default_value: $default_value"
+# echo "pwd: $PWD"
+# echo "update: $update"
+# echo "from_file: $from_file"
+# echo "secret_file_name: $secret_file_name"
+# echo "default_value: $default_value"
 
 secret_full_file_name=${secret_dir}/${secret_file_name}
-secret_full_backup_file_name=${secret_backup_dir}/${time_str}_${secret_file_name}
 
-echo "secret_full_file_name: ${secret_full_file_name}"
-echo "secret_full_backup_file_name: ${secret_full_backup_file_name}"
+# echo "secret_full_file_name: ${secret_full_file_name}"
 
 if [ -f ${secret_full_file_name} ] ; then
   if [ "${update}" == "true" ]; then
@@ -68,9 +64,15 @@ else
   echo "not found secret $secret_file_name, create new secret"
 fi
 
-content=$(./get_input.sh "$secret_file_name" "$default_value")
+content=$($base_dir/get_input.sh "$secret_file_name" "$default_value")
 if [ "${from_file}" == "true" ]; then
-  docker secret create ${secret} ${content}
+  if [ -f ${content} ] ; then
+    cat ${content} > $secret_full_file_name
+  else
+    echo "not found $content, create secret failed"
+    exit 1
+  fi
 else
-  echo -n $content | docker secret create ${secret} -
+  echo -n $content > $secret_full_file_name
 fi
+echo "create ${secret_file_name} success!"
