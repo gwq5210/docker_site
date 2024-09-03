@@ -2,4 +2,4 @@
 
 cd `dirname "$0"`
 
-docker stack services portainer
+docker-compose -f portainer-agent.yml ps $@

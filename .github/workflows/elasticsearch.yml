@@ -5,9 +5,9 @@ on:
   workflow_dispatch:
   push:
     branches:
-      - 'main'
+      - "main"
     paths:
-      - 'elasticsearch/**'
+      - "elasticsearch/**"
 
 # 定义环境变量, 后面会使用
 # 定义 APP_NAME 用于 docker build-args

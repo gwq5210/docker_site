@@ -2,4 +2,4 @@
 
 cd `dirname "$0"`
 
-docker stack rm portainer
+docker-compose -f portainer-agent.yml stop $@

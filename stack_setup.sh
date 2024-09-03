@@ -3,7 +3,7 @@
 cd `dirname "$0"`
 
 docker stack rm setup_certs
-./stack_deploy.sh setup_certs setup-certs-docker-compose.yml
+./stack_deploy.sh setup_certs setup-certs-stack.yml
 
 ./setup_secrets.sh
 
@@ -41,5 +41,4 @@ done
 chmod 777 ${DOCKER_SITE_KEY_DATA_DIR}/elasticsearch/data
 
 docker stack rm setup_keystore
-# docker-compose -f setup-docker-compose.yml config | docker stack deploy -c - setup
-./stack_deploy.sh setup_keystore setup-keystore.yml
+./stack_deploy.sh setup_keystore setup-keystore-stack.yml

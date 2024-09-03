@@ -2,4 +2,4 @@
 
 cd `dirname "$0"`
 
-docker-compose ps $@
+docker stack rm docker_site

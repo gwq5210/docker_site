@@ -1,0 +1,19 @@
+version: "3.1"
+
+services:
+  setup_certs:
+    image: gwq5210/elasticsearch:latest
+    environment:
+      - TZ=Asia/Shanghai
+    volumes:
+      - ./certs:/usr/share/elasticsearch/config/certs
+      - ./elasticsearch/setup_certs.sh:/usr/share/elasticsearch/setup_certs.sh
+    working_dir: /usr/share/elasticsearch
+    command:
+      - /bin/sh
+      - -c
+      - |
+        sh setup_certs.sh
+    deploy:
+      restart_policy:
+        condition: none

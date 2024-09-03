@@ -83,12 +83,12 @@ networks:
 
 secrets:
   gwq5210.com.crt:
-    external: true
+    file: gwq5210.com.crt
   gwq5210.com.key:
-    external: true
+    file: gwq5210.com.key
   portainer_token.txt:
-    external: true
+    file: secrets/portainer_token.txt
   portainer_backup_password.txt:
-    external: true
+    file: secrets/portainer_backup_password.txt
   portainer_key.txt:
-    external: true
+    file: secrets/portainer_key.txt
