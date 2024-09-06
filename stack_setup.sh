@@ -5,7 +5,7 @@ cd `dirname "$0"`
 docker stack rm setup_certs
 ./stack_deploy.sh setup_certs setup-certs-stack.yml
 
-./setup_secrets.sh
+./stack_setup_secrets.sh
 
 DOCKER_SITE_KEY_DATA_DIR=$(cat .env | grep "DOCKER_SITE_KEY_DATA_DIR" | egrep -v "^#" | awk -F = '{print $2}')
 DOCKER_SITE_DATA_DIR=$(cat .env | grep "DOCKER_SITE_DATA_DIR" | egrep -v "^#" | awk -F = '{print $2}')
