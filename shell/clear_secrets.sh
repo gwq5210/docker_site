@@ -11,7 +11,7 @@ fi
 
 base_dir=`dirname "$0"`
 secret_dir="secrets"
-secret_backup_dir="secrets_backup"
+secret_backup_dir="backup/secrets"
 time_str=$(date "+%Y%m%d%H%M%S")
 
 secrets=$@

@@ -23,6 +23,7 @@ dir_array[${#dir_array[@]}]=${DOCKER_SITE_KEY_DATA_DIR}/mysql
 dir_array[${#dir_array[@]}]=${DOCKER_SITE_LOGS_DIR}/v2ray
 dir_array[${#dir_array[@]}]=${DOCKER_SITE_LOGS_DIR}/scrapyd
 dir_array[${#dir_array[@]}]=${DOCKER_SITE_DATA_DIR}/scrapyd
+dir_array[${#dir_array[@]}]=${DOCKER_SITE_DATA_DIR}/napcat/QQ
 dir_array[${#dir_array[@]}]=${DOCKER_SITE_LOGS_DIR}/napcat
 dir_array[${#dir_array[@]}]=${DOCKER_SITE_CONF_DIR}/napcat
 dir_array[${#dir_array[@]}]=${DOCKER_SITE_KEY_DATA_DIR}/elasticsearch/data

@@ -24,12 +24,8 @@ secrets:
     file: secrets/elasticsearch_bootstrap_password.txt
   elasticsearch_keystore_password.txt:
     file: secrets/elasticsearch_keystore_password.txt
-  onebot_qq.txt:
-    file: secrets/onebot_qq.txt
-  onebot_qq_password.txt:
-    file: secrets/onebot_qq_password.txt
-  onebot_verify_key.txt:
-    file: secrets/onebot_verify_key.txt
+  napcat_webui_token.txt:
+    file: secrets/napcat_webui_token.txt
 
 services:
   gwq5210_nginx:
@@ -271,8 +267,10 @@ services:
     environment:
       - NAPCAT_UID=${NAPCAT_UID}
       - NAPCAT_GID=${NAPCAT_GID}
+      - NAPCAT_WEBUI_TOKEN_FILE=/run/secrets/napcat_webui_token.txt
     volumes:
-      - ./napcat/conf/webui.json:/app/napcat/config/webui.json
+      - ${DOCKER_SITE_DATA_DIR}/napcat/QQ:/app/.config/QQ
+      - ${DOCKER_SITE_CONF_DIR}/napcat:/app/napcat/config
     ports:
       - 3000:3000
       - 3001:3001

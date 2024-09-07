@@ -2,8 +2,13 @@
 
 rm -rf "/tmp/.X1-lock"
 
-: ${NAPCAT_GID:=1001}
-: ${NAPCAT_UID:=911}
+: ${NAPCAT_GID:=0}
+: ${NAPCAT_UID:=1000}
+
+source env_from_file.sh NAPCAT_WEBUI_TOKEN
+
+cp /etc/napcat/webui.json /app/napcat/config
+sed -i "s/\"token\":.*/\"token\": \"$NAPCAT_WEBUI_TOKEN\",/g" /app/napcat/config/webui.json
 
 usermod -o -u ${NAPCAT_UID} napcat
 groupmod -o -g ${NAPCAT_GID} napcat
