@@ -264,13 +264,14 @@ services:
           memory: 2048M
 
   gwq5210_napcat:
+    secrets:
+      - napcat_webui_token.txt
     environment:
       - NAPCAT_UID=${NAPCAT_UID}
       - NAPCAT_GID=${NAPCAT_GID}
       - NAPCAT_WEBUI_TOKEN_FILE=/run/secrets/napcat_webui_token.txt
     volumes:
       - ${DOCKER_SITE_DATA_DIR}/napcat/QQ:/app/.config/QQ
-      - ${DOCKER_SITE_CONF_DIR}/napcat:/app/napcat/config
     ports:
       - 3000:3000
       - 3001:3001
