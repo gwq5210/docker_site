@@ -55,7 +55,7 @@ secret_full_file_name=${secret_dir}/${secret_file_name}
 
 if [ -f ${secret_full_file_name} ] ; then
   if [ "${update}" == "true" ]; then
-    ./clear_secrets.sh $secret_file_name
+    ${base_dir}/clear_secrets.sh $secret_file_name
   else
     echo "found secret $secret_file_name, skip it"
     exit 0

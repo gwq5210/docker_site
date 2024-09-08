@@ -24,8 +24,13 @@ do
   # echo "secret_full_file_name: ${secret_full_file_name}"
   # echo "secret_full_backup_file_name: ${secret_full_backup_file_name}"
   if [ -f ${secret_full_file_name} ] ; then
-    echo "backup ${secret_full_file_name} to ${secret_full_backup_file_name}, and remove ${secret_full_file_name}"
-    mkdir -p $secret_backup_dir && cp ${secret_full_file_name} ${secret_full_backup_file_name} && rm ${secret_full_file_name}
+    confirm=$(${base_dir}/get_input.sh "'yes' to continue remove secret ${secret_full_file_name}")
+    if [ "${confirm}" == "yes" ]; then
+      echo "backup ${secret_full_file_name} to ${secret_full_backup_file_name}, and remove ${secret_full_file_name}"
+      mkdir -p $secret_backup_dir && cp ${secret_full_file_name} ${secret_full_backup_file_name} && rm ${secret_full_file_name}
+    else
+      echo "skip remove ${secret_full_file_name}"
+    fi
   else
     echo "not found $secret_full_file_name, skip it"
   fi
