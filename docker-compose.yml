@@ -1,9 +1,5 @@
 version: "3.1"
 
-networks:
-  default:
-    driver: overlay
-
 secrets:
   # top level secrets block
   gwq5210.com.key:
@@ -39,8 +35,6 @@ services:
       - ./nginx/conf/nginx.conf:/etc/nginx/nginx.conf
       - ./nginx/html:/var/www/gwq5210.com/html
       - ${DOCKER_SITE_LOGS_DIR}/nginx:/var/log/nginx
-    networks:
-      - default
     ports:
       # host模式这个配置失效
       - "80:80"
@@ -82,8 +76,6 @@ services:
       - ${DOCKER_SITE_KEY_DATA_DIR}/mysql:/var/lib/mysql # 挂载目录，持久化存储
       - ${DOCKER_SITE_BACKUP_DIR}/mysql:/usr/share/mysql/backup
       - ./mysql/mysql_backup.sh:/usr/local/bin/mysql_backup.sh
-    networks:
-      - default
     ports:
       - "3306:3306"
       - "33060:33060"
@@ -100,8 +92,6 @@ services:
   gwq5210_php:
     image: gwq5210/php:latest
     container_name: gwq5210_php
-    networks:
-      - default
     volumes:
       - ./nginx/html:/var/www/gwq5210.com/html
     environment:
@@ -114,8 +104,6 @@ services:
   gwq5210_phpmyadmin:
     image: phpmyadmin/phpmyadmin:latest
     container_name: gwq5210_phpmyadmin
-    networks:
-      - default
     environment:
       TZ: Asia/Shanghai
       PMA_ABSOLUTE_URI: https://phpmyadmin.gwq5210.com
@@ -137,8 +125,6 @@ services:
     volumes:
       - ./v2ray/conf/config.json:/etc/v2ray/config.json
       - ${DOCKER_SITE_LOGS_DIR}/v2ray:/var/log/v2ray
-    networks:
-      - default
     environment:
       TZ: Asia/Shanghai
       V2RAY_UUID_FILE: /run/secrets/v2ray_uuid.txt
@@ -150,8 +136,6 @@ services:
   gwq5210_scrapyd:
     image: gwq5210/scrapyd:latest
     container_name: gwq5210_scrapyd # 容器名
-    networks:
-      - default
     volumes:
       - ./scrapyd/conf:/etc/scrapyd
       - ${DOCKER_SITE_LOGS_DIR}/scrapyd:/var/log/scrapyd
@@ -198,8 +182,6 @@ services:
   gwq5210_elasticsearch:
     image: gwq5210/elasticsearch:latest
     container_name: gwq5210_elasticsearch
-    networks:
-      - default
     environment:
       - TZ=Asia/Shanghai
       - bootstrap.memory_lock=true
@@ -241,8 +223,6 @@ services:
     container_name: gwq5210_kibana
     depends_on:
       - gwq5210_elasticsearch
-    networks:
-      - default
     ports:
       - 5601:5601
     environment:

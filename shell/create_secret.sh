@@ -56,6 +56,10 @@ secret_full_file_name=${secret_dir}/${secret_file_name}
 if [ -f ${secret_full_file_name} ] ; then
   if [ "${update}" == "true" ]; then
     ${base_dir}/clear_secrets.sh $secret_file_name
+    if [ -f ${secret_full_file_name} ] ; then
+      echo "clear secret ${secret_full_file_name} failed!"
+      exit 1
+    fi
   else
     echo "found secret $secret_file_name, skip it"
     exit 0
@@ -67,12 +71,17 @@ fi
 content=$($base_dir/get_input.sh "$secret_file_name" "$default_value")
 if [ "${from_file}" == "true" ]; then
   if [ -f ${content} ] ; then
-    cat ${content} > $secret_full_file_name
+    cp ${content} $secret_full_file_name
   else
-    echo "not found $content, create secret failed"
+    echo "not found $content, create secret failed!"
     exit 1
   fi
 else
   echo -n $content > $secret_full_file_name
 fi
-echo "create ${secret_file_name} success!"
+
+if [ $? -eq 0 ]; then  
+  echo "create ${secret_file_name} success!"
+else  
+  echo "create ${secret_file_name} failed!"
+fi

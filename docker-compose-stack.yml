@@ -273,7 +273,7 @@ services:
     volumes:
       - ${DOCKER_SITE_CONF_DIR}/napcat:/app/napcat/config
       - ./napcat/conf/napcat.json:/app/napcat/config/napcat.json
-      - ./napcat/conf/onebot11.json:/app/napcat/config/onebot11.json    
+      - ./napcat/conf/onebot11.json:/app/napcat/config/onebot11.json
       - ${DOCKER_SITE_DATA_DIR}/napcat/QQ:/app/.config/QQ
     ports:
       - 3000:3000
