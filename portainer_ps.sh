@@ -2,4 +2,4 @@
 
 cd `dirname "$0"`
 
-docker-compose -f portainer-agent.yml ps $@
+docker-compose --compatibility -f portainer.yml ps $@

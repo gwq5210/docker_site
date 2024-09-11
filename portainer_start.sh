@@ -14,4 +14,4 @@ do
   mkdir -p $dir
 done
 
-./compose_deploy.sh portainer-agent.yml $*
+./compose_deploy.sh portainer.yml $*
