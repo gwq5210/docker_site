@@ -4,15 +4,13 @@ services:
   portainer:
     container_name: portainer
     image: gwq5210/portainer:latest
-    command: --tlsskipverify --sslcert /run/secrets/gwq5210.com.crt --sslkey /run/secrets/gwq5210.com.key --secret-key-name="portainer_key.txt"
+    command: -H unix:///var/run/docker.sock --tlsskipverify --sslcert /run/secrets/gwq5210.com.crt --sslkey /run/secrets/gwq5210.com.key --secret-key-name="portainer_key.txt"
     ports:
       - "9443:9443"
     volumes:
       - /var/run/docker.sock:/var/run/docker.sock
       - ${DOCKER_SITE_KEY_DATA_DIR}/portainer/data:/data
       - ${DOCKER_SITE_HOME}:/home
-    depends_on:
-      - agent
     deploy:
       resources:
         limits:
