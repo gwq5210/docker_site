@@ -197,10 +197,8 @@ services:
         target: $ES_CERTS_DIR/ca.crt
       - source: elasticsearch_bootstrap_password.txt
         target: /run/secrets/elasticsearch_bootstrap_password.txt
-        mode: 400
       - source: elasticsearch_keystore_password.txt
         target: /run/secrets/elasticsearch_keystore_password.txt
-        mode: 400
     ulimits:
       memlock:
         soft: -1
@@ -247,8 +245,8 @@ services:
     secrets:
       - napcat_webui_token.txt
     environment:
-      - NAPCAT_UID=${NAPCAT_UID}
-      - NAPCAT_GID=${NAPCAT_GID}
+      - NAPCAT_UID=${UID}
+      - NAPCAT_GID=${GID}
       - NAPCAT_WEBUI_TOKEN_FILE=/run/secrets/napcat_webui_token.txt
     volumes:
       - ${DOCKER_SITE_CONF_DIR}/napcat:/app/napcat/config
