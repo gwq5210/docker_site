@@ -22,6 +22,8 @@ secrets:
     file: secrets/elasticsearch_keystore_password.txt
   napcat_webui_token.txt:
     file: secrets/napcat_webui_token.txt
+  onebot_qq.txt:
+    file: secrets/onebot_qq.txt
 
 services:
   gwq5210_nginx:
@@ -244,6 +246,7 @@ services:
   gwq5210_napcat:
     secrets:
       - napcat_webui_token.txt
+      - onebot_qq.txt
     environment:
       - NAPCAT_UID=${UID}
       - NAPCAT_GID=${GID}
