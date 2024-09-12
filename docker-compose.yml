@@ -248,6 +248,7 @@ services:
       - NAPCAT_UID=${UID}
       - NAPCAT_GID=${GID}
       - NAPCAT_WEBUI_TOKEN_FILE=/run/secrets/napcat_webui_token.txt
+      - ACCOUNT_FILE=/run/secrets/onebot_qq.txt
     volumes:
       - ${DOCKER_SITE_CONF_DIR}/napcat:/app/napcat/config
       - ./napcat/conf/napcat.json:/app/napcat/config/napcat.json
