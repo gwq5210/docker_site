@@ -45,7 +45,7 @@ RUN useradd --no-log-init -d /app napcat
 
 WORKDIR /app
 
-RUN cd /app && wget https://github.com/NapNeko/NapCatQQ/releases/download/v2.2.12/NapCat.Shell.zip \
+RUN cd /app && wget https://github.com/NapNeko/NapCatQQ/releases/download/v2.4.6/NapCat.Shell.zip \
     && unzip -q NapCat.Shell.zip -d ./NapCat.Shell \
     && mkdir -p napcat/config \
     && mv NapCat.Shell/config/* napcat/config/ \
