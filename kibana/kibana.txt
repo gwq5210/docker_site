@@ -15,3 +15,6 @@ GET macwk_soft/_search
   }
 }
 
+DELETE /cngzf_news
+
+DELETE /cngzf_news/docs/1
