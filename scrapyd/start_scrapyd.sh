@@ -2,7 +2,11 @@
 
 cd `dirname "$0"`
 
-git clone https://github.com/gwq5210/spider.git && pip3 install -r spider/requirements.txt && rm -rf spider
+requirements_file=$PIP_REQUIREMENTS_FILE
+if [ ! -z "$requirements_file" ] && [ -f $requirements_file ]
+then
+  pip3 install -r $requirements_file
+fi
 
 source env_from_file.sh SCRAPYD_USERNAME SCRAPYD_PASSWORD
 

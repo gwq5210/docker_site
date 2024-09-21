@@ -2,10 +2,10 @@
 # Dockerfile for scrapyd
 #
 
-FROM python:3.7-slim
+FROM python:3.12-slim
 
 COPY ./scrapyd/conf/scrapyd.conf /etc/scrapyd/
-RUN pip3 install scrapy>=2.7.0 scrapyd>=1.3.0
+RUN pip3 install scrapy==2.11.2 scrapyd==1.4.3
 VOLUME /var/lib/scrapyd/
 EXPOSE 6800
 

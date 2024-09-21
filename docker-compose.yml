@@ -16,6 +16,8 @@ secrets:
     file: secrets/scrapyd_username.txt
   scrapyd_password.txt:
     file: secrets/scrapyd_password.txt
+  elasticsearch_username.txt:
+    file: secrets/elasticsearch_username.txt
   elasticsearch_bootstrap_password.txt:
     file: secrets/elasticsearch_bootstrap_password.txt
   elasticsearch_keystore_password.txt:
@@ -24,6 +26,12 @@ secrets:
     file: secrets/napcat_webui_token.txt
   onebot_qq.txt:
     file: secrets/onebot_qq.txt
+  cngzf_sn_code.txt:
+    file: secrets/cngzf_sn_code.txt
+  idcard.txt:
+    file: secrets/idcard.txt
+  qq_notify_recipients.json:
+    file: secrets/qq_notify_recipients.json
 
 services:
   gwq5210_nginx:
@@ -143,13 +151,21 @@ services:
       - ${DOCKER_SITE_LOGS_DIR}/scrapyd:/var/log/scrapyd
       - ${DOCKER_SITE_DATA_DIR}/scrapyd:/var/lib/scrapyd
       - ${DOCKER_SITE_DATA_DIR}/downloads:/usr/share/scrapyd
+      - ./scrapyd/requirments.txt:/usr/share/scrapyd/requirments.txt
     environment:
       TZ: Asia/Shanghai
       SCRAPYD_USERNAME_FILE: /run/secrets/scrapyd_username.txt
       SCRAPYD_PASSWORD_FILE: /run/secrets/scrapyd_password.txt
+      PIP_REQUIREMENTS_FILE: /usr/share/scrapyd/requirments.txt
     secrets:
       - scrapyd_username.txt
       - scrapyd_password.txt
+      - cngzf_sn_code.txt
+      - idcard.txt
+      - qq_notify_recipients.json
+      - napcat_webui_token.txt
+      - elasticsearch_bootstrap_password.txt
+      - elasticsearch_username.txt
     deploy:
       resources:
         limits:
