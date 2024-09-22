@@ -151,12 +151,12 @@ services:
       - ${DOCKER_SITE_LOGS_DIR}/scrapyd:/var/log/scrapyd
       - ${DOCKER_SITE_DATA_DIR}/scrapyd:/var/lib/scrapyd
       - ${DOCKER_SITE_DATA_DIR}/downloads:/usr/share/scrapyd
-      - ./scrapyd/requirments.txt:/usr/share/scrapyd/requirments.txt
+      - ./scrapyd/requirements.txt:/usr/share/scrapyd/requirements.txt
     environment:
       TZ: Asia/Shanghai
       SCRAPYD_USERNAME_FILE: /run/secrets/scrapyd_username.txt
       SCRAPYD_PASSWORD_FILE: /run/secrets/scrapyd_password.txt
-      PIP_REQUIREMENTS_FILE: /usr/share/scrapyd/requirments.txt
+      PIP_REQUIREMENTS_FILE: /usr/share/scrapyd/requirements.txt
     secrets:
       - scrapyd_username.txt
       - scrapyd_password.txt
