@@ -286,14 +286,21 @@ parsers: # array
       # 添加规则
       prepend-rules: # 规则由上往下遍历，如上面规则已经命中，则不再往下处理
         - DOMAIN-KEYWORD,lanzou,🥷PROXY
+        - DOMAIN-KEYWORD,weixin,🥷PROXY
+        - DOMAIN-KEYWORD,qq,🥷PROXY
+        - DOMAIN-KEYWORD,qpic,🥷PROXY
+        - DOMAIN-KEYWORD,qlogo,🥷PROXY
         - DOMAIN-SUFFIX,woozooo.com,🥷PROXY
         - DOMAIN-SUFFIX,baidu.com,🥷PROXY
+        - DOMAIN-SUFFIX,ctfile.com,🥷PROXY
         - DOMAIN-SUFFIX,baidubcr.com,🥷PROXY
         - DOMAIN-SUFFIX,baidupan.com,🥷PROXY
         - DOMAIN-SUFFIX,baidupcs.com,🥷PROXY
         - DOMAIN-SUFFIX,vv.video.qq.com,🥷PROXY
         - DOMAIN-SUFFIX,quark.cn,🥷PROXY
+        - DOMAIN-SUFFIX,yuque.com,🥷PROXY
         - DOMAIN-SUFFIX,aliyun.com,🥷PROXY
+        - DOMAIN-SUFFIX,alipan.com,🥷PROXY
         - DOMAIN-SUFFIX,yinxiang.com,🥷PROXY
         - DOMAIN,fairplay.l.qq.com,🥷PROXY
         - DOMAIN,livew.l.qq.com,🥷PROXY
@@ -307,6 +314,8 @@ parsers: # array
         - DOMAIN-SUFFIX,qqmail.com,🥷PROXY
         - DOMAIN-SUFFIX,qq.com,🥷PROXY
         - DOMAIN-SUFFIX,servicewechat.com,🥷PROXY
+        - DOMAIN-SUFFIX,v2ex.com,🥷PROXY
+        - DOMAIN-SUFFIX,zhihu.com,🥷PROXY
         - DOMAIN-SUFFIX,jdev.tw,🥷PROXY
         - DOMAIN-SUFFIX,omnivore.app,🥷PROXY
         - RULE-SET,youtube,🎎YouTube
