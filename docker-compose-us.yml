@@ -6,32 +6,8 @@ secrets:
     file: secrets/gwq5210.com.key
   gwq5210.com.crt:
     file: secrets/gwq5210.com.crt
-  ca.crt:
-    file: certs/ca/ca.crt
-  mysql_root_password.txt:
-    file: secrets/mysql_root_password.txt
   v2ray_uuid.txt:
     file: secrets/v2ray_uuid.txt
-  scrapyd_username.txt:
-    file: secrets/scrapyd_username.txt
-  scrapyd_password.txt:
-    file: secrets/scrapyd_password.txt
-  elasticsearch_username.txt:
-    file: secrets/elasticsearch_username.txt
-  elasticsearch_bootstrap_password.txt:
-    file: secrets/elasticsearch_bootstrap_password.txt
-  elasticsearch_keystore_password.txt:
-    file: secrets/elasticsearch_keystore_password.txt
-  napcat_webui_token.txt:
-    file: secrets/napcat_webui_token.txt
-  onebot_qq.txt:
-    file: secrets/onebot_qq.txt
-  cngzf_sn_code.txt:
-    file: secrets/cngzf_sn_code.txt
-  idcard.txt:
-    file: secrets/idcard.txt
-  qq_notify_recipients.json:
-    file: secrets/qq_notify_recipients.json
 
 services:
   gwq5210_nginx:
@@ -42,7 +18,7 @@ services:
       - gwq5210.com.crt
     volumes:
       - ./nginx/usconf/conf.d:/etc/nginx/conf.d
-      - ./nginx/usconf/nginx.conf:/etc/nginx/nginx.conf
+      - ./nginx/conf/nginx.conf:/etc/nginx/nginx.conf
       - ./nginx/html:/var/www/gwq5210.com/html
       - ${DOCKER_SITE_LOGS_DIR}/nginx:/var/log/nginx
     ports:
