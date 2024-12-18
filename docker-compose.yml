@@ -61,7 +61,7 @@ services:
       - gwq5210_elasticsearch
       - gwq5210_kibana
       - gwq5210_v2ray
-      - gwq5210_phpmyadmin
+      # - gwq5210_phpmyadmin
       - gwq5210_php
     ulimits:
       nproc: 65535
@@ -70,14 +70,15 @@ services:
         hard: 65535
     environment:
       TZ: Asia/Shanghai
-    deploy:
-      resources:
-        limits:
-          memory: 2048M
+    # deploy:
+    #   resources:
+    #     limits:
+    #       memory: 2048M
 
   gwq5210_mysql:
     image: gwq5210/mysql:latest
     container_name: gwq5210_mysql # 容器名
+    user: "${LOCAL_UID}:${LOCAL_GID}"
     secrets:
       - mysql_root_password.txt
     volumes:
@@ -94,38 +95,40 @@ services:
       TZ: Asia/Shanghai
       MYSQL_ROOT_PASSWORD_FILE: /run/secrets/mysql_root_password.txt # 使用docker secret设置root用户的密码
       MYSQL_DATABASE: "tank"
-    deploy:
-      resources:
-        limits:
-          memory: 4096M
+    # deploy:
+    #   resources:
+    #     limits:
+    #       memory: 4096M
 
   gwq5210_php:
     image: gwq5210/php:latest
     container_name: gwq5210_php
+    user: "${LOCAL_UID}:${LOCAL_GID}"
     volumes:
       - ./nginx/html:/var/www/gwq5210.com/html
     environment:
       TZ: Asia/Shanghai
-    deploy:
-      resources:
-        limits:
-          memory: 2048M
+    # deploy:
+    #   resources:
+    #     limits:
+    #       memory: 2048M
 
-  gwq5210_phpmyadmin:
-    image: phpmyadmin/phpmyadmin:latest
-    container_name: gwq5210_phpmyadmin
-    environment:
-      TZ: Asia/Shanghai
-      PMA_ABSOLUTE_URI: https://phpmyadmin.gwq5210.com
-      PMA_HOST: gwq5210.com
-      PMA_PORT: 3306
-      PMA_ARBITRARY: 1
-    depends_on:
-      - gwq5210_mysql
-    deploy:
-      resources:
-        limits:
-          memory: 2048M
+  # gwq5210_phpmyadmin:
+  #   image: phpmyadmin/phpmyadmin:latest
+  #   container_name: gwq5210_phpmyadmin
+  #   user: "${LOCAL_UID}:${LOCAL_GID}"
+  #   environment:
+  #     TZ: Asia/Shanghai
+  #     PMA_ABSOLUTE_URI: https://phpmyadmin.gwq5210.com
+  #     PMA_HOST: gwq5210.com
+  #     PMA_PORT: 3306
+  #     PMA_ARBITRARY: 1
+  #   depends_on:
+  #     - gwq5210_mysql
+    # deploy:
+    #   resources:
+    #     limits:
+    #       memory: 2048M
 
   gwq5210_v2ray:
     image: gwq5210/v2ray:latest
@@ -138,10 +141,10 @@ services:
     environment:
       TZ: Asia/Shanghai
       V2RAY_UUID_FILE: /run/secrets/v2ray_uuid.txt
-    deploy:
-      resources:
-        limits:
-          memory: 2048M
+    # deploy:
+    #   resources:
+    #     limits:
+    #       memory: 2048M
 
   gwq5210_scrapyd:
     image: gwq5210/scrapyd:latest
@@ -166,36 +169,37 @@ services:
       - napcat_webui_token.txt
       - elasticsearch_bootstrap_password.txt
       - elasticsearch_username.txt
-    deploy:
-      resources:
-        limits:
-          memory: 2048M
+    # deploy:
+    #   resources:
+    #     limits:
+    #       memory: 2048M
 
-  gwq5210_scrapydweb:
-    image: gwq5210/scrapydweb:latest
-    container_name: gwq5210_scrapydweb # 容器名
-    environment:
-      TZ: Asia/Shanghai
-    volumes:
-      - ./scrapydweb/conf/settings.py:/app/scrapydweb_settings_v10.py
-      - ${DOCKER_SITE_LOGS_DIR}/scrapyd:/var/log/scrapyd
-      - ${DOCKER_SITE_DATA_DIR}/scrapyd:/var/lib/scrapyd
-      - ${DOCKER_SITE_DATA_DIR}/scrapydweb:/app/data
-    depends_on:
-      - gwq5210_scrapyd
-      - gwq5210_mysql
-    secrets:
-      - scrapyd_username.txt
-      - scrapyd_password.txt
-      - gwq5210.com.key
-      - gwq5210.com.crt
-      - mysql_root_password.txt
-    ports:
-      - "5000:5000"
-    deploy:
-      resources:
-        limits:
-          memory: 2048M
+  # gwq5210_scrapydweb:
+  #   image: gwq5210/scrapydweb:latest
+  #   container_name: gwq5210_scrapydweb # 容器名
+  #   user: "${LOCAL_UID}:${LOCAL_GID}"
+  #   environment:
+  #     TZ: Asia/Shanghai
+  #   volumes:
+  #     - ./scrapydweb/conf/settings.py:/app/scrapydweb_settings_v10.py
+  #     - ${DOCKER_SITE_LOGS_DIR}/scrapyd:/var/log/scrapyd
+  #     - ${DOCKER_SITE_DATA_DIR}/scrapyd:/var/lib/scrapyd
+  #     - ${DOCKER_SITE_DATA_DIR}/scrapydweb:/app/data
+  #   depends_on:
+  #     - gwq5210_scrapyd
+  #     - gwq5210_mysql
+  #   secrets:
+  #     - scrapyd_username.txt
+  #     - scrapyd_password.txt
+  #     - gwq5210.com.key
+  #     - gwq5210.com.crt
+  #     - mysql_root_password.txt
+  #   ports:
+  #     - "5000:5000"
+    # deploy:
+    #   resources:
+    #     limits:
+    #       memory: 2048M
 
   gwq5210_elasticsearch:
     image: gwq5210/elasticsearch:latest
@@ -229,10 +233,10 @@ services:
     ports:
       - 9200:9200
       - 9300:9300
-    deploy:
-      resources:
-        limits:
-          memory: 2048M
+    # deploy:
+    #   resources:
+    #     limits:
+    #       memory: 2048M
 
   gwq5210_kibana:
     image: gwq5210/kibana:latest
@@ -254,18 +258,18 @@ services:
       - ./kibana/conf/kibana.yml:/usr/share/kibana/config/kibana.yml
       - ./kibana/conf/node.options:/usr/share/kibana/config/node.options
       - ${DOCKER_SITE_KEY_DATA_DIR}/kibana/config/kibana.keystore:/usr/share/kibana/config/kibana.keystore
-    deploy:
-      resources:
-        limits:
-          memory: 2048M
+    # deploy:
+    #   resources:
+    #     limits:
+    #       memory: 2048M
 
   gwq5210_napcat:
     secrets:
       - napcat_webui_token.txt
       - onebot_qq.txt
     environment:
-      - NAPCAT_UID=${UID}
-      - NAPCAT_GID=${GID}
+      - NAPCAT_UID=${LOCAL_UID}
+      - NAPCAT_GID=${LOCAL_GID}
       - NAPCAT_WEBUI_TOKEN_FILE=/run/secrets/napcat_webui_token.txt
       - ACCOUNT_FILE=/run/secrets/onebot_qq.txt
     volumes:

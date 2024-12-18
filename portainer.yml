@@ -11,10 +11,10 @@ services:
       - /var/run/docker.sock:/var/run/docker.sock
       - ${DOCKER_SITE_KEY_DATA_DIR}/portainer/data:/data
       - ${DOCKER_SITE_HOME}:/home
-    deploy:
-      resources:
-        limits:
-          memory: 2048M
+    # deploy:
+    #   resources:
+    #     limits:
+    #       memory: 2048M
     secrets:
       - gwq5210.com.crt
       - gwq5210.com.key
@@ -44,10 +44,10 @@ services:
       PORTAINER_BACKUP_DEBUG: 0
     volumes:
       - ${DOCKER_SITE_BACKUP_DIR}/portainer:/backup
-    deploy:
-      resources:
-        limits:
-          memory: 2048M
+    # deploy:
+    #   resources:
+    #     limits:
+    #       memory: 2048M
     secrets:
       - portainer_token.txt
       - portainer_backup_password.txt
