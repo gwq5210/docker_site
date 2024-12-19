@@ -63,6 +63,7 @@ services:
       - gwq5210_v2ray
       # - gwq5210_phpmyadmin
       - gwq5210_php
+      # - gwq5210_spider_admin_pro
     ulimits:
       nproc: 65535
       nofile:
@@ -159,8 +160,12 @@ services:
       TZ: Asia/Shanghai
       SCRAPYD_USERNAME_FILE: /run/secrets/scrapyd_username.txt
       SCRAPYD_PASSWORD_FILE: /run/secrets/scrapyd_password.txt
+      MYSQL_ROOT_PASSWORD_FILE: /run/secrets/mysql_root_password.txt
       PIP_REQUIREMENTS_FILE: /usr/share/scrapyd/requirements.txt
+    depends_on:
+      - gwq5210_mysql
     secrets:
+      - mysql_root_password.txt
       - scrapyd_username.txt
       - scrapyd_password.txt
       - cngzf_sn_code.txt
@@ -173,6 +178,27 @@ services:
     #   resources:
     #     limits:
     #       memory: 2048M
+
+  # gwq5210_spider_admin_pro:
+  #   image: gwq5210/spider_admin_pro:latest
+  #   container_name: gwq5210_spider_admin_pro # 容器名
+  #   volumes:
+  #     - ./spider_admin_pro/conf:/etc/spider_admin_pro
+  #     - ${DOCKER_SITE_LOGS_DIR}/spider_admin_pro:/var/log/spider_admin_pro
+  #     - ${DOCKER_SITE_DATA_DIR}/spider_admin_pro:/var/lib/spider_admin_pro
+  #     - ./spider_admin_pro/requirements.txt:/usr/share/spider_admin_pro/requirements.txt
+  #   environment:
+  #     TZ: Asia/Shanghai
+  #     SCRAPYD_USERNAME_FILE: /run/secrets/scrapyd_username.txt
+  #     SCRAPYD_PASSWORD_FILE: /run/secrets/scrapyd_password.txt
+  #     MYSQL_ROOT_PASSWORD_FILE: /run/secrets/mysql_root_password.txt
+  #     PIP_REQUIREMENTS_FILE: /usr/share/spider_admin_pro/requirements.txt
+  #   depends_on:
+  #     - gwq5210_mysql
+  #   secrets:
+  #     - mysql_root_password.txt
+  #     - scrapyd_username.txt
+  #     - scrapyd_password.txt
 
   # gwq5210_scrapydweb:
   #   image: gwq5210/scrapydweb:latest

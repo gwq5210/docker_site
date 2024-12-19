@@ -32,6 +32,8 @@ dir_array[${#dir_array[@]}]=${DOCKER_SITE_BACKUP_DIR}/elasticsearch
 dir_array[${#dir_array[@]}]=${DOCKER_SITE_BACKUP_DIR}/mysql
 dir_array[${#dir_array[@]}]=${DOCKER_SITE_DATA_DIR}/scrapydweb
 dir_array[${#dir_array[@]}]=${DOCKER_SITE_DATA_DIR}/downloads
+dir_array[${#dir_array[@]}]=${DOCKER_SITE_DATA_DIR}/spider_admin_pro
+dir_array[${#dir_array[@]}]=${DOCKER_SITE_LOGS_DIR}/spider_admin_pro
 
 for dir in ${dir_array[@]};
 do

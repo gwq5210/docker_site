@@ -221,3 +221,9 @@ docker run -it --rm --privileged --pid=host justincormack/nsenter1
 ```text
 \\wsl$\docker-desktop-data\version-pack-data\community\docker\volumes\
 ```
+
+## docker hub
+
+```shell
+docker login
+```

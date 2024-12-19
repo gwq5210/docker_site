@@ -1,4 +1,4 @@
-FROM mysql
+FROM mysql:8.0.31
 
 COPY ./shell shell
 

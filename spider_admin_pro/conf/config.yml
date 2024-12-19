@@ -1,0 +1,17 @@
+# 登录账号密码
+USERNAME: "admin"
+PASSWORD: "a1234567890"
+SCHEDULE_HISTORY_DATABASE_URL: "mysql://root:${mysql_root_password}@gwq5210.com:3306/spider_admin"
+JOB_STORES_DATABASE_URL: "mysql://root:${mysql_root_password}@gwq5210.com:3306/spider_admin"
+
+# 【可选】是否开开启前端静态文件预压缩以提升页面加载速度，默认为True
+COMPRESS_STATIC: True
+
+SCRAPYD_USERNAME: "admin"
+SCRAPYD_PASSWORD: "a1234567890"
+
+LOG_DIR: "/var/log/spider_admin_pro"
+
+CACHE_DIR: "/var/lib/spider_admin_pro/cache"
+
+DATABASE_DIR: "/var/lib/spider_admin_pro/database"

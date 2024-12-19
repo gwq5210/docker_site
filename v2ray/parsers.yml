@@ -17,13 +17,24 @@ parsers: # array
           enable: false
 
       prepend-proxies:
-        - {name: HK_PROXY, server: you.domain.com, port: 443, type: vmess, uuid: aaaaaaaa-aaaa-aaaa-aaaa-aaaaaaaaaaaa, alterId: 0, cipher: auto, tls: true, network: ws, ws-opts: {path: /, headers: {Host: you.domain.com}}}
+        - {
+            name: MY_PROXY,
+            server: you.domain.com,
+            port: 443,
+            type: vmess,
+            uuid: aaaaaaaa-aaaa-aaaa-aaaa-aaaaaaaaaaaa,
+            alterId: 0,
+            cipher: auto,
+            tls: true,
+            network: ws,
+            ws-opts: { path: /, headers: { Host: you.domain.com } },
+          }
 
       prepend-proxy-groups: # 建立策略组
         - name: 我的代理
           type: select
           proxies:
-            - HK_PROXY
+            - MY_PROXY
 
         - name: 🥷PROXY
           type: select
@@ -70,12 +81,14 @@ parsers: # array
           tolerance: 30
           proxies:
             - 我的代理
+            - 🥷PROXY
             - DIRECT
 
         - name: 🎎YouTube
           type: select
           proxies:
             - 我的代理
+            - 🥷PROXY
             - 🚀URL-TEST
             - 🎛LOAD-BALANCE
             - 🕹Fallback
@@ -91,12 +104,14 @@ parsers: # array
           tolerance: 100
           proxies:
             - 我的代理
+            - 🥷PROXY
             - DIRECT
 
         - name: 📽Netflix
           type: select
           proxies:
             - 我的代理
+            - 🥷PROXY
             - 🚀URL-TEST
             - 🎛LOAD-BALANCE
             - 🕹Fallback
@@ -107,6 +122,7 @@ parsers: # array
           type: select
           proxies:
             - 我的代理
+            - 🥷PROXY
             - DIRECT
 
         - name: GPT
@@ -161,6 +177,7 @@ parsers: # array
           type: select
           proxies:
             - 我的代理
+            - 🥷PROXY
             - 🚀URL-TEST
             - 🎛LOAD-BALANCE
             - 🕹Fallback
@@ -171,6 +188,7 @@ parsers: # array
           type: select
           proxies:
             - 我的代理
+            - 🥷PROXY
             - 🚀URL-TEST
             - 🎛LOAD-BALANCE
             - 🕹Fallback
@@ -181,6 +199,7 @@ parsers: # array
           type: select
           proxies:
             - 我的代理
+            - 🥷PROXY
             - 🚀URL-TEST
             - 🎛LOAD-BALANCE
             - 🕹Fallback
@@ -200,6 +219,7 @@ parsers: # array
             - REJECT
             - DIRECT
             - 🥷PROXY
+            - 我的代理
 
         # - name: 🇭🇰香港
         #   type: url-test
@@ -350,18 +370,18 @@ parsers: # array
         - DOMAIN,www.bing.com,🤖OpenAI
         - DOMAIN,self.events.data.microsoft.com,🤖OpenAI
         - DOMAIN,login.microsoftonline.com,🤖OpenAI
-        - 'DOMAIN,chat.openai.com.cdn.cloudflare.net,🤖OpenAI'
-        - 'DOMAIN,openaiapi-site.azureedge.net,🤖OpenAI'
-        - 'DOMAIN,openaicom-api-bdcpf8c6d2e9atf6.z01.azurefd.net,🤖OpenAI'
-        - 'DOMAIN,openaicomproductionae4b.blob.core.windows.net,🤖OpenAI'
-        - 'DOMAIN,production-openaicom-storage.azureedge.net,🤖OpenAI'
-        - 'DOMAIN,o33249.ingest.sentry.io,🤖OpenAI'
-        - 'DOMAIN,openaicom.imgix.net,🤖OpenAI'
-        - 'DOMAIN-SUFFIX,chatgpt.com,🤖OpenAI'
-        - 'DOMAIN-SUFFIX,oaistatic.com,🤖OpenAI'
-        - 'DOMAIN-SUFFIX,oaiusercontent.com,🤖OpenAI'
-        - 'DOMAIN-SUFFIX,openai.com,🤖OpenAI'
-        - 'DOMAIN-KEYWORD,openai,🤖OpenAI'
+        - "DOMAIN,chat.openai.com.cdn.cloudflare.net,🤖OpenAI"
+        - "DOMAIN,openaiapi-site.azureedge.net,🤖OpenAI"
+        - "DOMAIN,openaicom-api-bdcpf8c6d2e9atf6.z01.azurefd.net,🤖OpenAI"
+        - "DOMAIN,openaicomproductionae4b.blob.core.windows.net,🤖OpenAI"
+        - "DOMAIN,production-openaicom-storage.azureedge.net,🤖OpenAI"
+        - "DOMAIN,o33249.ingest.sentry.io,🤖OpenAI"
+        - "DOMAIN,openaicom.imgix.net,🤖OpenAI"
+        - "DOMAIN-SUFFIX,chatgpt.com,🤖OpenAI"
+        - "DOMAIN-SUFFIX,oaistatic.com,🤖OpenAI"
+        - "DOMAIN-SUFFIX,oaiusercontent.com,🤖OpenAI"
+        - "DOMAIN-SUFFIX,openai.com,🤖OpenAI"
+        - "DOMAIN-KEYWORD,openai,🤖OpenAI"
         - RULE-SET,bilibiliintl,🛀Bilibiliintl
         - RULE-SET,twitter,🦤Twitter
         - RULE-SET,github,🥷PROXY

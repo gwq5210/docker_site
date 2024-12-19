@@ -4,15 +4,14 @@
 
 FROM python:3.12-slim
 
-COPY ./scrapyd/conf/scrapyd.conf /etc/scrapyd/
-RUN pip3 install scrapy==2.11.2 scrapyd==1.4.3
+COPY ./shell shell
+RUN ./shell/install_tools.sh && rm -rf ./shell
+RUN pip3 install scrapy==2.11.2 scrapyd==1.5.0
+
 VOLUME /var/lib/scrapyd/
 EXPOSE 6800
 
-COPY ./shell shell
-
-RUN ./shell/install_tools.sh && rm -rf ./shell
-
+COPY ./scrapyd/conf/* /etc/scrapyd/
 COPY ./scrapyd/start_scrapyd.sh ./env_from_file.sh /usr/local/bin/
 
 WORKDIR /usr/share/scrapyd

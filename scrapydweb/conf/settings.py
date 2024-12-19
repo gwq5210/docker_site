@@ -7,14 +7,7 @@ DOCS: https://github.com/my8100/files/blob/master/scrapydweb/README.md
 文档: https://github.com/my8100/files/blob/master/scrapydweb/README_CN.md
 """
 import os
-
-def read_file(file_name):
-    content = ''
-    if not os.path.exists(file_name):
-        return ''
-    with open(file_name, 'r') as f:
-        content = f.read()
-    return content
+from gsoft_py_utils.file import fileutils
 
 ############################## QUICK SETUP start ##############################
 ############################## 快速设置 开始 ###################################
@@ -28,8 +21,8 @@ SCRAPYDWEB_PORT = 5000
 # The default is False, set it to True to enable basic auth for the web UI.
 ENABLE_AUTH = True
 # In order to enable basic auth, both USERNAME and PASSWORD should be non-empty strings.
-USERNAME = read_file('/run/secrets/scrapyd_username.txt')
-PASSWORD = read_file('/run/secrets/scrapyd_password.txt')
+USERNAME = fileutils.read_secret('scrapyd_username.txt')
+PASSWORD = fileutils.read_secret('scrapyd_password.txt')
 
 
 # Make sure that [Scrapyd](https://github.com/scrapy/scrapyd) has been installed
@@ -374,4 +367,4 @@ DATA_PATH = os.environ.get('DATA_PATH', '/app/data')
 # 'postgresql://username:password@127.0.0.1:5432'
 # 'sqlite:///C:/Users/username'
 # 'sqlite:////home/username'
-DATABASE_URL = f'mysql://root:{read_file("/run/secrets/mysql_root_password.txt")}@gwq5210.com:3306'
+DATABASE_URL = f'mysql://root:{fileutils.read_secret("mysql_root_password.txt")}@gwq5210.com:3306'
